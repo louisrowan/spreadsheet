@@ -6,6 +6,8 @@ const ROW_COUNT = 4;
 const COL_COUNT = 4;
 
 main.style.width = `${100 * COL_COUNT}px`;
+main.style.padding = '0px';
+main.style.margin = '0px';
 
 
 function cell () {
@@ -20,18 +22,36 @@ function cell () {
     this.input.addEventListener('input', (e) => {
 
 
-        this.input = e.target.value;
+        this.input.value = e.target.value;
     })
 
     this.input.addEventListener('focus',(e) => {
 
-        this.input.style['boxShadow'] = '0px 0px 2px 2px black inset';
+        // this.input.style['boxShadow'] = '0px 0px 0px 1px black inset';
+        this.input.style.background = 'whitesmoke';
     })
 
     this.input.addEventListener('blur',(e) => {
 
-        this.input.style['boxShadow'] = 'none';
+        // this.input.style['boxShadow'] = 'none';
+        this.input.style.background = 'white';
     })
+
+    this.input.addEventListener('mousedown', (e) => {
+
+        this.input.style.outline = '1px solid blue';
+        window.mousedown = true;
+    })
+
+
+
+    this.input.addEventListener('mouseover', (e) => {
+
+        if (window.mousedown) {
+            this.input.style.outline = '1px solid blue';
+        }
+    })
+
 
 
     this.div.appendChild(this.input);
@@ -64,10 +84,12 @@ for (let i = 0; i < ROW_COUNT; ++i) {
 }
 
 function cellStyle(div) {
+
+    const style = div.style;
     
-    div.style.width = '100px';
-    div.style.height = '50px';
-    div.style.display = 'inline-block';
+    style.width = '100px';
+    style.height = '50px';
+    style.display = 'inline-block';
 }
 
 function inputStyle(input) {
@@ -75,5 +97,17 @@ function inputStyle(input) {
     input.style.width = '100%';
     input.style.height = '100%';
     input.style.outline = 'none';
-    input.style
 }
+
+window.addEventListener('mouseup', (e) => {
+
+        const inputs = document.getElementsByTagName('input');
+        console.log(inputs);
+        console.log(typeof inputs);
+
+        Object.keys(inputs).forEach((i) => {
+
+            inputs[i].style.outline = 'none';
+        })
+        window.mousedown = false;
+    })

@@ -15,32 +15,31 @@ function Cell () {
         this.input.value = e.target.value;
     })
 
-    this.input.addEventListener('focus',(e) => {
+    this.input.addEventListener('click', (e) => {
 
-        // this.input.style['boxShadow'] = '0px 0px 0px 1px black inset';
-        this.input.style.border = '2px solid green';
+        deactivateAllCells();
         addToActiveCells(this);
-    })
-
-    this.input.addEventListener('blur',(e) => {
-
-        // this.input.style['boxShadow'] = 'none';
-        this.input.style.border = '1px solid rgb(238, 238, 238)';
     })
 
     this.input.addEventListener('mousedown', (e) => {
 
         this.input.style.outline = '1px solid blue';
-        window.mousedown = true;
+        _state.mousedown = true;
     })
 
 
 
     this.input.addEventListener('mouseover', (e) => {
 
-        if (window.mousedown) {
+        if (_state.mousedown) {
             this.input.style.outline = '1px solid blue';
+            console.log('hello');
         }
+    })
+
+    this.input.addEventListener('mousedrag', (e) => {
+
+        console.log('drag', e);
     })
 
 
@@ -89,6 +88,22 @@ function addToActiveCells(cell) {
 
     if (!_state.activeCells.find((active) => active.id === cell.id)) {
         _state.activeCells.push(cell);
+        cell.input.style.border = '2px solid green';
     }
-    
+}
+
+
+function removeFromActiveCells(cell) {
+
+    const index = _state.activeCells.indexOf(cell);
+    if (index > -1) {
+        _state.activeCells.splice(index, 1);
+        cell.input.style.border = '1px solid rgb(238, 238, 238)';
+    }
+}
+
+
+function deactivateAllCells() {
+
+    _state.allCells.forEach((cell) => removeFromActiveCells(cell));
 }

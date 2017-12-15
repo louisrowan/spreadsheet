@@ -2,5 +2,6 @@
 
 const _state = {
     allCells: [],
-    activeCells: []
+    activeCells: [],
+    mousedown: false
 };

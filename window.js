@@ -8,5 +8,5 @@ window.addEventListener('mouseup', (e) => {
 
         inputs[i].style.outline = 'none';
     })
-    window.mousedown = false;
+    _state.mousedown = false;
 })

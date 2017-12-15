@@ -72,11 +72,11 @@ function CssButton(atts) {
 
     this.button.addEventListener('click', (e) => {
 
-        console.log('click');
-
         _state.activeCells.forEach((cell) => {
 
-            cell.input.style[atts.key] = atts.value;
+            // toggle property
+            let style = cell.input.style;
+            style[atts.key] = style[atts.key] === atts.value ? '' : atts.value;
         })
     })
 

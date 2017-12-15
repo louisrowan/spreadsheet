@@ -2,15 +2,20 @@
 
 function Cell () {
 
+    // set props
     this.div = document.createElement('div');
-    cellStyle(this.div);
-
-
     this.input = document.createElement('input');
+    this.div.appendChild(this.input);
+    this.id = Math.random().toString()
+
+    // add styles
+    cellStyle(this.div);
     inputStyle(this.input)
 
-    this.input.addEventListener('input', (e) => {
 
+
+    // event listeners
+    this.input.addEventListener('input', (e) => {
 
         this.input.value = e.target.value;
     })
@@ -27,28 +32,17 @@ function Cell () {
         _state.mousedown = true;
     })
 
-
-
     this.input.addEventListener('mouseover', (e) => {
 
         if (_state.mousedown) {
+            handleDrag(this)
             this.input.style.outline = '1px solid blue';
-            console.log('hello');
         }
     })
 
-    this.input.addEventListener('mousedrag', (e) => {
 
-        console.log('drag', e);
-    })
-
-
-
-    this.div.appendChild(this.input);
-    this.id = Math.random().toString()
 
     _state.allCells.push(this);
-
     return this;
 }
 
@@ -61,6 +55,11 @@ Cell.prototype.setText = function(val) {
 
     this.input.value = val;
     return this.input.value
+}
+
+
+function handleDrag(cell) {
+    console.log('handle some drag');
 }
 
 function cellStyle(div) {

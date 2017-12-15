@@ -19,6 +19,7 @@ function Cell () {
 
         // this.input.style['boxShadow'] = '0px 0px 0px 1px black inset';
         this.input.style.border = '2px solid green';
+        addToActiveCells(this);
     })
 
     this.input.addEventListener('blur',(e) => {
@@ -46,6 +47,8 @@ function Cell () {
 
     this.div.appendChild(this.input);
     this.id = Math.random().toString()
+
+    _state.allCells.push(this);
 
     return this;
 }
@@ -80,4 +83,12 @@ function inputStyle(input) {
     style.border = '1px solid rgb(238, 238, 238)';
     style['boxSizing'] = 'border-box';
     style.cursor = 'cell';
+}
+
+function addToActiveCells(cell) {
+
+    if (!_state.activeCells.find((active) => active.id === cell.id)) {
+        _state.activeCells.push(cell);
+    }
+    
 }

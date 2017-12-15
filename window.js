@@ -3,8 +3,6 @@
 window.addEventListener('mouseup', (e) => {
 
     const inputs = document.getElementsByTagName('input');
-    console.log(inputs);
-    console.log(typeof inputs);
 
     Object.keys(inputs).forEach((i) => {
 

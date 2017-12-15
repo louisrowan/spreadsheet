@@ -70,6 +70,16 @@ function CssButton(atts) {
     this.button.style.width = '50px';
     this.button.style.height = '30px';
 
+    this.button.addEventListener('click', (e) => {
+
+        console.log('click');
+
+        _state.activeCells.forEach((cell) => {
+
+            cell.input.style[atts.key] = atts.value;
+        })
+    })
+
     return this.button;
 
 }

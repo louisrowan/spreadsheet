@@ -18,13 +18,13 @@ function Cell () {
     this.input.addEventListener('focus',(e) => {
 
         // this.input.style['boxShadow'] = '0px 0px 0px 1px black inset';
-        this.input.style.background = 'whitesmoke';
+        this.input.style.border = '2px solid green';
     })
 
     this.input.addEventListener('blur',(e) => {
 
         // this.input.style['boxShadow'] = 'none';
-        this.input.style.background = 'white';
+        this.input.style.border = '1px solid rgb(238, 238, 238)';
     })
 
     this.input.addEventListener('mousedown', (e) => {
@@ -71,8 +71,13 @@ function cellStyle(div) {
 }
 
 function inputStyle(input) {
+
+    const style = input.style;
     
-    input.style.width = '100%';
-    input.style.height = '100%';
-    input.style.outline = 'none';
+    style.width = '100%';
+    style.height = '100%';
+    style.outline = 'none';
+    style.border = '1px solid rgb(238, 238, 238)';
+    style['boxSizing'] = 'border-box';
+    style.cursor = 'cell';
 }

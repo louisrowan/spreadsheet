@@ -22,10 +22,23 @@ for (let i = 0; i < ROW_COUNT; ++i) {
 
     for (let j = 0; j < COL_COUNT; ++j) {
 
-        let _cell = new Cell()
+        let _cell = new Cell(i, j)
 
         main.appendChild(_cell.div)
     }
+}
+
+main.appendChild(new DraggableDiv());
+
+
+function DraggableDiv() {
+
+    this.div = document.createElement('div');
+    this.div.style.position = 'absolute';
+    this.div.style['zIndex'] = 500;
+    this.div.style.border = '2px solid red';
+
+    return this.div;
 }
 
 

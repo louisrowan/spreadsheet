@@ -57,8 +57,48 @@ function addButtons(toolbar) {
         }
     ];
 
+    // add basic styling buttons
     buttonAttributes.forEach((atts) => toolbar.appendChild(new CssButton(atts)));
 
+    const dropdownButtonAttributes = [
+        {
+            key: 'color',
+            text: 'A'
+        },
+        {
+            key: 'background',
+            text: 'A'
+        }
+    ]
+
+    // add dropdown styling buttons
+    // dropdownButtonAttributes.forEach((atts) => toolbar.appendChild(new DropdownButton(atts)));
+
+    toolbar.appendChild(new EraseButton());
+}
+
+function EraseButton() {
+
+    this.button = document.createElement('button');
+    this.button.innerText = 'Delete';
+    commonButtonStyle(this.button);
+
+    this.button.addEventListener('click', (e) => {
+
+        _state.activeCells.forEach((cell) => cell.input.value = '');
+    });
+
+    return this.button;
+}
+
+function DropdownButton(atts) {
+
+    this.button = document.createElement('button');
+    this.button.innerText = atts.text
+    commonButtonStyle(this.button);
+    this.button.style[atts.key] = 'red';
+
+    return this.button;
 }
 
 
@@ -67,8 +107,7 @@ function CssButton(atts) {
     this.button = document.createElement('button');
     this.button.innerText = atts.text;
     this.button.style[atts.key] = atts.value;
-    this.button.style.width = '50px';
-    this.button.style.height = '30px';
+    commonButtonStyle(this.button);
 
     this.button.addEventListener('click', (e) => {
 
@@ -81,5 +120,11 @@ function CssButton(atts) {
     })
 
     return this.button;
+}
 
+
+function commonButtonStyle(button) {
+
+    button.style.width = '50px';
+    button.style.height = '30px';
 }

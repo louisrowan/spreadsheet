@@ -1,18 +1,18 @@
 'use strict';
 
-function Cell () {
+function Cell (row, column) {
 
     // set props
     this.div = document.createElement('div');
     this.input = document.createElement('input');
     this.div.appendChild(this.input);
     this.id = Math.random().toString()
+    this.row = row;
+    this.column = column;
 
     // add styles
     cellStyle(this.div);
     inputStyle(this.input)
-
-
 
     // event listeners
     this.input.addEventListener('input', (e) => {
@@ -24,6 +24,7 @@ function Cell () {
 
         deactivateAllCells();
         addToActiveCells(this);
+        console.log(this);
     })
 
     this.input.addEventListener('mousedown', (e) => {

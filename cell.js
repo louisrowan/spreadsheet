@@ -6,7 +6,8 @@ function Cell (row, column) {
     this.div = document.createElement('div');
     this.input = document.createElement('input');
     this.div.appendChild(this.input);
-    this.id = Math.random().toString()
+    this.id = Math.random().toString();
+    this.input.setAttribute('id', `cell-${this.id}`);
     this.row = row;
     this.column = column;
 
@@ -98,13 +99,6 @@ function handleDrag(cell) {
     const topRow = Math.min(start.row, end.row);
     const botRow = Math.max(start.row, end.row);
 
-    console.log(start, end);
-
-    console.log('');
-    console.log('cols:', leftCol, rightCol);
-    console.log('row:', topRow, botRow);
-
-
     _state.allCells.forEach((cell) => {
 
 
@@ -113,7 +107,6 @@ function handleDrag(cell) {
             botRow >= cell.row &&
             rightCol >= cell.column)
         {
-            // console.log('HELLO');
             addToActiveCells(cell);
             cell.input.style.background = 'whitesmoke';
         } else {

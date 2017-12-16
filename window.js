@@ -19,19 +19,15 @@ window.addEventListener('keydown', (e) => {
 
         switch (e.key) {
             case "ArrowLeft":
-                console.log('left');
                 column = column > 0 ? --column : 0
                 break;
             case "ArrowRight":
-                console.log('right');
                 column = column < COL_COUNT - 1 ? ++column : 0
                 break;
             case "ArrowUp":
-                console.log('up');
                 row = row > 0 ? --row : 0
                 break;
             case "ArrowDown":
-                console.log('down');
                 row = row < ROW_COUNT - 1 ? ++row : 0
                 break;
         }
@@ -40,5 +36,4 @@ window.addEventListener('keydown', (e) => {
         newSelectedCell(newElement);
         newElement.input.focus();
     }
-
 })

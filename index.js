@@ -1,5 +1,6 @@
 'use strict';
 
+const Logger = new LoggerObject();
 const main = document.getElementById('main')
 
 const ROW_COUNT = 4;

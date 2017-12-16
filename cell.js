@@ -23,7 +23,6 @@ function Cell (row, column) {
 
     this.input.addEventListener('click', (e) => {
 
-
         newSelectedCell(this);
 
     })
@@ -74,7 +73,6 @@ function handleDrag(cell) {
     const width = maxWidth - left;
     const height = maxHeight - top;
 
-
     draggableDiv.style.left = left + 'px';
     draggableDiv.style.top = top + 'px';
     draggableDiv.style.width = width + 'px';
@@ -87,7 +85,6 @@ function handleDrag(cell) {
     const botRow = Math.max(start.row, end.row);
 
     _state.allCells.forEach((cell) => {
-
 
         if(topRow <= cell.row &&
             leftCol <= cell.column &&
@@ -132,7 +129,6 @@ function addToActiveCells(cell) {
     }
 }
 
-
 function removeFromActiveCells(cell) {
 
     const index = _state.activeCells.indexOf(cell);
@@ -143,12 +139,10 @@ function removeFromActiveCells(cell) {
     }
 }
 
-
 function deactivateAllCells() {
 
     _state.allCells.forEach((cell) => removeFromActiveCells(cell));
 }
-
 
 function newSelectedCell(cell) {
 

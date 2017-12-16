@@ -13,6 +13,7 @@ window.addEventListener('keydown', (e) => {
         e.key === 'ArrowDown') {
 
         const activeElement = _state.allCells.find((cell) => 'cell-' + cell.id === document.activeElement.id);
+        if (!activeElement) { return };
         let row = activeElement.row;
         let column = activeElement.column;
 
@@ -36,9 +37,7 @@ window.addEventListener('keydown', (e) => {
         }
 
         const newElement = _state.allCells.find((cell) => cell.row === row && cell.column === column);
-        deactivateAllCells();
-        addToActiveCells(newElement);
-        newElement.input.style.border = '2px solid green';
+        newSelectedCell(newElement);
         newElement.input.focus();
     }
 

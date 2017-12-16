@@ -38,7 +38,8 @@ function DraggableDiv() {
     // this.div.style['zIndex'] = -1;
     this.div.style['pointerEvents'] = 'none';
     this.div.style.background = 'transparent';
-    this.div.style.border = '2px solid red';
+    this.div.style.border = '2px solid green';
+    this.div.style['boxSizing'] = 'border-box';
     _state.draggableDiv = this.div;
 
     return this.div;

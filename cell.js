@@ -23,21 +23,8 @@ function Cell (row, column) {
 
     this.input.addEventListener('click', (e) => {
 
-        deactivateAllCells();
-        addToActiveCells(this);
-        this.input.style.border = '2px solid green';
 
-        const draggableDiv = _state.draggableDiv;
-        const startCellRect = this;
-        _state.startCellRect = startCellRect;
-        _state.endCellRect = {};
-
-        const startCellBounding = startCellRect.div.getBoundingClientRect();
-
-        draggableDiv.style.left = startCellBounding.x + 'px';
-        draggableDiv.style.top = startCellBounding.y + 'px';
-        draggableDiv.style.width = '0px';
-        draggableDiv.style.height = '0px';
+        newSelectedCell(this);
 
     })
 
@@ -160,4 +147,24 @@ function removeFromActiveCells(cell) {
 function deactivateAllCells() {
 
     _state.allCells.forEach((cell) => removeFromActiveCells(cell));
+}
+
+
+function newSelectedCell(cell) {
+
+    deactivateAllCells();
+    addToActiveCells(cell);
+    cell.input.style.border = '2px solid green';
+
+    const draggableDiv = _state.draggableDiv;
+    const startCellRect = cell;
+    _state.startCellRect = startCellRect;
+    _state.endCellRect = {};
+
+    const startCellBounding = startCellRect.div.getBoundingClientRect();
+
+    draggableDiv.style.left = startCellBounding.x + 'px';
+    draggableDiv.style.top = startCellBounding.y + 'px';
+    draggableDiv.style.width = '0px';
+    draggableDiv.style.height = '0px';
 }

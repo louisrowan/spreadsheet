@@ -24,7 +24,14 @@ function Cell (row, column) {
 
         deactivateAllCells();
         addToActiveCells(this);
-        console.log(this);
+
+        const draggableDiv = _state.draggableDiv;
+        const startCellRect = this.div.getBoundingClientRect();
+        _state.startCellRect = startCellRect;
+
+        draggableDiv.style.left = startCellRect.x + 'px';
+        draggableDiv.style.top = startCellRect.y + 'px';
+
     })
 
     this.input.addEventListener('mousedown', (e) => {
@@ -34,6 +41,8 @@ function Cell (row, column) {
     })
 
     this.input.addEventListener('mouseover', (e) => {
+
+        console.log('mouse over');
 
         if (_state.mousedown) {
             handleDrag(this)
@@ -60,7 +69,30 @@ Cell.prototype.setText = function(val) {
 
 
 function handleDrag(cell) {
-    console.log('handle some drag');
+
+    const draggableDiv = _state.draggableDiv;
+    const end = cell.div.getBoundingClientRect();
+    const start = _state.startCellRect;
+    _state.endCellRect = end;
+
+    console.log('recalculate');
+
+    const left = Math.min(start.x, end.x);
+    const top = Math.min(start.y, end.y);
+
+    const maxWidth = Math.max(start.x + start.width, end.x + end.width);
+    const maxHeight = Math.max(start.y + start.height, end.y + end.height);
+
+    const width = maxWidth - left;
+    const height = maxHeight - top;
+
+
+    draggableDiv.style.left = left + 'px';
+    draggableDiv.style.top = top + 'px';
+    draggableDiv.style.width = width + 'px';
+    draggableDiv.style.height = height + 'px';
+
+
 }
 
 function cellStyle(div) {

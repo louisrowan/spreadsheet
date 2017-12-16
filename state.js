@@ -3,5 +3,8 @@
 const _state = {
     allCells: [],
     activeCells: [],
-    mousedown: false
+    mousedown: false,
+    draggableDiv: {},
+    startCellRect: {},
+    endCellRect: {}
 };

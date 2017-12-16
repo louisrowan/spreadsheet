@@ -37,6 +37,7 @@ function DraggableDiv() {
     this.div.style.position = 'absolute';
     this.div.style['zIndex'] = 500;
     this.div.style.border = '2px solid red';
+    _state.draggableDiv = this.div;
 
     return this.div;
 }

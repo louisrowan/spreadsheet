@@ -35,7 +35,9 @@ function DraggableDiv() {
 
     this.div = document.createElement('div');
     this.div.style.position = 'absolute';
-    this.div.style['zIndex'] = 500;
+    // this.div.style['zIndex'] = -1;
+    this.div.style['pointerEvents'] = 'none';
+    this.div.style.background = 'transparent';
     this.div.style.border = '2px solid red';
     _state.draggableDiv = this.div;
 

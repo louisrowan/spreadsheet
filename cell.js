@@ -24,33 +24,33 @@ function Cell (row, column) {
 
         deactivateAllCells();
         addToActiveCells(this);
+        this.input.style.border = '2px solid green';
 
         const draggableDiv = _state.draggableDiv;
-        const startCellRect = this.div.getBoundingClientRect();
+        const startCellRect = this;
         _state.startCellRect = startCellRect;
+        _state.endCellRect = {};
 
-        draggableDiv.style.left = startCellRect.x + 'px';
-        draggableDiv.style.top = startCellRect.y + 'px';
+        const startCellBounding = startCellRect.div.getBoundingClientRect();
+
+        draggableDiv.style.left = startCellBounding.x + 'px';
+        draggableDiv.style.top = startCellBounding.y + 'px';
+        draggableDiv.style.width = '0px';
+        draggableDiv.style.height = '0px';
 
     })
 
     this.input.addEventListener('mousedown', (e) => {
 
-        this.input.style.outline = '1px solid blue';
         _state.mousedown = true;
     })
 
     this.input.addEventListener('mouseover', (e) => {
 
-        console.log('mouse over');
-
         if (_state.mousedown) {
             handleDrag(this)
-            this.input.style.outline = '1px solid blue';
         }
-    })
-
-
+    });
 
     _state.allCells.push(this);
     return this;
@@ -71,17 +71,17 @@ Cell.prototype.setText = function(val) {
 function handleDrag(cell) {
 
     const draggableDiv = _state.draggableDiv;
-    const end = cell.div.getBoundingClientRect();
+    const end = cell;
+    const endBounding = end.div.getBoundingClientRect();
     const start = _state.startCellRect;
+    const startBounding = start.div.getBoundingClientRect();
     _state.endCellRect = end;
 
-    console.log('recalculate');
+    const left = Math.min(startBounding.x, endBounding.x);
+    const top = Math.min(startBounding.y, endBounding.y);
 
-    const left = Math.min(start.x, end.x);
-    const top = Math.min(start.y, end.y);
-
-    const maxWidth = Math.max(start.x + start.width, end.x + end.width);
-    const maxHeight = Math.max(start.y + start.height, end.y + end.height);
+    const maxWidth = Math.max(startBounding.x + startBounding.width, endBounding.x + endBounding.width);
+    const maxHeight = Math.max(startBounding.y + startBounding.height, endBounding.y + endBounding.height);
 
     const width = maxWidth - left;
     const height = maxHeight - top;
@@ -93,6 +93,34 @@ function handleDrag(cell) {
     draggableDiv.style.height = height + 'px';
 
 
+    const leftCol = Math.min(start.column, end.column);
+    const rightCol = Math.max(start.column, end.column);
+    const topRow = Math.min(start.row, end.row);
+    const botRow = Math.max(start.row, end.row);
+
+    console.log(start, end);
+
+    console.log('');
+    console.log('cols:', leftCol, rightCol);
+    console.log('row:', topRow, botRow);
+
+
+    _state.allCells.forEach((cell) => {
+
+
+        if(topRow <= cell.row &&
+            leftCol <= cell.column &&
+            botRow >= cell.row &&
+            rightCol >= cell.column)
+        {
+            // console.log('HELLO');
+            addToActiveCells(cell);
+            cell.input.style.background = 'whitesmoke';
+        } else {
+            removeFromActiveCells(cell);
+            cell.input.style.background = 'white';
+        }
+    });
 }
 
 function cellStyle(div) {
@@ -120,7 +148,7 @@ function addToActiveCells(cell) {
 
     if (!_state.activeCells.find((active) => active.id === cell.id)) {
         _state.activeCells.push(cell);
-        cell.input.style.border = '2px solid green';
+        
     }
 }
 
@@ -131,6 +159,7 @@ function removeFromActiveCells(cell) {
     if (index > -1) {
         _state.activeCells.splice(index, 1);
         cell.input.style.border = '1px solid rgb(238, 238, 238)';
+        cell.input.style.background = 'white';
     }
 }
 

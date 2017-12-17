@@ -19,17 +19,14 @@ function Cell (row, column) {
     this.input.addEventListener('input', (e) => {
 
         this.input.value = e.target.value;
-    })
-
-    this.input.addEventListener('click', (e) => {
-
-        newSelectedCell(this);
-
+        return;
     })
 
     this.input.addEventListener('mousedown', (e) => {
 
+        newSelectedCell(this);
         _state.mousedown = true;
+        return;
     })
 
     this.input.addEventListener('mouseover', (e) => {
@@ -37,6 +34,7 @@ function Cell (row, column) {
         if (_state.mousedown) {
             handleDrag(this)
         }
+        return;
     });
 
     _state.allCells.push(this);
@@ -98,6 +96,7 @@ function handleDrag(cell) {
             cell.input.style.background = 'white';
         }
     });
+    return;
 }
 
 function cellStyle(div) {
@@ -107,6 +106,7 @@ function cellStyle(div) {
     style.width = '100px';
     style.height = '50px';
     style.display = 'inline-block';
+    return;
 }
 
 function inputStyle(input) {
@@ -119,6 +119,7 @@ function inputStyle(input) {
     style.border = '1px solid rgb(238, 238, 238)';
     style['boxSizing'] = 'border-box';
     style.cursor = 'cell';
+    return;
 }
 
 function addToActiveCells(cell) {
@@ -127,6 +128,7 @@ function addToActiveCells(cell) {
         _state.activeCells.push(cell);
         
     }
+    return;
 }
 
 function removeFromActiveCells(cell) {
@@ -137,11 +139,13 @@ function removeFromActiveCells(cell) {
         cell.input.style.border = '1px solid rgb(238, 238, 238)';
         cell.input.style.background = 'white';
     }
+    return;
 }
 
 function deactivateAllCells() {
 
     _state.allCells.forEach((cell) => removeFromActiveCells(cell));
+    return;
 }
 
 function newSelectedCell(cell) {
@@ -161,4 +165,5 @@ function newSelectedCell(cell) {
     draggableDiv.style.top = startCellBounding.y + 'px';
     draggableDiv.style.width = '0px';
     draggableDiv.style.height = '0px';
+    return;
 }

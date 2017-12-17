@@ -69,7 +69,7 @@ function addButtons(toolbar) {
             key: 'background',
             text: 'A'
         }
-    ]
+    ];
 
     // add dropdown styling buttons
     // dropdownButtonAttributes.forEach((atts) => toolbar.appendChild(new DropdownButton(atts)));
@@ -94,7 +94,7 @@ function EraseButton() {
 function DropdownButton(atts) {
 
     this.button = document.createElement('button');
-    this.button.innerText = atts.text
+    this.button.innerText = atts.text;
     commonButtonStyle(this.button);
     this.button.style[atts.key] = 'red';
 
@@ -116,8 +116,8 @@ function CssButton(atts) {
             // toggle property
             let style = cell.input.style;
             style[atts.key] = style[atts.key] === atts.value ? '' : atts.value;
-        })
-    })
+        });
+    });
 
     return this.button;
 }

@@ -1,7 +1,7 @@
 'use strict';
 
 const Logger = new LoggerObject();
-const main = document.getElementById('main')
+const main = document.getElementById('main');
 
 const ROW_COUNT = 4;
 const COL_COUNT = 4;
@@ -14,7 +14,7 @@ body.style.margin = '0px';
 
 
 // add nav bar
-main.appendChild(new Toolbar())
+main.appendChild(new Toolbar());
 
 
 
@@ -23,9 +23,9 @@ for (let i = 0; i < ROW_COUNT; ++i) {
 
     for (let j = 0; j < COL_COUNT; ++j) {
 
-        let _cell = new Cell(i, j)
+        let _cell = new Cell(i, j);
 
-        main.appendChild(_cell.div)
+        main.appendChild(_cell.div);
     }
 }
 

@@ -13,7 +13,7 @@ function Cell (row, column) {
 
     // add styles
     cellStyle(this.div);
-    inputStyle(this.input)
+    inputStyle(this.input);
 
     // event listeners
     this.input.addEventListener('input', (e) => {
@@ -32,7 +32,7 @@ function Cell (row, column) {
     this.input.addEventListener('mouseover', (e) => {
 
         if (_state.mousedown) {
-            handleDrag(this)
+            handleDrag(this);
         }
         return;
     });
@@ -49,7 +49,7 @@ Cell.prototype.getText = function() {
 Cell.prototype.setText = function(val) {
 
     this.input.value = val;
-    return this.input.value
+    return this.input.value;
 }
 
 

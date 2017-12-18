@@ -1,0 +1,22 @@
+## Handling copy/paste
+
+desired functionality:
+1. copy multiple cells
+2. select new cell
+3. paste in copied cells in same format as had been copied
+
+Idea:
+- could have _state.copied, which is an array (default []) of the copied cells. When pasting, paste the exact new cells.
+
+
+Issues:
+ - need to be mindful of cell Ids and input Ids
+ - knowing the shape of the cells
+
+
+ New idea:
+ - find row, col square of selection
+
+
+Question: 
+ Do Id's need to persist? Or is it ok for them to change. 

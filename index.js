@@ -30,21 +30,3 @@ for (let i = 0; i < ROW_COUNT; ++i) {
 }
 
 main.appendChild(new DraggableDiv());
-
-
-function DraggableDiv() {
-
-    this.div = document.createElement('div');
-    this.div.style.position = 'absolute';
-    // this.div.style['zIndex'] = -1;
-    this.div.style['pointerEvents'] = 'none';
-    this.div.style.background = 'transparent';
-    this.div.style.border = '2px solid green';
-    this.div.style['boxSizing'] = 'border-box';
-    _state.draggableDiv = this.div;
-
-    return this.div;
-}
-
-
-

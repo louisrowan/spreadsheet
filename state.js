@@ -6,5 +6,6 @@ const _state = {
     mousedown: false,
     draggableDiv: {},
     startCellRect: {},
-    endCellRect: {}
+    endCellRect: {},
+    copy: {}
 };

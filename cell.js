@@ -167,3 +167,12 @@ function newSelectedCell(cell) {
     draggableDiv.style.height = '0px';
     return;
 }
+
+
+function copyCell (cell) {
+
+    const newCell = new Cell();
+    newCell.input.value = cell.input.value;
+
+    return newCell;
+}

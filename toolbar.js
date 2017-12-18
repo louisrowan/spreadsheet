@@ -142,8 +142,8 @@ function CopyButton () {
 
     this.button.addEventListener('click', (e) => {
 
-        console.log('clicked copy');
         _state.copy = _state.activeCells.map((c) => copyCell(c));
+        console.log(_state.copy);
     })
 
     return this.button;
@@ -158,10 +158,21 @@ function PasteButton () {
     this.button.addEventListener('click', (e) => {
 
         // console.log('clicked Paste');
-        const cell = _state.activeCells[0];
-        console.log(cell);
+        const cells = _state.activeCells;
+        let column = cells[0].column;
+        let row = cells[0].row;
+        cells.forEach((c) => {
+
+            if (c.row < row) {
+                row = c.row
+            }
+            if (c.column < column) {
+                column = c.column
+            }
+        })
+
         // console.log(_state.copy[0].input);
-        cell.input.value = _state.copy[0].input.value
+        // cell.input.value = _state.copy[0].input.value
     })
 
     return this.button;

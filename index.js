@@ -3,8 +3,8 @@
 const Logger = new LoggerObject();
 const main = document.getElementById('main');
 
-const ROW_COUNT = 4;
-const COL_COUNT = 4;
+const ROW_COUNT = 5;
+const COL_COUNT = 5;
 
 main.style.width = `${100 * COL_COUNT}px`;
 

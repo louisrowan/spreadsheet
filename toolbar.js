@@ -164,8 +164,11 @@ function PasteButton () {
 
     this.button.addEventListener('click', (e) => {
 
+        // sort copied cells, find top-right from active cells
+        _state.copy = sortCellsByPosition(_state.copy);
         const startCell = sortCellsByPosition(_state.activeCells)[0];
 
+        // determine # of columns that copied cell rectangle contains
         let cols = 0;
         for (let i = 0; i < _state.copy.length; ++i) {
             const currentCell = _state.copy[i];
@@ -175,44 +178,35 @@ function PasteButton () {
             ++cols;
         }
 
-        _state.activeCells = [startCell];
-
-
+        // reset active cells to empty, find first cell to being copying to from allCells array and its index in the array
+        _state.activeCells = [];
         const ac = _state.allCells.find((ac) => ac.id === startCell.id)
         const index = _state.allCells.indexOf(ac);
 
+        // push cell from allCells to activeCells array, accounting for new rows
         let columnsAdded = 0
-        for (let i = index + 1; _state.activeCells.length < _state.copy.length; ++i) {
-
-            console.log('col add, cols', columnsAdded, cols);
+        for (let i = index; _state.activeCells.length < _state.copy.length; ++i) {
 
             if (columnsAdded === cols) {
                 i = i - cols + COL_COUNT - 1;
                 columnsAdded = 0;
                 if (i > _state.allCells.length) {
-                    console.log('GONNA BREAK NOW');
                     break;
                 }
-                console.log('now i = ', i);
                 continue;
             }
 
             const newCell = _state.allCells[i];
             _state.activeCells.push(newCell);
-            console.log('pushed a new cell');
             ++columnsAdded
         }
 
+        // Loop through these active cells and copy value from copied array
         _state.activeCells.forEach((cell, index) => {
 
-            // console.log(cell);
-
             cell.input.value = _state.copy[index].input.value;
-            // console.log(cell.row, cell.column, cell.input.value);
-            // console.log(cell.input.value);
-        })
-        // cell.input.value = _state.copy[0].input.value
-    })
+        });
+    });
 
     return this.button;
 }

@@ -182,6 +182,6 @@ function sortCellsByPosition (cells) {
 
     return cells.sort((a, b) => {
 
-        return a.row > b.row || a.column > b.column
+        return a.row - b.row || a.column - b.column;
     });
 }

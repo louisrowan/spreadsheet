@@ -143,7 +143,13 @@ function CopyButton () {
     this.button.addEventListener('click', (e) => {
 
         sortCellsByPosition(_state.activeCells);
-        _state.copy = _state.activeCells.map((c) => copyCell(c));
+        _state.copy = _state.activeCells.map((c) => {
+
+            const copied = copyCell(c);
+            copied.row = c.row;
+            copied.column = c.column
+            return copied;
+        });
 
     })
 
@@ -158,13 +164,52 @@ function PasteButton () {
 
     this.button.addEventListener('click', (e) => {
 
-        // console.log('clicked Paste');
-        const startCell = sortCellsByPosition(_state.activeCells)[0]
+        const startCell = sortCellsByPosition(_state.activeCells)[0];
+
+        let cols = 0;
+        for (let i = 0; i < _state.copy.length; ++i) {
+            const currentCell = _state.copy[i];
+            if (currentCell.row != _state.copy[0].row) {
+                break;
+            }
+            ++cols;
+        }
+
+        _state.activeCells = [startCell];
+
+
+        const ac = _state.allCells.find((ac) => ac.id === startCell.id)
+        const index = _state.allCells.indexOf(ac);
+
+        let columnsAdded = 0
+        for (let i = index + 1; _state.activeCells.length < _state.copy.length; ++i) {
+
+            console.log('col add, cols', columnsAdded, cols);
+
+            if (columnsAdded === cols) {
+                i = i - cols + COL_COUNT - 1;
+                columnsAdded = 0;
+                if (i > _state.allCells.length) {
+                    console.log('GONNA BREAK NOW');
+                    break;
+                }
+                console.log('now i = ', i);
+                continue;
+            }
+
+            const newCell = _state.allCells[i];
+            _state.activeCells.push(newCell);
+            console.log('pushed a new cell');
+            ++columnsAdded
+        }
 
         _state.activeCells.forEach((cell, index) => {
 
+            // console.log(cell);
+
             cell.input.value = _state.copy[index].input.value;
-            console.log(cell);
+            // console.log(cell.row, cell.column, cell.input.value);
+            // console.log(cell.input.value);
         })
         // cell.input.value = _state.copy[0].input.value
     })

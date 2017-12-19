@@ -24,7 +24,7 @@ function copyCell (cell) {
 
     const newCell = new Cell();
     newCell.input.value = cell.input.value;
-    cell.copied = true;
+    newCell.copied = true;
 
     return newCell;
 };

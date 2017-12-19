@@ -20,3 +20,39 @@ Issues:
 
 Question: 
  Do Id's need to persist? Or is it ok for them to change. 
+
+
+
+ -------------------------------
+ file structure
+
+ 1. group together things based on the functionality. so everything relating to cells goes in one area, toolbar another, etc.
+
+ pro:
+ - related code near each other
+ - 
+
+cons:
+- not as easy to organize
+
+
+example:
+cell/elements.js
+cell/styles.js
+cell/eventListeners.js
+cell/eventHandlers.js
+cell/common.js
+
+
+
+ 2. group together things based on the type of thing. so one area for 'object', one for styling, one for click handlers, etc.
+
+ pro:
+ - a more uniformed approach
+
+
+ cons:
+ - related pieces of code in different areas
+ - could be harder to know what goes where
+
+

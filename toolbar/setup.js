@@ -54,6 +54,7 @@ function addButtons(toolbar) {
 
     toolbar.appendChild(new EraseButton());
 
-    toolbar.appendChild(new CopyButton());
+    toolbar.appendChild(new CutCopyButton('cut'));
+    toolbar.appendChild(new CutCopyButton('copy'));
     toolbar.appendChild(new PasteButton());
 }

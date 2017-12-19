@@ -55,24 +55,24 @@ function CssButton(atts) {
     return this.button;
 }
 
-function CopyButton () {
+function CutCopyButton (type) {
 
     this.button = document.createElement('button');
-    this.button.innerText = 'copy';
+    this.button.innerText = type;
     commonButtonStyle(this.button);
 
     this.button.addEventListener('click', (e) => {
 
         sortCellsByPosition(_state.activeCells);
-        _state.copy = _state.activeCells.map((c) => {
+        _state.cutCopy.type = type;
+        _state.cutCopy.cells = _state.activeCells.map((c) => {
 
             const copied = copyCell(c);
             copied.row = c.row;
             copied.column = c.column
             return copied;
         });
-
-    })
+    });
 
     return this.button;
 }
@@ -85,48 +85,7 @@ function PasteButton () {
 
     this.button.addEventListener('click', (e) => {
 
-        // sort copied cells, find top-right from active cells
-        _state.copy = sortCellsByPosition(_state.copy);
-        const startCell = sortCellsByPosition(_state.activeCells)[0];
-
-        // determine # of columns that copied cell rectangle contains
-        let cols = 0;
-        for (let i = 0; i < _state.copy.length; ++i) {
-            const currentCell = _state.copy[i];
-            if (currentCell.row != _state.copy[0].row) {
-                break;
-            }
-            ++cols;
-        }
-
-        // reset active cells to empty, find first cell to being copying to from allCells array and its index in the array
-        _state.activeCells = [];
-        const ac = _state.allCells.find((ac) => ac.id === startCell.id)
-        const index = _state.allCells.indexOf(ac);
-
-        // push cell from allCells to activeCells array, accounting for new rows
-        let columnsAdded = 0
-        for (let i = index; _state.activeCells.length < _state.copy.length; ++i) {
-
-            if (columnsAdded === cols) {
-                i = i - cols + COL_COUNT - 1;
-                columnsAdded = 0;
-                if (i > _state.allCells.length) {
-                    break;
-                }
-                continue;
-            }
-
-            const newCell = _state.allCells[i];
-            _state.activeCells.push(newCell);
-            ++columnsAdded
-        }
-
-        // Loop through these active cells and copy value from copied array
-        _state.activeCells.forEach((cell, index) => {
-
-            cell.input.value = _state.copy[index].input.value;
-        });
+        handlePaste();
     });
 
     return this.button;

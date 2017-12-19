@@ -7,6 +7,9 @@ const _state = {
     draggableDiv: {}, // htmlElement that is used to show multi-selection and drag events
     startCellRect: {}, // cell at start of draggableDiv
     endCellRect: {}, // cell at end of draggableDiv
-    copy: {}, // array of cell objects containing cells on cut/copy clipboard
+    cutCopy: {
+        type: '', // string indicating if action is cut or copy
+        cells: [] // array of cell objects containing cells on cut/copy clipboard
+    },
     commandActive: false // boolean to determine if command key is being held down
 };

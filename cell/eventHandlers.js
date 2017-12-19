@@ -31,6 +31,8 @@ function handleDrag(cell) {
 
     _state.allCells.forEach((cell) => {
 
+        if (cell.copied) { return };
+
         if(topRow <= cell.row &&
             leftCol <= cell.column &&
             botRow >= cell.row &&
@@ -50,7 +52,6 @@ function addToActiveCells(cell) {
 
     if (!_state.activeCells.find((active) => active.id === cell.id)) {
         _state.activeCells.push(cell);
-        
     }
     return;
 }

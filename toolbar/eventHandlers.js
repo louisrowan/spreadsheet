@@ -13,7 +13,7 @@ function handlePaste () {
     const index = _state.allCells.indexOf(ac);
 
     // push cell from allCells to activeCells array, accounting for new rows
-    let columnsAdded = 0
+    let columnsAdded = 0;
     for (let i = index; _state.activeCells.length < _state.cutCopy.cells.length; ++i) {
 
         if (columnsAdded === cols) {

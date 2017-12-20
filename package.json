@@ -1,0 +1,23 @@
+{
+  "name": "vanilla-spreadsheet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/louisrowan/spreadsheet.git"
+  },
+  "author": "Louis Rowan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/louisrowan/spreadsheet/issues"
+  },
+  "homepage": "https://github.com/louisrowan/spreadsheet#readme",
+  "devDependencies": {
+    "express": "^4.16.2",
+    "jasmine": "^2.8.0"
+  }
+}

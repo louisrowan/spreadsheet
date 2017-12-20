@@ -1,8 +1,6 @@
 // 'use strict';
 
-const rewire = require('rewire');
-const styles = rewire('../cell/styles.js');
-const state = rewire('../state.js');
+require('./globalDefinitions');
 
 
 function Element (e) {
@@ -20,8 +18,7 @@ function Element (e) {
     this.style = {};
 }
 
-
-const document = {
+global.document = {
     createElement: (e) => {
 
         return new Element(e)
@@ -29,16 +26,9 @@ const document = {
 }
 
 
-global.document = document;
-global.cellStyle = styles.__get__('cellStyle');
-global.inputStyle = styles.__get__('cellStyle');
-global._state = state.__get__('_state');
-
-
 const main = new Element();
-
-const Cell = require('../cell/elements.js');
-
 
 
 const t = new Cell(1, 2);
+
+main.appendChild(t);

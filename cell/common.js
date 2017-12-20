@@ -36,3 +36,14 @@ function sortCellsByPosition (cells) {
         return a.row - b.row || a.column - b.column;
     });
 };
+
+function isSameCell (cell1, cell2) {
+
+    return cell1.row === cell2.row && cell1.column === cell2.column;
+}
+
+function clearCell (cell) {
+
+    cell.input.value = '';
+    inputStyle(cell.input);
+}

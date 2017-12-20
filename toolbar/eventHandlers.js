@@ -5,16 +5,7 @@ function handlePaste () {
     // sort copied cells, find top-right from active cells
     _state.cutCopy.cells = sortCellsByPosition(_state.cutCopy.cells);
     const startCell = sortCellsByPosition(_state.activeCells)[0];
-
-    // determine # of columns that copied cell rectangle contains
-    let cols = 0;
-    for (let i = 0; i < _state.cutCopy.cells.length; ++i) {
-        const currentCell = _state.cutCopy.cells[i];
-        if (currentCell.row != _state.cutCopy.cells[0].row) {
-            break;
-        }
-        ++cols;
-    }
+    const cols = getColumnCount(_state.cutCopy.cells)
 
     // reset active cells to empty, find first cell to being copying to from allCells array and its index in the array
     _state.activeCells = [];
@@ -43,5 +34,17 @@ function handlePaste () {
     _state.activeCells.forEach((cell, index) => {
 
         cell.input.value = _state.cutCopy.cells[index].input.value;
+        if (_state.cutCopy.type === 'cut') {
+            handleCut(_state.activeCells, _state.cutCopy.cells[index]);
+        }
     });
+}
+
+function handleCut (pastedCells, cutCell) {
+
+    const found = pastedCells.find((p) => isSameCell(p, cutCell));
+    if (!found) {
+        const originalCutCell = _state.allCells.find((c) => isSameCell(c, cutCell));
+        clearCell(originalCutCell);
+    } 
 }

@@ -20,5 +20,9 @@ function inputStyle(input) {
     style.border = '1px solid rgb(238, 238, 238)';
     style['boxSizing'] = 'border-box';
     style.cursor = 'cell';
+    style['fontWeight'] = 'normal';
+    style['fontStyle'] = 'normal';
+    style['textDecoration'] = 'none';
+    style['textAlign'] = 'left';
     return;
 }

@@ -1,21 +1,16 @@
 'use strict';
 
 const jasmine = require('jasmine');
-const Server = require('./server.js');
-
-console.log('hi');
+const mockDom = require('./mockDom.js');
 
 describe('App', () => {
 
     it('Starts server and renders content', () => {
 
-        Server((server, err) => {
+        mockDom.startServer((app) => {
 
-            const brow = browser.get('http://localhost:3000');
-            console.log(brow);
-
-            expect(err).not.toBeDefined();
-            expect(server).toBeDefined();
-        });
+            expect(app).toBeDefined();
+            expect(_state).toBeDefined();
+        })
     })
 })

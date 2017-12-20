@@ -16,26 +16,9 @@ function Cell (row, column) {
     inputStyle(this.input);
 
     // event listeners
-    this.input.addEventListener('input', (e) => {
-
-        this.input.value = e.target.value;
-        return;
-    })
-
-    this.input.addEventListener('mousedown', (e) => {
-
-        newSelectedCell(this);
-        _state.mousedown = true;
-        return;
-    })
-
-    this.input.addEventListener('mouseover', (e) => {
-
-        if (_state.mousedown) {
-            handleDrag(this);
-        }
-        return;
-    });
+    this.input.addEventListener('input', (e) => cellInput(this, e));
+    this.input.addEventListener('mousedown', (e) => cellMousedown(this, e));
+    this.input.addEventListener('mouseover', (e) => cellMouseover(this, e));
 
     _state.allCells.push(this);
     return this;

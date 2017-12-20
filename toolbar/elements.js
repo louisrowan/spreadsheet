@@ -16,10 +16,7 @@ function EraseButton() {
     this.button.innerText = 'Delete';
     commonButtonStyle(this.button);
 
-    this.button.addEventListener('click', (e) => {
-
-        _state.activeCells.forEach((cell) => cell.input.value = '');
-    });
+    this.button.addEventListener('click', (e) => eraseButton_click());
 
     return this.button;
 }
@@ -42,15 +39,7 @@ function CssButton(atts) {
     this.button.style[atts.key] = atts.value;
     commonButtonStyle(this.button);
 
-    this.button.addEventListener('click', (e) => {
-
-        _state.activeCells.forEach((cell) => {
-
-            // toggle property
-            let style = cell.input.style;
-            style[atts.key] = style[atts.key] === atts.value ? '' : atts.value;
-        });
-    });
+    this.button.addEventListener('click', (e) => cssButton_Click());
 
     return this.button;
 }
@@ -61,18 +50,7 @@ function CutCopyButton (type) {
     this.button.innerText = type;
     commonButtonStyle(this.button);
 
-    this.button.addEventListener('click', (e) => {
-
-        sortCellsByPosition(_state.activeCells);
-        _state.cutCopy.type = type;
-        _state.cutCopy.cells = _state.activeCells.map((c) => {
-
-            const copied = copyCell(c);
-            copied.row = c.row;
-            copied.column = c.column
-            return copied;
-        });
-    });
+    this.button.addEventListener('click', (e) => cutCopyButton_Click(type));
 
     return this.button;
 }
@@ -83,10 +61,7 @@ function PasteButton () {
     this.button.innerText = 'paste';
     commonButtonStyle(this.button);
 
-    this.button.addEventListener('click', (e) => {
-
-        handlePaste();
-    });
+    this.button.addEventListener('click', (e) => pasteButton_Click());
 
     return this.button;
 }

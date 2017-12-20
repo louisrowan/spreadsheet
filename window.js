@@ -2,10 +2,20 @@
 
 window.addEventListener('mouseup', (e) => {
 
+    window_Mouseup();
+});
+
+function window_Mouseup () {
+
     _state.mousedown = false;
-})
+}
 
 window.addEventListener('keydown', (e) => {
+
+    window_Keydown(e);
+});
+
+function window_Keydown (e) {
 
     if (e.key === 'ArrowLeft' ||
         e.key === 'ArrowRight' ||
@@ -20,24 +30,29 @@ window.addEventListener('keydown', (e) => {
 
     if (_state.commandActive) {
         if (e.key === 'c') {
-            console.log('copy');
+            cutCopyButton_Click('copy');
         }
         else if (e.key === 'x') {
-            console.log('cut');
+            cutCopyButton_Click('cut');
         }
-        else if (e.key === 'p') {
+        else if (e.key === 'v') {
             e.preventDefault();
-            console.log('pase');
+            pasteButton_Click();
         }
     }
-})
+}
 
 window.addEventListener('keyup', (e) => {
 
+    window_Keyup(e);
+})
+
+function window_Keyup (e) {
+
     if (e.key === 'Meta') {
         _state.commandActive = false;
-    }
-})
+    } 
+}
 
 function handleMove(e) {
 

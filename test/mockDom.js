@@ -40,6 +40,8 @@ const startServer = (done) => {
 
             let _cell = new Cell(i, j);
 
+            _cell.div.getBoundingClientRect = () => 0;
+
             main.appendChild(_cell.div);
         }
     }

@@ -30,4 +30,23 @@ describe('App', () => {
             expect(randCell.id).toBe(activeCell.id);
         });
     });
+
+    it('updates active cell with new clicks', () => {
+
+        mockDom.startServer((app) => {
+
+            console.log(_state.activeCells);
+
+            const firstCell = _state.allCells[2];
+            expect(_state.activeCells.length).toBe(0);
+            cellMousedown(firstCell, null);
+            expect(_state.activeCells.length).toBe(1);
+            expect(_state.activeCells[0].id).toBe(firstCell.id);
+            const secondCell = _state.allCells[6];
+            cellMousedown(secondCell, null);
+            expect(_state.activeCells.length).toBe(1);
+            expect(_state.activeCells[0].id).toBe(secondCell.id);
+            expect(_state.activeCells[0].id).not.toBe(firstCell.id);
+        });
+    });
 });

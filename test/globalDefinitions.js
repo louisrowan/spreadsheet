@@ -55,7 +55,3 @@ global.DraggableDiv = draggableDiv.__get__('DraggableDiv');
 // logger
 const logger = rewire('../logger.js');
 global.LoggerObject = logger.__get__('LoggerObject');
-
-// state
-const state = rewire('../state.js');
-global._state = state.__get__('_state');

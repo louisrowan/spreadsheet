@@ -1,5 +1,6 @@
 // 'use strict';
 
+const rewire = require('rewire');
 require('./globalDefinitions');
 
 function Element (e) {
@@ -19,6 +20,8 @@ function Element (e) {
 
 const startServer = (done) => {
 
+    global._state = 
+
     global.document = {
         createElement: (e) => {
 
@@ -29,6 +32,9 @@ const startServer = (done) => {
     global.Logger = new LoggerObject();
     global.ROW_COUNT = 5;
     global.COL_COUNT = 5;
+
+    const state = rewire('../state.js');
+    global._state = state.__get__('_state');
 
     const main = new Element();
     main.style.width = `${100 * COL_COUNT}px`;

@@ -35,8 +35,6 @@ describe('App', () => {
 
         mockDom.startServer((app) => {
 
-            console.log(_state.activeCells);
-
             const firstCell = _state.allCells[2];
             expect(_state.activeCells.length).toBe(0);
             cellMousedown(firstCell, null);

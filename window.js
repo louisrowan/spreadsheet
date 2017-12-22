@@ -8,6 +8,8 @@ window.addEventListener('mouseup', (e) => {
 function window_Mouseup () {
 
     _state.mousedown = false;
+    _state.colDrag = false;
+    _state.rowDrag = false;
 }
 
 window.addEventListener('keydown', (e) => {
@@ -46,6 +48,53 @@ window.addEventListener('keyup', (e) => {
 
     window_Keyup(e);
 })
+
+
+
+window.addEventListener('mousemove', (e) => {
+
+    if (_state.colDrag) {
+
+            const colMarker = _state.colDrag;
+
+            const movement = e.clientX - colMarker.position;
+            updateWidth(colMarker.div.previousSibling, movement)
+
+            const main = document.getElementById('main');
+            // console.log('main width', main.style.width);
+            updateWidth(main, movement)
+            // console.log('new main', main.style.width);
+            const start = Date.now();
+            
+            const cells = _state.allCells.filter((c) => c.column === colMarker.column - 2);
+            cells.forEach((c) => updateWidth(c.div, movement))
+            colMarker.position = e.clientX;
+
+    }
+    else if (_state.rowDrag) {
+
+            let rowMarker = _state.rowDrag;
+
+            const movement = e.clientY - rowMarker.position;
+            const i = _state.rowHeaders.indexOf(rowMarker)
+            console.log(i);
+            const NrowMarker = _state.rowHeaders[i - 1]
+            updateHeight(NrowMarker.div, movement)
+
+            const main = document.getElementById('main');
+            // console.log('main width', main.style.width);
+            updateHeight(main, movement)
+            
+            const cells = _state.allCells.filter((c) => c.row === rowMarker.row - 1);
+            cells.forEach((c) => updateHeight(c.div, movement))
+            rowMarker.position = e.clientY;
+
+    }
+})
+
+
+
+
 
 function window_Keyup (e) {
 

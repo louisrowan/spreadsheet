@@ -11,5 +11,7 @@ const _state = {
         type: '', // string indicating if action is cut or copy
         cells: [] // array of cell objects containing cells on cut/copy clipboard
     },
-    commandActive: false // boolean to determine if command key is being held down
+    commandActive: false, // boolean to determine if command key is being held down
+    columnHeaders: [],
+    rowHeaders: []
 };

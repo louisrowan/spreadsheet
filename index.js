@@ -17,109 +17,14 @@ body.style.margin = '0px';
 main.appendChild(new Toolbar());
 
 
-
-function updateWidth (element, widthDiff) {
-
-    let originalWidth = element.style.width;
-    // console.log('original = ', originalWidth);
-    originalWidth = originalWidth.substring(0, originalWidth.length - 2);
-    const newWidth = (+originalWidth + +widthDiff) + 'px';
-    element.style.width = newWidth;
-    // console.log('newWidth = ', element.style.width);
-    return;
-}
-
-
-function updateHeight (element, heightDiff) {
-
-    let originalHeight = element.style.height;
-    // console.log('original = ', originalWidth);
-    originalHeight = originalHeight.substring(0, originalHeight.length - 2);
-    const newHeight = (+originalHeight + +heightDiff) + 'px';
-    element.style.height = newHeight;
-    // console.log('newWidth = ', element.style.width);
-    return;
-}
-
-
-
-
-function ColumnHeader (column) {
-
-    this.div = document.createElement('div');
-    this.div.style.border = '1px solid rgb(238, 238, 238)';
-    this.div.style['boxSizing'] = 'border-box';
-    this.div.style.background = 'whitesmoke';
-    cellStyle(this.div);
-    this.column = column;
-
-    this.span = document.createElement('div');
-    this.div.appendChild(this.span);
-    this.span.style.height = this.div.style.height;
-    this.span.style.width = '2px';
-    this.span.style.background = 'black';
-    // this.span.style.border = '2px solid black';
-    this.span.style.position = 'relative';
-    this.span.style.display = 'inline-block';
-    this.span.style.right = '2px';
-    this.span.style.cursor = 'col-resize';
-    this.span.style['boxSizing'] = 'border-box';
-    this.position = {};
-
-    this.span.addEventListener('mousedown', (e) => {
-
-        // console.log('clicked');
-        _state.colDrag = this;
-    })
-
-    return this;
-}
-
-
-function RowHeader (row) {
-
-    this.div = document.createElement('div');
-
-    cellStyle(this.div);
-    this.row = row;
-
-    this.div.style.border = '1px solid rgb(238, 238, 238)';
-    this.div.style['boxSizing'] = 'border-box';
-    this.div.style.background = 'whitesmoke';
-    this.div.style.float = 'left';
-
-    this.span = document.createElement('div');
-    this.div.appendChild(this.span);
-    this.span.style.width = this.div.style.width;
-    this.span.style.height = '2px';
-    this.span.style.background = 'black';
-    this.span.style.position = 'relative';
-    // this.span.style.display = 'inline-block';
-    this.span.style.top = this.div.style.height + 2 + 'px';
-    this.span.style.cursor = 'row-resize';
-    this.span.style['boxSizing'] = 'border-box';
-    // this.position = {};
-
-
-    this.span.addEventListener('mousedown', (e) => {
-
-        // console.log('clicked');
-        _state.rowDrag = this;
-    })
-
-    return this;
-}
-
-
-for (let i = 0; i < COL_COUNT + 1; ++i) {
+// add column headers
+for (let i = -1; i < COL_COUNT; ++i) {
 
     const _header = new ColumnHeader(i);
     main.appendChild(_header.div);
     _state.columnHeaders.push(_header);
     _header.position = _header.div.getBoundingClientRect().x;
 }
-
-
 
 
 // add cells

@@ -26,3 +26,13 @@ function inputStyle(input) {
     style['textAlign'] = 'left';
     return;
 }
+
+function headerCellStyle (div) {
+
+    const style = div.style;
+
+    style.border = '1px solid rgb(238, 238, 238)';
+    style['boxSizing'] = 'border-box';
+    style.background = 'whitesmoke';
+    return;
+}

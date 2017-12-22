@@ -34,3 +34,55 @@ Cell.prototype.setText = function(val) {
     this.input.value = val;
     return this.input.value;
 }
+
+
+function ColumnHeader (column) {
+
+    this.div = document.createElement('div');
+    this.column = column;
+    this.position = {};
+
+    cellStyle(this.div);
+    headerCellStyle(this.div);
+
+    this.span = document.createElement('div');
+    this.div.appendChild(this.span);
+    this.span.style.height = this.div.style.height;
+    this.span.style.width = '2px';
+    this.span.style.background = 'black';
+    this.span.style.position = 'relative';
+    this.span.style.display = 'inline-block';
+    this.span.style.right = '2px';
+    this.span.style.cursor = 'col-resize';
+    this.span.style['boxSizing'] = 'border-box';
+
+    this.span.addEventListener('mousedown', (e) => _state.colDrag = this);
+
+    return this;
+}
+
+
+function RowHeader (row) {
+
+    this.div = document.createElement('div');
+    this.row = row;
+    this.position = {};
+
+    cellStyle(this.div);
+    headerCellStyle(this.div);
+    this.div.style.float = 'left';
+
+    this.span = document.createElement('div');
+    this.div.appendChild(this.span);
+    this.span.style.width = this.div.style.width;
+    this.span.style.height = '2px';
+    this.span.style.background = 'black';
+    this.span.style.position = 'relative';
+    this.span.style.top = this.div.style.height + 2 + 'px';
+    this.span.style.cursor = 'row-resize';
+    this.span.style['boxSizing'] = 'border-box';
+
+    this.span.addEventListener('mousedown', (e) => _state.rowDrag = this);
+
+    return this;
+}

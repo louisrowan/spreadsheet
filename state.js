@@ -12,6 +12,6 @@ const _state = {
         cells: [] // array of cell objects containing cells on cut/copy clipboard
     },
     commandActive: false, // boolean to determine if command key is being held down
-    columnHeaders: [],
-    rowHeaders: []
+    columnHeaders: [], // array of column header objects
+    rowHeaders: [] //  array of row header objects
 };

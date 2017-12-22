@@ -47,53 +47,61 @@ function window_Keydown (e) {
 window.addEventListener('keyup', (e) => {
 
     window_Keyup(e);
-})
-
+});
 
 
 window.addEventListener('mousemove', (e) => {
 
     if (_state.colDrag) {
-
-            const colMarker = _state.colDrag;
-
-            const movement = e.clientX - colMarker.position;
-            updateWidth(colMarker.div.previousSibling, movement)
-
-            const main = document.getElementById('main');
-            // console.log('main width', main.style.width);
-            updateWidth(main, movement)
-            // console.log('new main', main.style.width);
-            const start = Date.now();
-            
-            const cells = _state.allCells.filter((c) => c.column === colMarker.column - 2);
-            cells.forEach((c) => updateWidth(c.div, movement))
-            colMarker.position = e.clientX;
-
+        handleResizeRowColumn(e, 'column');
     }
     else if (_state.rowDrag) {
-
-            let rowMarker = _state.rowDrag;
-
-            const movement = e.clientY - rowMarker.position;
-            const i = _state.rowHeaders.indexOf(rowMarker)
-            console.log(i);
-            const NrowMarker = _state.rowHeaders[i - 1]
-            updateHeight(NrowMarker.div, movement)
-
-            const main = document.getElementById('main');
-            // console.log('main width', main.style.width);
-            updateHeight(main, movement)
-            
-            const cells = _state.allCells.filter((c) => c.row === rowMarker.row - 1);
-            cells.forEach((c) => updateHeight(c.div, movement))
-            rowMarker.position = e.clientY;
-
+        handleResizeRowColumn(e, 'row');
     }
 })
 
 
+const handleResizeRowColumn = (e, type) => {
 
+    let marker;
+    let mousePosition;
+    let headerArray;
+    let prop;
+    let heightOffset;
+    if (type === 'row') {
+        marker = _state.rowDrag;
+        mousePosition = e.clientY;
+        headerArray = _state.rowHeaders;
+        prop = 'height';
+        heightOffset = 150;
+    }
+    else if (type === 'column') {
+        marker = _state.colDrag;
+        mousePosition = e.clientX;
+        headerArray = _state.columnHeaders;
+        prop = 'width';
+        heightOffset = 0;
+    }
+    else {
+        console.log('ERROR handleResizeRowColumn, type = ', type);
+    }
+
+
+    const i = headerArray.indexOf(marker);
+    const headerToMove = headerArray[i - 1];
+
+    const position = headerArray.slice(0, i).reduce((a, b) => a += translatePxToNum(b.div.style[prop]), heightOffset)
+    const movement = mousePosition - position;
+
+    updateHeightWidth(headerToMove.div, movement, prop);
+    const main = document.getElementById('main');
+    updateHeightWidth(main, movement, prop)
+
+    const cells = _state.allCells.filter((c) => c[type] === marker[type] - 1);
+    cells.forEach((c) => updateHeightWidth(c.div, movement, prop))
+    marker['position'] = mousePosition;
+    return;
+}
 
 
 function window_Keyup (e) {

@@ -58,8 +58,15 @@ function ColumnHeader (column) {
 
     this.span.addEventListener('mousedown', (e) => _state.colDrag = this);
 
+    // this.p = document.createElement('p');
+    // this.p.innerText = column + 1 > 0 ? column + 1 : '';
+    // this.div.appendChild(this.p);
+
     return this;
 }
+
+
+const letters = 'abcdefghijklmnopqrstuv'
 
 
 function RowHeader (row) {
@@ -83,6 +90,10 @@ function RowHeader (row) {
     this.span.style['boxSizing'] = 'border-box';
 
     this.span.addEventListener('mousedown', (e) => _state.rowDrag = this);
+
+    this.p = document.createElement('p');
+    this.p.innerText = letters[row] || '';
+    this.div.appendChild(this.p);
 
     return this;
 }

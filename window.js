@@ -83,7 +83,7 @@ const handleResizeRowColumn = (e, type) => {
         heightOffset = 0;
     }
     else {
-        console.log('ERROR handleResizeRowColumn, type = ', type);
+        console.error('ERROR handleResizeRowColumn, type = ', type);
     }
 
 

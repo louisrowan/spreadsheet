@@ -16,7 +16,7 @@ function EraseButton() {
     this.button.innerText = 'Delete';
     commonButtonStyle(this.button);
 
-    this.button.addEventListener('click', (e) => eraseButton_click());
+    this.button.addEventListener('click', (e) => eraseButton_Click());
 
     return this.button;
 }
@@ -39,7 +39,7 @@ function CssButton(atts) {
     this.button.style[atts.key] = atts.value;
     commonButtonStyle(this.button);
 
-    this.button.addEventListener('click', (e) => cssButton_Click());
+    this.button.addEventListener('click', (e) => cssButton_Click(atts));
 
     return this.button;
 }

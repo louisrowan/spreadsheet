@@ -26,7 +26,6 @@ for (let i = -1; i < COL_COUNT; ++i) {
     _header.position = _header.div.getBoundingClientRect().x;
 }
 
-
 // add cells
 for (let i = 0; i < ROW_COUNT; ++i) {
 

@@ -2,12 +2,12 @@
 
 function eraseButton_Click () {
 
-    state.activeCells.forEach((cell) => cell.input.value = '');
+    _state.activeCells.forEach((cell) => cell.input.value = '');
 }
 
-function cssButton_Click () {
+function cssButton_Click (atts) {
 
-        _state.activeCells.forEach((cell) => {
+    _state.activeCells.forEach((cell) => {
 
         // toggle property
         let style = cell.input.style;

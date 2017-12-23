@@ -5,7 +5,6 @@ function updateHeightWidth (element, diff, prop) {
     const original = translatePxToNum(element.style[prop]);
     const updated = `${+original + +diff}px`;
     element.style[prop] = updated;
-    console.log(original, updated);
     return;
 }
 

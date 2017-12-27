@@ -10,6 +10,14 @@ function Toolbar () {
     return this.toolbar;
 }
 
+function ToolbarBuffer () {
+
+    this.div = document.createElement('div');
+    this.div.style.height = _toolbar.style.height;
+
+    return this.div;
+}
+
 function EraseButton() {
 
     this.button = document.createElement('button');

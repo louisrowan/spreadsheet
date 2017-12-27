@@ -1,9 +1,20 @@
 'use strict';
 
-window.addEventListener('mouseup', (e) => {
+window.addEventListener('mouseup', (e) => window_Mouseup());
+window.addEventListener('keydown', (e) => window_Keydown(e));
+window.addEventListener('keyup', (e) => window_Keyup(e));
+window.addEventListener('mousemove', (e) => window_Mousemove(e));
 
-    window_Mouseup();
-});
+
+function window_Mousemove (e) {
+
+    if (_state.colDrag) {
+        handleResizeRowColumn(e, 'column');
+    }
+    else if (_state.rowDrag) {
+        handleResizeRowColumn(e, 'row');
+    }
+};
 
 function window_Mouseup () {
 
@@ -11,11 +22,6 @@ function window_Mouseup () {
     _state.colDrag = false;
     _state.rowDrag = false;
 }
-
-window.addEventListener('keydown', (e) => {
-
-    window_Keydown(e);
-});
 
 function window_Keydown (e) {
 
@@ -43,22 +49,6 @@ function window_Keydown (e) {
         }
     }
 }
-
-window.addEventListener('keyup', (e) => {
-
-    window_Keyup(e);
-});
-
-
-window.addEventListener('mousemove', (e) => {
-
-    if (_state.colDrag) {
-        handleResizeRowColumn(e, 'column');
-    }
-    else if (_state.rowDrag) {
-        handleResizeRowColumn(e, 'row');
-    }
-})
 
 
 const handleResizeRowColumn = (e, type) => {
@@ -94,8 +84,7 @@ const handleResizeRowColumn = (e, type) => {
     const movement = mousePosition - position;
 
     updateHeightWidth(headerToMove.div, movement, prop);
-    const main = document.getElementById('main');
-    updateHeightWidth(main, movement, prop)
+    updateHeightWidth(_spreadsheetContainer, movement, prop)
 
     const cells = _state.allCells.filter((c) => c[type] === marker[type] - 1);
     cells.forEach((c) => updateHeightWidth(c.div, movement, prop))

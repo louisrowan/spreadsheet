@@ -4,8 +4,8 @@ function cellStyle(div) {
 
     const style = div.style;
     
-    style.width = '100px';
-    style.height = '50px';
+    style.width = CELL_WIDTH + 'px';
+    style.height = CELL_HEIGHT + 'px';
     style.display = 'inline-block';
     return;
 }

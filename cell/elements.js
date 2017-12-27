@@ -44,6 +44,7 @@ function ColumnHeader (column) {
 
     cellStyle(this.div);
     headerCellStyle(this.div);
+    this.div.style.position = 'relative'
 
     this.span = document.createElement('div');
     this.div.appendChild(this.span);
@@ -58,7 +59,20 @@ function ColumnHeader (column) {
 
     this.span.addEventListener('mousedown', (e) => _state.colDrag = this);
 
-    // this.p = document.createElement('p');
+    this.tableCell = document.createElement('td');
+    this.tableCell.innerText = column + 1 > 0 ? column + 1 : '';
+    this.tableCell.style.width = '100%';
+    this.tableCell.style.height = '100%';
+    this.tableCell.style.position = 'absolute';
+    this.tableCell.style.left = '0px';
+    this.tableCell.style.right = '0px';
+    this.tableCell.style.top = '0px';
+    this.tableCell.style.bottom = '0px';
+    this.tableCell.style['textAlign'] = 'center';
+    this.tableCell.style['paddingTop'] = (CELL_HEIGHT/3) + 'px';
+    this.div.appendChild(this.tableCell)
+
+    // this.p.innerText = column + 1 > 0 ? column + 1 : '';
     // this.p.innerText = column + 1 > 0 ? column + 1 : '';
     // this.div.appendChild(this.p);
 
@@ -66,7 +80,7 @@ function ColumnHeader (column) {
 }
 
 
-const letters = 'abcdefghijklmnopqrstuv'
+const letters = 'abcdefghijklmnopqrstuvwxyz'
 
 
 function RowHeader (row) {
@@ -93,7 +107,18 @@ function RowHeader (row) {
 
     this.p = document.createElement('p');
     this.p.innerText = letters[row] || '';
+    this.p.style['textAlign'] = 'center';
     this.div.appendChild(this.p);
 
     return this;
+}
+
+function SpreadsheetContainer () {
+
+    this.div = document.createElement('div');
+    this.div.style.padding = '0px';
+    this.div.style.margin = '0px';
+    this.div.style.width = `${CELL_WIDTH * (COL_COUNT + 1)}px`;
+
+    return this.div;
 }

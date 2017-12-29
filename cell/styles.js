@@ -6,7 +6,7 @@ function cellStyle(div) {
     
     style.width = CELL_WIDTH + 'px';
     style.height = CELL_HEIGHT + 'px';
-    style.display = 'inline-block';
+    style.float = 'left';
     return;
 }
 

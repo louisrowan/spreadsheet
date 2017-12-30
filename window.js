@@ -83,6 +83,9 @@ const handleResizeRowColumn = (e, type) => {
     const position = headerArray.slice(0, i).reduce((a, b) => a += translatePxToNum(b.div.style[prop]), heightOffset)
     const movement = mousePosition - position;
 
+    if (type === 'column' && translatePxToNum(headerToMove.div.style[prop]) <= 50 && movement < 0) return;
+    if (type === 'row' && translatePxToNum(headerToMove.div.style[prop]) <= 25 && movement < 0) return;
+
     updateHeightWidth(headerToMove.div, movement, prop);
     updateHeightWidth(_spreadsheetContainer, movement, prop)
 

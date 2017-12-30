@@ -2,10 +2,11 @@
 
 function Cell (row, column) {
 
-    // set props
+    // create elements
     this.div = document.createElement('div');
     this.input = document.createElement('input');
-    this.div.appendChild(this.input);
+    
+    // set props
     this.id = Math.random().toString();
     this.input.setAttribute('id', `cell-${this.id}`);
     this.row = row;
@@ -20,6 +21,8 @@ function Cell (row, column) {
     this.input.addEventListener('mousedown', (e) => cellMousedown(this, e));
     this.input.addEventListener('mouseover', (e) => cellMouseover(this, e));
 
+    // connect elements and add cell to allCells array
+    this.div.appendChild(this.input);
     _state.allCells.push(this);
     return this;
 }
@@ -38,77 +41,82 @@ Cell.prototype.setText = function(val) {
 
 function ColumnHeader (column) {
 
+    // create elements
     this.div = document.createElement('div');
+    this.span = document.createElement('div');
+    this.textElement = document.createElement('td');
+
+    // set props
     this.column = column;
     this.position = {};
+    this.textElement.innerText = column < 0 ? '' : getLetter();
 
+    // add styles
     cellStyle(this.div);
     headerCellStyle(this.div);
-    this.div.style.position = 'relative'
-
-    this.span = document.createElement('div');
-    this.div.appendChild(this.span);
     this.span.style.height = this.div.style.height;
-    this.span.style.width = '2px';
-    this.span.style.background = 'black';
-    this.span.style.position = 'relative';
-    this.span.style.display = 'inline-block';
-    this.span.style.right = '2px';
-    this.span.style.cursor = 'col-resize';
-    this.span.style['boxSizing'] = 'border-box';
+    columnHeaderSpanStyle(this.span);
+    columnHeaderTextStyle(this.textElement);
 
+    // event listeners
     this.span.addEventListener('mousedown', (e) => _state.colDrag = this);
 
-    this.tableCell = document.createElement('td');
-    this.tableCell.innerText = column + 1 > 0 ? column + 1 : '';
-    this.tableCell.style.width = '100%';
-    this.tableCell.style.height = '100%';
-    this.tableCell.style.position = 'absolute';
-    this.tableCell.style.left = '0px';
-    this.tableCell.style.right = '0px';
-    this.tableCell.style.top = '0px';
-    this.tableCell.style.bottom = '0px';
-    this.tableCell.style['textAlign'] = 'center';
-    this.tableCell.style['paddingTop'] = (CELL_HEIGHT/3) + 'px';
-    this.div.appendChild(this.tableCell)
-
-    // this.p.innerText = column + 1 > 0 ? column + 1 : '';
-    // this.p.innerText = column + 1 > 0 ? column + 1 : '';
-    // this.div.appendChild(this.p);
+    // connect elements
+    this.div.appendChild(this.span);
+    this.div.appendChild(this.textElement)
 
     return this;
 }
 
 
-const letters = 'abcdefghijklmnopqrstuvwxyz'
+const getLetter = (function() {
 
+    const letters = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase();
+    let prefixIndex = -1;
+    let prefix = '';
+    let letterIndex = 0;
+
+    return () => {
+
+        let result;
+        if (letters[letterIndex]) {
+            result = prefix + letters[letterIndex];
+        }
+        else {
+            letterIndex = 0;
+            ++prefixIndex;
+            prefix = letters[prefixIndex];
+            result = prefix + letters[letterIndex];
+        }
+        ++letterIndex;
+        return result;
+    }
+}())
 
 function RowHeader (row) {
 
+    // create elements
     this.div = document.createElement('div');
+    this.span = document.createElement('div');
+    this.textElement = document.createElement('td');
+
+    // set props
     this.row = row;
     this.position = {};
+    this.textElement.innerText = row + 1 > 0 ? row + 1 : '';
 
+    // add styles
     cellStyle(this.div);
     headerCellStyle(this.div);
-    this.div.style.float = 'left';
+    columnHeaderTextStyle(this.textElement);
+    rowHeaderSpanStyle(this.span, this.div);
 
-    this.span = document.createElement('div');
-    this.div.appendChild(this.span);
-    this.span.style.width = this.div.style.width;
-    this.span.style.height = '2px';
-    this.span.style.background = 'black';
-    this.span.style.position = 'relative';
-    this.span.style.top = this.div.style.height + 2 + 'px';
-    this.span.style.cursor = 'row-resize';
-    this.span.style['boxSizing'] = 'border-box';
-
+    // event listeners
     this.span.addEventListener('mousedown', (e) => _state.rowDrag = this);
 
-    this.p = document.createElement('p');
-    this.p.innerText = letters[row] || '';
-    this.p.style['textAlign'] = 'center';
-    this.div.appendChild(this.p);
+    // connect elements
+    this.div.appendChild(this.span);
+    this.div.appendChild(this.textElement);
 
     return this;
 }

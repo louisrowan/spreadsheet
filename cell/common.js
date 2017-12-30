@@ -11,12 +11,22 @@ function newSelectedCell(cell) {
     _state.startCellRect = startCellRect;
     _state.endCellRect = {};
 
-    const startCellBounding = startCellRect.div.getBoundingClientRect();
+    const position = cell.position
+    const column = _state.columnHeaders[cell.column + 1]
+    const row = _state.rowHeaders[cell.row]
+    
+    const startCellBounding = {
+        x: column.position,
+        y: row.position,
+        width: translatePxToNum(cell.div.style.width),
+        height: translatePxToNum(cell.div.style.height)
+    }
 
     draggableDiv.style.left = startCellBounding.x + 'px';
     draggableDiv.style.top = startCellBounding.y + 'px';
     draggableDiv.style.width = '0px';
     draggableDiv.style.height = '0px';
+
     return;
 };
 

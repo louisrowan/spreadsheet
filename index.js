@@ -3,8 +3,8 @@
 const Logger = new LoggerObject();
 const main = document.getElementById('main');
 
-const ROW_COUNT = 50;
-const COL_COUNT = 50;
+const ROW_COUNT = 100;
+const COL_COUNT = 100;
 const CELL_WIDTH = 80;
 const CELL_HEIGHT = 40;
 
@@ -35,17 +35,16 @@ for (let i = -1; i < COL_COUNT; ++i) {
 setTimeout(() => {
     for (let i = 0; i < ROW_COUNT; ++i) {
 
-            const _row = new RowHeader(i);
-            _spreadsheetContainer.appendChild(_row.div);
-            _state.rowHeaders.push(_row);
+        const _row = new RowHeader(i);
+        _spreadsheetContainer.appendChild(_row.div);
+        _state.rowHeaders.push(_row);
 
-            for (let j = 0; j < COL_COUNT; ++j) {
+        for (let j = 0; j < COL_COUNT; ++j) {
 
-                const _cell = new Cell(i, j);
-                _spreadsheetContainer.appendChild(_cell.div);
-            }
-
+            const _cell = new Cell(i, j);
+            _spreadsheetContainer.appendChild(_cell.div);
+        }
     }
-}, 0)
+}, 0);
 
 main.appendChild(new DraggableDiv());

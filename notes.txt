@@ -1,3 +1,13 @@
+_______________________
+new feature list:
+1. select multiple cells using shift key
+2. select all cells
+3. color cells
+4. show cut/copy/paste cell boundaries
+5. sort selected cells
+
+_______________________
+
 ## Handling copy/paste
 
 desired functionality:

@@ -3,11 +3,11 @@
 function handleDrag(cell) {
 
     const draggableDiv = _state.draggableDiv;
-    const end = cell;
-    const endBounding = end.div.getBoundingClientRect();
     const start = _state.startCellRect;
-    const startBounding = start.div.getBoundingClientRect();
-    _state.endCellRect = end;
+
+    const endBounding = getCellBounding(cell);
+    const startBounding = getCellBounding(start);
+    _state.endCellRect = cell;
 
     const left = Math.min(startBounding.x, endBounding.x);
     const top = Math.min(startBounding.y, endBounding.y);
@@ -24,10 +24,10 @@ function handleDrag(cell) {
     draggableDiv.style.height = height + 'px';
 
 
-    const leftCol = Math.min(start.column, end.column);
-    const rightCol = Math.max(start.column, end.column);
-    const topRow = Math.min(start.row, end.row);
-    const botRow = Math.max(start.row, end.row);
+    const leftCol = Math.min(start.column, cell.column);
+    const rightCol = Math.max(start.column, cell.column);
+    const topRow = Math.min(start.row, cell.row);
+    const botRow = Math.max(start.row, cell.row);
 
     _state.allCells.forEach((cell) => {
 
@@ -45,30 +45,5 @@ function handleDrag(cell) {
             cell.input.style.background = 'white';
         }
     });
-    return;
-}
-
-function addToActiveCells(cell) {
-
-    if (!_state.activeCells.find((active) => active.id === cell.id)) {
-        _state.activeCells.push(cell);
-    }
-    return;
-}
-
-function removeFromActiveCells(cell) {
-
-    const index = _state.activeCells.indexOf(cell);
-    if (index > -1) {
-        _state.activeCells.splice(index, 1);
-        cell.input.style.border = '1px solid rgb(238, 238, 238)';
-        cell.input.style.background = 'white';
-    }
-    return;
-}
-
-function deactivateAllCells() {
-
-    _state.allCells.forEach((cell) => removeFromActiveCells(cell));
     return;
 }

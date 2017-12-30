@@ -53,6 +53,9 @@ function window_Keydown (e) {
 
 const handleResizeRowColumn = (e, type) => {
 
+    hideDraggableDiv();
+    deactivateAllCells();
+
     let marker;
     let mousePosition;
     let headerArray;
@@ -63,7 +66,7 @@ const handleResizeRowColumn = (e, type) => {
         mousePosition = e.clientY;
         headerArray = _state.rowHeaders;
         prop = 'height';
-        heightOffset = 150;
+        heightOffset = 100 + CELL_HEIGHT;
     }
     else if (type === 'column') {
         marker = _state.colDrag;
@@ -91,7 +94,6 @@ const handleResizeRowColumn = (e, type) => {
 
     const cells = _state.allCells.filter((c) => c[type] === marker[type] - 1);
     cells.forEach((c) => updateHeightWidth(c.div, movement, prop))
-    // marker['position'] = mousePosition;
     return;
 }
 

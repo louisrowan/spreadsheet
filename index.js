@@ -29,29 +29,23 @@ for (let i = -1; i < COL_COUNT; ++i) {
     const _header = new ColumnHeader(i);
     _spreadsheetContainer.appendChild(_header.div);
     _state.columnHeaders.push(_header);
-    // _header.position = _header.div.getBoundingClientRect().x;
 }
 
-// add cells
-for (let i = 0; i < ROW_COUNT; ++i) {
+// timeout to paint screen and then add cells
+setTimeout(() => {
+    for (let i = 0; i < ROW_COUNT; ++i) {
 
-    setTimeout(() => {
+            const _row = new RowHeader(i);
+            _spreadsheetContainer.appendChild(_row.div);
+            _state.rowHeaders.push(_row);
 
-        const _row = new RowHeader(i);
-        console.log('row', i);
-        _spreadsheetContainer.appendChild(_row.div);
-        _state.rowHeaders.push(_row);
-        // _row.position = _row.div.getBoundingClientRect().y;
+            for (let j = 0; j < COL_COUNT; ++j) {
 
-        for (let j = 0; j < COL_COUNT; ++j) {
+                const _cell = new Cell(i, j);
+                _spreadsheetContainer.appendChild(_cell.div);
+            }
 
-            const _cell = new Cell(i, j);
-            _spreadsheetContainer.appendChild(_cell.div);
-        }
-
-
-    }, 0)
-
-}
+    }
+}, 0)
 
 main.appendChild(new DraggableDiv());

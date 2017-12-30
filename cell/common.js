@@ -11,20 +11,11 @@ function newSelectedCell(cell) {
     _state.startCellRect = startCellRect;
     _state.endCellRect = {};
 
-    const column = _state.columnHeaders[cell.column + 1];
-    const row = _state.rowHeaders[cell.row];
+    const bound = getCellBounding(cell);
 
-    console.log('col', column);
-    
-    const startCellBounding = {
-        x: column.position(),
-        y: row.position(),
-        width: translatePxToNum(cell.div.style.width),
-        height: translatePxToNum(cell.div.style.height)
-    }
-
-    draggableDiv.style.left = startCellBounding.x + 'px';
-    draggableDiv.style.top = startCellBounding.y + 'px';
+    draggableDiv.style.visibility = 'visible';
+    draggableDiv.style.left = bound.x + 'px';
+    draggableDiv.style.top = bound.y + 'px';
     draggableDiv.style.width = '0px';
     draggableDiv.style.height = '0px';
 
@@ -58,3 +49,42 @@ function clearCell (cell) {
     cell.input.value = '';
     inputStyle(cell.input);
 }
+
+function getCellBounding (cell) {
+
+    const column = _state.columnHeaders[cell.column + 1];
+    const row = _state.rowHeaders[cell.row];
+    
+    return {
+        x: column.position(),
+        y: row.position(),
+        width: translatePxToNum(cell.div.style.width),
+        height: translatePxToNum(cell.div.style.height)
+    }
+}
+
+function addToActiveCells(cell) {
+
+    if (!_state.activeCells.find((active) => active.id === cell.id)) {
+        _state.activeCells.push(cell);
+    }
+    return;
+}
+
+function removeFromActiveCells(cell) {
+
+    const index = _state.activeCells.indexOf(cell);
+    if (index > -1) {
+        _state.activeCells.splice(index, 1);
+        cell.input.style.border = '1px solid rgb(238, 238, 238)';
+        cell.input.style.background = 'white';
+    }
+    return;
+}
+
+function deactivateAllCells() {
+
+    _state.allCells.forEach((cell) => removeFromActiveCells(cell));
+    return;
+}
+

@@ -60,7 +60,7 @@ function rowHeaderSpanStyle (span, div) {
     style.height = '2px';
     style.background = 'black';
     style.position = 'absolute';
-    style.top = div.style.height + 2 + 'px';
+    style.top = '-2px';
     style.cursor = 'row-resize';
     style['boxSizing'] = 'border-box';
     return;

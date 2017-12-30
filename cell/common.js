@@ -11,13 +11,14 @@ function newSelectedCell(cell) {
     _state.startCellRect = startCellRect;
     _state.endCellRect = {};
 
-    const position = cell.position
-    const column = _state.columnHeaders[cell.column + 1]
-    const row = _state.rowHeaders[cell.row]
+    const column = _state.columnHeaders[cell.column + 1];
+    const row = _state.rowHeaders[cell.row];
+
+    console.log('col', column);
     
     const startCellBounding = {
-        x: column.position,
-        y: row.position,
+        x: column.position(),
+        y: row.position(),
         width: translatePxToNum(cell.div.style.width),
         height: translatePxToNum(cell.div.style.height)
     }

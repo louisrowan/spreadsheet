@@ -3,8 +3,8 @@
 const Logger = new LoggerObject();
 const main = document.getElementById('main');
 
-const ROW_COUNT = 200;
-const COL_COUNT = 200;
+const ROW_COUNT = 50;
+const COL_COUNT = 50;
 const CELL_WIDTH = 80;
 const CELL_HEIGHT = 40;
 
@@ -29,7 +29,7 @@ for (let i = -1; i < COL_COUNT; ++i) {
     const _header = new ColumnHeader(i);
     _spreadsheetContainer.appendChild(_header.div);
     _state.columnHeaders.push(_header);
-    _header.position = _header.div.getBoundingClientRect().x;
+    // _header.position = _header.div.getBoundingClientRect().x;
 }
 
 // add cells
@@ -38,9 +38,10 @@ for (let i = 0; i < ROW_COUNT; ++i) {
     setTimeout(() => {
 
         const _row = new RowHeader(i);
+        console.log('row', i);
         _spreadsheetContainer.appendChild(_row.div);
         _state.rowHeaders.push(_row);
-        _row.position = _row.div.getBoundingClientRect().y;
+        // _row.position = _row.div.getBoundingClientRect().y;
 
         for (let j = 0; j < COL_COUNT; ++j) {
 

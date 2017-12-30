@@ -48,8 +48,14 @@ function ColumnHeader (column) {
 
     // set props
     this.column = column;
-    this.position = {};
     this.textElement.innerText = column < 0 ? '' : getLetter();
+    this.position = () => {
+
+        return _state.columnHeaders.slice(0, column + 1).reduce((a, b) => {
+
+            return a += translatePxToNum(b.div.style.width);
+        }, 0)
+    }
 
     // add styles
     cellStyle(this.div);
@@ -102,7 +108,13 @@ function RowHeader (row) {
 
     // set props
     this.row = row;
-    this.position = {};
+    this.position = () => {
+
+        return _state.rowHeaders.slice(0, row).reduce((a, b) => {
+
+            return a += translatePxToNum(b.div.style.height);
+        }, 100 + CELL_HEIGHT)
+    }
     this.textElement.innerText = row + 1 > 0 ? row + 1 : '';
 
     // add styles

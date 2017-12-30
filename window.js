@@ -91,7 +91,7 @@ const handleResizeRowColumn = (e, type) => {
 
     const cells = _state.allCells.filter((c) => c[type] === marker[type] - 1);
     cells.forEach((c) => updateHeightWidth(c.div, movement, prop))
-    marker['position'] = mousePosition;
+    // marker['position'] = mousePosition;
     return;
 }
 

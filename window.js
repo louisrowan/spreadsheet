@@ -30,6 +30,7 @@ function window_Keydown (e) {
         e.key === 'ArrowUp' ||
         e.key === 'ArrowDown') {
         handleMove(e);
+        return;
     }
 
     if (e.key === 'Meta') {
@@ -39,13 +40,16 @@ function window_Keydown (e) {
     if (_state.commandActive) {
         if (e.key === 'c') {
             cutCopyButton_Click('copy');
+            return;
         }
         else if (e.key === 'x') {
             cutCopyButton_Click('cut');
+            return;
         }
         else if (e.key === 'v') {
             e.preventDefault();
             pasteButton_Click();
+            return;
         }
     }
 }

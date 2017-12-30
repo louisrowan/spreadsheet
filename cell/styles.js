@@ -43,7 +43,7 @@ function columnHeaderSpanStyle (div) {
     const style = div.style;
 
     style.width = '2px';
-    style.background = 'black';
+    style.background = 'gray';
     style.position = 'relative';
     style.display = 'inline-block';
     style.right = '2px';
@@ -58,7 +58,7 @@ function rowHeaderSpanStyle (span, div) {
 
     style.width = div.style.width;
     style.height = '2px';
-    style.background = 'black';
+    style.background = 'gray';
     style.position = 'absolute';
     style.top = '-2px';
     style.cursor = 'row-resize';

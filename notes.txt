@@ -9,6 +9,33 @@ new feature list:
 
 _______________________
 
+
+6. sum cell notes:
+
+problem: summation calculated needs to update
+
+solution:
+- 'summed cell' needs to keep track of which cells it is a product of
+- event listeners need to be added to each of these cells. when input changes, summed cell needs to be alerted and recalculate
+- when summed cell is reassigned to different value, these event listeners need to be removed
+
+
+-individual event liseners vs one major listener
+
+- better approach might be ONE event listener for ALL inputs
+- need to save in state somewhere a list of which cells have a value that is depended upon by others
+
+= save as object with the cell's key
+<value in state> : 'c1r1': {},
+                    'c1r2': <recalculating function>
+
+
+
+
+
+
+
+
 ## Handling copy/paste
 
 desired functionality:

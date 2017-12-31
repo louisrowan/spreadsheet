@@ -13,7 +13,9 @@ const _state = {
     },
     commandActive: false, // boolean to determine if command key is being held down
     columnHeaders: [], // array of column header objects
-    rowHeaders: [] //  array of row header objects
+    rowHeaders: [], //  array of row header objects,
+    funcCellOutput: {}, // obj containing summed cells by id with array of cells to sum
+    funcCellInput: {} // obj containing cells by id with array of funcCellOutput linked
 };
 
 const _setState = (key, newValue) => {

@@ -51,7 +51,8 @@ function sumButton_Click () {
         cellsByCol[cell.column].push({
             val: cell.input.value || 0,
             column: cell.column,
-            row: cell.row
+            row: cell.row,
+            id: cell.id
         })
     })
 
@@ -60,6 +61,13 @@ function sumButton_Click () {
         const sum = cellsByCol[i].reduce((a, b) => a += +b.val, 0);
         const column = cellsByCol[i][0].column;
         const cellToSum = _state.allCells.find((c) => c.row === finalRow + 1 && c.column === column);
+
+        _state.funcCellOutput[cellToSum.id] = cellsByCol[i].map((i) => i.id);
+
+        cellsByCol[i].forEach((e) => {
+
+            _state.funcCellInput[e.id] = [cellToSum.id];
+        });
         cellToSum.input.value = sum;
     })
 }

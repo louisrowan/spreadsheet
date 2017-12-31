@@ -57,4 +57,5 @@ function addButtons(toolbar) {
     toolbar.appendChild(new CutCopyButton('cut'));
     toolbar.appendChild(new CutCopyButton('copy'));
     toolbar.appendChild(new PasteButton());
+    toolbar.appendChild(new SumButton());
 }

@@ -43,7 +43,7 @@ function handleDrag(cell) {
             rightCol >= cell.column)
         {
             addToActiveCells(cell);
-            cell.input.style.background = 'whitesmoke';
+            cell.input.style.background = 'lightgray';
         } else if (cell.active) {
             removeFromActiveCells(cell);
             cell.input.style.background = 'white';

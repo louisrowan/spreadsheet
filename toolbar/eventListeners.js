@@ -32,3 +32,34 @@ function pasteButton_Click () {
 
     handlePaste();
 }
+
+function sumButton_Click () {
+
+    if (!_state.activeCells || _state.activeCells.length < 2) {
+        return;
+    }
+
+    const cellsByCol = {};
+    let finalRow = _state.activeCells[0].row;
+    _state.activeCells.forEach((cell) => {
+
+        finalRow = cell.row > finalRow ? cell.row : finalRow;
+
+        if (!cellsByCol[cell.column]) {
+            cellsByCol[cell.column] = [];
+        }
+        cellsByCol[cell.column].push({
+            val: cell.input.value || 0,
+            column: cell.column,
+            row: cell.row
+        })
+    })
+
+    Object.keys(cellsByCol).forEach((i) => {
+
+        const sum = cellsByCol[i].reduce((a, b) => a += +b.val, 0);
+        const column = cellsByCol[i][0].column;
+        const cellToSum = _state.allCells.find((c) => c.row === finalRow + 1 && c.column === column);
+        cellToSum.input.value = sum;
+    })
+}

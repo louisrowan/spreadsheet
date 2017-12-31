@@ -73,3 +73,14 @@ function PasteButton () {
 
     return this.button;
 }
+
+function SumButton () {
+
+    this.button = document.createElement('button');
+    this.button.innerText = 'sum';
+    commonButtonStyle(this.button);
+
+    this.button.addEventListener('click', (e) => sumButton_Click());
+
+    return this.button;
+}

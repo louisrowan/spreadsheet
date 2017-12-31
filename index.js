@@ -3,8 +3,8 @@
 const Logger = new LoggerObject();
 const main = document.getElementById('main');
 
-const ROW_COUNT = 200;
-const COL_COUNT = 200;
+const ROW_COUNT = 10;
+const COL_COUNT = 10;
 const CELL_WIDTH = 80;
 const CELL_HEIGHT = 40;
 

@@ -2,12 +2,9 @@
 
 function handleDrag(cell) {
 
-    const star = Date.now()
-    console.log('');
-    console.log('');
-
     const draggableDiv = _state.draggableDiv;
     const start = _state.startCellRect;
+    inputStyle(start.input);
 
     const endBounding = getCellBounding(cell);
     const startBounding = getCellBounding(start);
@@ -33,13 +30,14 @@ function handleDrag(cell) {
     const topRow = Math.min(start.row, cell.row);
     const botRow = Math.max(start.row, cell.row);
 
-    console.log('start loop all cells', Date.now() - star);
-    /// current implemtation
     _state.allCells.forEach((cell) => {
 
         if (cell.copied) { return };
 
-        if(topRow <= cell.row &&
+        if (isSameCell(cell, start)) {
+            cell.input.style.background = 'white';
+        }
+        else if(topRow <= cell.row &&
             leftCol <= cell.column &&
             botRow >= cell.row &&
             rightCol >= cell.column)
@@ -51,6 +49,5 @@ function handleDrag(cell) {
             cell.input.style.background = 'white';
         }
     });
-    console.log('done handle drag after', Date.now() - star);
     return;
 }

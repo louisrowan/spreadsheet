@@ -15,3 +15,8 @@ const _state = {
     columnHeaders: [], // array of column header objects
     rowHeaders: [] //  array of row header objects
 };
+
+const _setState = (key, newValue) => {
+
+    _state[key] = newValue;
+}

@@ -7,7 +7,7 @@ function Cell (row, column) {
     this.input = document.createElement('input');
     
     // set props
-    this.id = Math.random().toString();
+    this.id = `r${row}.c${column}`;
     this.input.setAttribute('id', `cell-${this.id}`);
     this.row = row;
     this.column = column;

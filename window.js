@@ -21,19 +21,19 @@ window.addEventListener('mouseover', (e) => window_Mouseover(e));
 const window_Input = (e) => {
 
     const cell = getCell(e);
-    return cell ? cellInput(cell, e) : '';
+    return cell ? cellInput(cell) : '';
 }
 
 const window_Mousedown = (e) => {
 
     const cell = getCell(e);
-    return cell ? cellMousedown(cell, e) : '';
+    return cell ? cellMousedown(cell) : '';
 }
 
 const window_Mouseover = (e) => {
 
     const cell = getCell(e);
-    return cell ? cellMouseover(cell, e) : '';   
+    return cell ? cellMouseover(cell) : '';   
 }
 
 const window_Mousemove = (e) => {

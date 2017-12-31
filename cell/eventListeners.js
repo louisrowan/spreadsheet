@@ -5,6 +5,12 @@ function cellInput (cell, e) {
     cell.input.value = e.target.value;
     if (_state.funcCellOutput[cell.id]) {
         delete _state.funcCellOutput[cell.id];
+        Object.keys(_state.funcCellInput).forEach((each) => {
+
+            if (_state.funcCellInput[each].includes(cell.id)) {
+                delete _state.funcCellInput[each];
+            }
+        })
     }
     if (_state.funcCellInput[cell.id]) {
         _state.funcCellInput[cell.id].forEach((inputCell) => {
@@ -13,6 +19,9 @@ function cellInput (cell, e) {
             cellToUpdate.input.value = _state.funcCellOutput[inputCell].reduce((a, b) => {
 
                 const cellToSum = _state.allCells.find((_c) => _c.id === b);
+                if (isNaN(+cellToSum.input.value)) {
+                    return a;
+                }
                 return a += +cellToSum.input.value;
             }, 0)
         })

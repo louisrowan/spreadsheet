@@ -2,7 +2,6 @@
 
 function cellInput (cell, e) {
 
-    cell.input.value = e.target.value;
     if (_state.funcCellOutput[cell.id]) {
         delete _state.funcCellOutput[cell.id];
         Object.keys(_state.funcCellInput).forEach((each) => {

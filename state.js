@@ -18,7 +18,19 @@ const _state = {
     funcCellInput: {} // obj containing cells by id with array of funcCellOutput linked
 };
 
-const _setState = (key, newValue) => {
+// const _getState = (key) => {
 
-    _state[key] = newValue;
-}
+//     const newState = Object.assign({}, { [key]: _state[key]});
+//     return newState[key]
+// }
+
+// const _setState = (key, newValue) => {
+
+//     console.log('in set state', _state[key]);
+//     console.log('key', key);
+
+//     _state[key] = newValue;
+
+//     console.log('and now', _state[key]);
+//     return;
+// }

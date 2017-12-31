@@ -17,11 +17,6 @@ function Cell (row, column) {
     cellStyle(this.div);
     inputStyle(this.input);
 
-    // event listeners
-    this.input.addEventListener('input', (e) => cellInput(this, e));
-    this.input.addEventListener('mousedown', (e) => cellMousedown(this, e));
-    this.input.addEventListener('mouseover', (e) => cellMouseover(this, e));
-
     // connect elements and add cell to allCells array
     this.div.appendChild(this.input);
     _state.allCells.push(this);

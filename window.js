@@ -59,29 +59,41 @@ const window_Keydown = (e) => {
         e.key === 'ArrowRight' ||
         e.key === 'ArrowUp' ||
         e.key === 'ArrowDown') {
-        handleMove(e);
-        return;
+        return handleNavigateCells(e);
     }
 
     if (e.key === 'Meta') {
-        _state.commandActive = true;
+        return _state.commandActive = true;
     }
 
     if (_state.commandActive) {
-        if (e.key === 'c') {
-            cutCopyButton_Click('copy');
-            return;
-        }
-        else if (e.key === 'x') {
-            cutCopyButton_Click('cut');
-            return;
-        }
-        else if (e.key === 'v') {
-            e.preventDefault();
-            pasteButton_Click();
-            return;
-        }
+        return handleCommandActiveKeydown(e);
     }
+}
+
+const window_Keyup = (e) => {
+
+    if (e.key === 'Meta') {
+        _state.commandActive = false;
+    } 
+}
+
+const handleCommandActiveKeydown = (e) => {
+
+    if (e.key === 'c') {
+        cutCopyButton_Click('copy');
+        return;
+    }
+    else if (e.key === 'x') {
+        cutCopyButton_Click('cut');
+        return;
+    }
+    else if (e.key === 'v') {
+        e.preventDefault();
+        pasteButton_Click();
+        return;
+    }
+    return;
 }
 
 
@@ -131,15 +143,7 @@ const handleResizeRowColumn = (e, type) => {
     return;
 }
 
-
-const window_Keyup = (e) => {
-
-    if (e.key === 'Meta') {
-        _state.commandActive = false;
-    } 
-}
-
-const handleMove = (e) => {
+const handleNavigateCells = (e) => {
 
     const activeElement = _state.allCells.find((cell) => 'cell-' + cell.id === document.activeElement.id);
     if (!activeElement) { return };

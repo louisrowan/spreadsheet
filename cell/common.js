@@ -63,10 +63,11 @@ function getCellBounding (cell) {
     }
 }
 
-function addToActiveCells(cell) {
+function addToActiveCells (cell) {
 
     if (!_state.activeCells.find((active) => active.id === cell.id)) {
         _state.activeCells.push(cell);
+        cell.active = true;
     }
     return;
 }
@@ -78,6 +79,7 @@ function removeFromActiveCells(cell) {
         _state.activeCells.splice(index, 1);
         cell.input.style.border = '1px solid rgb(238, 238, 238)';
         cell.input.style.background = 'white';
+        cell.active = false;
     }
     return;
 }

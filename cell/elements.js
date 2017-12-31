@@ -11,6 +11,7 @@ function Cell (row, column) {
     this.input.setAttribute('id', `cell-${this.id}`);
     this.row = row;
     this.column = column;
+    this.active = false;
 
     // add styles
     cellStyle(this.div);

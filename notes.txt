@@ -5,6 +5,7 @@ new feature list:
 3. color cells
 4. show cut/copy/paste cell boundaries
 5. sort selected cells
+6. sum cells
 
 _______________________
 

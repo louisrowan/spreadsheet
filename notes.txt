@@ -10,6 +10,7 @@ new feature list:
 _______________________
 
 
+_____________________
 6. sum cell notes:
 
 problem: summation calculated needs to update
@@ -31,9 +32,30 @@ solution:
 
 
 
+looks pretty good now
+______________
+
+5. sort selected cells:
+
+functionality:
+- selected cells, click 'sort asc' and they sort in ascending order
+- same for desc
+- these cells should be in a column only
+- when multiple column selected
+
+solution:
+- 
 
 
 
+
+
+
+
+
+
+
+_________________
 
 
 ## Handling copy/paste

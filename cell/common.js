@@ -48,6 +48,7 @@ function clearCell (cell) {
 
     cell.input.value = '';
     inputStyle(cell.input);
+    cellInput(cell);
 }
 
 function getCellBounding (cell) {

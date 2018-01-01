@@ -6,11 +6,10 @@ function newSelectedCell(cell) {
     addToActiveCells(cell);
     cell.input.style.border = '2px solid green';
 
-    const draggableDiv = _state.draggableDiv;
-    const startCellRect = cell;
-    _state.startCellRect = startCellRect;
+    _state.startCellRect = cell;
     _state.endCellRect = {};
 
+    const draggableDiv = _state.draggableDiv;
     const bound = getCellBounding(cell);
 
     draggableDiv.style.visibility = 'visible';

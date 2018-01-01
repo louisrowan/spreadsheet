@@ -6,6 +6,7 @@ new feature list:
 4. show cut/copy/paste cell boundaries
 5. sort selected cells
 6. sum cells
+7. clicking a row or column header should make all of its cells active and paint the draggable div around them
 
 _______________________
 
@@ -43,8 +44,8 @@ functionality:
 - these cells should be in a column only
 - when multiple column selected
 
-solution:
-- 
+solution a:
+- sort button is dropdown button. when clicked it displays a list of all possible sort options, listing by table header(if avail) or column label. both asc and desc
 
 
 

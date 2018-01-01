@@ -6,8 +6,58 @@ new feature list:
 4. show cut/copy/paste cell boundaries
 5. sort selected cells
 6. sum cells
+7. clicking a row or column header should make all of its cells active and paint the draggable div around them
 
 _______________________
+
+
+_____________________
+6. sum cell notes:
+
+problem: summation calculated needs to update
+
+solution:
+- 'summed cell' needs to keep track of which cells it is a product of
+- event listeners need to be added to each of these cells. when input changes, summed cell needs to be alerted and recalculate
+- when summed cell is reassigned to different value, these event listeners need to be removed
+
+
+-individual event liseners vs one major listener
+
+- better approach might be ONE event listener for ALL inputs
+- need to save in state somewhere a list of which cells have a value that is depended upon by others
+
+= save as object with the cell's key
+<value in state> : 'c1r1': {},
+                    'c1r2': <recalculating function>
+
+
+
+looks pretty good now
+______________
+
+5. sort selected cells:
+
+functionality:
+- selected cells, click 'sort asc' and they sort in ascending order
+- same for desc
+- these cells should be in a column only
+- when multiple column selected
+
+solution a:
+- sort button is dropdown button. when clicked it displays a list of all possible sort options, listing by table header(if avail) or column label. both asc and desc
+
+
+
+
+
+
+
+
+
+
+_________________
+
 
 ## Handling copy/paste
 

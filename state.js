@@ -13,10 +13,24 @@ const _state = {
     },
     commandActive: false, // boolean to determine if command key is being held down
     columnHeaders: [], // array of column header objects
-    rowHeaders: [] //  array of row header objects
+    rowHeaders: [], //  array of row header objects,
+    funcCellOutput: {}, // obj containing summed cells by id with array of cells to sum
+    funcCellInput: {} // obj containing cells by id with array of funcCellOutput linked
 };
 
-const _setState = (key, newValue) => {
+// const _getState = (key) => {
 
-    _state[key] = newValue;
-}
+//     const newState = Object.assign({}, { [key]: _state[key]});
+//     return newState[key]
+// }
+
+// const _setState = (key, newValue) => {
+
+//     console.log('in set state', _state[key]);
+//     console.log('key', key);
+
+//     _state[key] = newValue;
+
+//     console.log('and now', _state[key]);
+//     return;
+// }

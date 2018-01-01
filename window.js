@@ -1,12 +1,42 @@
 'use strict';
 
+// common code
+const getCell = (e) => {
+
+    const input = e.target.id;
+    if (!input) return;
+    const cell = _state.allCells.find((c) => c.id === input.slice(5)); // input id are prefaced with 'cell-' to slice first 5 char
+    if (!cell) return;
+    return cell;
+}
+
 window.addEventListener('mouseup', (e) => window_Mouseup());
 window.addEventListener('keydown', (e) => window_Keydown(e));
 window.addEventListener('keyup', (e) => window_Keyup(e));
 window.addEventListener('mousemove', (e) => window_Mousemove(e));
+window.addEventListener('input', (e) => window_Input(e));
+window.addEventListener('mousedown', (e) => window_Mousedown(e));
+window.addEventListener('mouseover', (e) => window_Mouseover(e));
 
+const window_Input = (e) => {
 
-function window_Mousemove (e) {
+    const cell = getCell(e);
+    return cell ? cellInput(cell) : '';
+}
+
+const window_Mousedown = (e) => {
+
+    const cell = getCell(e);
+    return cell ? cellMousedown(cell) : '';
+}
+
+const window_Mouseover = (e) => {
+
+    const cell = getCell(e);
+    return cell ? cellMouseover(cell) : '';   
+}
+
+const window_Mousemove = (e) => {
 
     if (_state.colDrag) {
         handleResizeRowColumn(e, 'column');
@@ -16,42 +46,54 @@ function window_Mousemove (e) {
     }
 };
 
-function window_Mouseup () {
+const window_Mouseup = () => {
 
     _state.mousedown = false;
     _state.colDrag = false;
     _state.rowDrag = false;
 }
 
-function window_Keydown (e) {
+const window_Keydown = (e) => {
 
     if (e.key === 'ArrowLeft' ||
         e.key === 'ArrowRight' ||
         e.key === 'ArrowUp' ||
         e.key === 'ArrowDown') {
-        handleMove(e);
-        return;
+        return handleNavigateCells(e);
     }
 
     if (e.key === 'Meta') {
-        _state.commandActive = true;
+        return _state.commandActive = true;
     }
 
     if (_state.commandActive) {
-        if (e.key === 'c') {
-            cutCopyButton_Click('copy');
-            return;
-        }
-        else if (e.key === 'x') {
-            cutCopyButton_Click('cut');
-            return;
-        }
-        else if (e.key === 'v') {
-            e.preventDefault();
-            pasteButton_Click();
-            return;
-        }
+        return handleCommandActiveKeydown(e);
     }
+}
+
+const window_Keyup = (e) => {
+
+    if (e.key === 'Meta') {
+        _state.commandActive = false;
+    } 
+}
+
+const handleCommandActiveKeydown = (e) => {
+
+    if (e.key === 'c') {
+        cutCopyButton_Click('copy');
+        return;
+    }
+    else if (e.key === 'x') {
+        cutCopyButton_Click('cut');
+        return;
+    }
+    else if (e.key === 'v') {
+        e.preventDefault();
+        pasteButton_Click();
+        return;
+    }
+    return;
 }
 
 
@@ -101,15 +143,7 @@ const handleResizeRowColumn = (e, type) => {
     return;
 }
 
-
-function window_Keyup (e) {
-
-    if (e.key === 'Meta') {
-        _state.commandActive = false;
-    } 
-}
-
-function handleMove(e) {
+const handleNavigateCells = (e) => {
 
     const activeElement = _state.allCells.find((cell) => 'cell-' + cell.id === document.activeElement.id);
     if (!activeElement) { return };

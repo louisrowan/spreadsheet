@@ -34,6 +34,7 @@ function handlePaste () {
     _state.activeCells.forEach((cell, index) => {
 
         cell.input.value = _state.cutCopy.cells[index].input.value;
+        cellInput(cell);
         if (_state.cutCopy.type === 'cut') {
             handleCut(_state.activeCells, _state.cutCopy.cells[index]);
         }

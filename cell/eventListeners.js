@@ -1,19 +1,24 @@
 'use strict';
 
-function cellInput (cell, e) {
+function cellInput (cell) {
 
-    cell.input.value = e.target.value;
+    if (_state.funcCellOutput[cell.id]) {
+        handleFuncCellOutput(cell);
+    }
+    if (_state.funcCellInput[cell.id]) {
+        handleFuncCellInput(cell);
+    }
     return;
 }
 
-function cellMousedown (cell, e) {
+function cellMousedown (cell) {
 
     newSelectedCell(cell);
     _state.mousedown = true;
     return;
 }
 
-function cellMouseover (cell, e) {
+function cellMouseover (cell) {
 
     if (_state.mousedown) {
         handleDrag(cell);

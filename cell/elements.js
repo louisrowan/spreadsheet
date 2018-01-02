@@ -136,6 +136,7 @@ function RowHeader (row) {
 function SpreadsheetContainer () {
 
     this.div = document.createElement('div');
+    this.div.setAttribute('id', 'spreadsheet-div');
     this.div.style.padding = '0px';
     this.div.style.margin = '0px';
     this.div.style.width = `${CELL_WIDTH * (COL_COUNT + 1)}px`;

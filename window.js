@@ -143,7 +143,7 @@ const handleResizeRowColumn = (e, type) => {
     if (type === 'row' && Common.translatePxToNum(headerToMove.div.style[prop]) <= 25 && movement < 0) return;
 
     Common.updateHeightWidth(headerToMove.div, movement, prop);
-    Common.updateHeightWidth(_spreadsheetContainer, movement, prop)
+    Common.updateHeightWidth(document.getElementById('spreadsheet-div'), movement, prop)
 
     const cells = _state.allCells.filter((c) => c[type] === marker[type] - 1);
     cells.forEach((c) => Common.updateHeightWidth(c.div, movement, prop))

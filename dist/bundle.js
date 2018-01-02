@@ -119,7 +119,7 @@ module.exports = {
 
 const _state = __webpack_require__(0)._state;
 const Common = __webpack_require__(2);
-const CellElement = __webpack_require__(5);
+const CellElement = __webpack_require__(6);
 const Styles = __webpack_require__(3);
 
 function newSelectedCell(cell) {
@@ -167,7 +167,7 @@ function isSameCell (cell1, cell2) {
 
 function clearCell (cell) {
 
-    const CellListeners = __webpack_require__(6);
+    const CellListeners = __webpack_require__(4);
 
     cell.input.value = '';
     Styles.inputStyle(cell.input);
@@ -362,6 +362,50 @@ module.exports = {
 
 const _state = __webpack_require__(0)._state;
 const CellCommon = __webpack_require__(1);
+const CellHandlers = __webpack_require__(13);
+
+function cellMousedown (cell) {
+
+    CellCommon.newSelectedCell(cell);
+    _state.mousedown = true;
+    return;
+}
+
+function cellMouseover (cell) {
+
+    if (_state.mousedown) {
+        CellHandlers.handleDrag(cell);
+    }
+    return;
+}
+
+function cellInput (cell) {
+
+    if (_state.funcCellOutput[cell.id]) {
+        CellHandlers.handleFuncCellOutput(cell);
+    }
+    if (_state.funcCellInput[cell.id]) {
+        CellHandlers.handleFuncCellInput(cell);
+    }
+    return;
+}
+
+module.exports = {
+    cellMousedown,
+    cellMouseover,
+    cellInput
+}
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+const _state = __webpack_require__(0)._state;
+const CellCommon = __webpack_require__(1);
 const ToolbarHandlers = __webpack_require__(14);
 
 function eraseButton_Click () {
@@ -446,7 +490,7 @@ module.exports = {
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -605,50 +649,6 @@ module.exports = {
 
 
 /***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-const _state = __webpack_require__(0)._state;
-const CellCommon = __webpack_require__(1);
-const CellHandlers = __webpack_require__(13);
-
-function cellMousedown (cell) {
-
-    CellCommon.newSelectedCell(cell);
-    _state.mousedown = true;
-    return;
-}
-
-function cellMouseover (cell) {
-
-    if (_state.mousedown) {
-        CellHandlers.handleDrag(cell);
-    }
-    return;
-}
-
-function cellInput (cell) {
-
-    if (_state.funcCellOutput[cell.id]) {
-        CellHandlers.handleFuncCellOutput(cell);
-    }
-    if (_state.funcCellInput[cell.id]) {
-        CellHandlers.handleFuncCellInput(cell);
-    }
-    return;
-}
-
-module.exports = {
-    cellMousedown,
-    cellMouseover,
-    cellInput
-}
-
-
-/***/ }),
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -699,7 +699,7 @@ module.exports = __webpack_require__(9);
 
 const LoggerObject = __webpack_require__(10);
 const ToolbarElement = __webpack_require__(11);
-const CellElement = __webpack_require__(5);
+const CellElement = __webpack_require__(6);
 const _state = __webpack_require__(0)._state;
 const DraggableDiv = __webpack_require__(7).DraggableDiv;
 
@@ -795,7 +795,7 @@ module.exports = LoggerObject;
 
 
 const Styles = __webpack_require__(12);
-const ToolbarListeners = __webpack_require__(4);
+const ToolbarListeners = __webpack_require__(5);
 
 function Toolbar () {
 
@@ -1097,7 +1097,7 @@ module.exports = {
 
 const _state = __webpack_require__(0)._state;
 const CellCommon = __webpack_require__(1);
-const CellListeners = __webpack_require__(6);
+const CellListeners = __webpack_require__(4);
 const ToolbarCommon = __webpack_require__(15);
 
 function handlePaste () {
@@ -1189,8 +1189,8 @@ module.exports = {
 
 
 const _state = __webpack_require__(0)._state;
-const CellListeners = __webpack_require__(6);
-const ToolbarListeners = __webpack_require__(4);
+const CellListeners = __webpack_require__(4);
+const ToolbarListeners = __webpack_require__(5);
 const CellCommon = __webpack_require__(1);
 const DraggableDiv = __webpack_require__(7);
 const Common = __webpack_require__(2);

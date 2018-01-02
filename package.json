@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jasmine test/*"
+    "test": "jasmine test/*",
+    "watch": "webpack --watch",
+    "start": "webpack && open index.html"
   },
   "repository": {
     "type": "git",

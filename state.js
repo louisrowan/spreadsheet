@@ -34,3 +34,7 @@ const _state = {
 //     console.log('and now', _state[key]);
 //     return;
 // }
+
+module.exports = {
+    _state
+}

@@ -1,19 +1,12 @@
 'use strict';
 
-function cellInput (cell) {
-
-    if (_state.funcCellOutput[cell.id]) {
-        handleFuncCellOutput(cell);
-    }
-    if (_state.funcCellInput[cell.id]) {
-        handleFuncCellInput(cell);
-    }
-    return;
-}
+const _state = require('../state')._state;
+const CellCommon = require('./common');
+const CellHandlers = require('./eventHandlers');
 
 function cellMousedown (cell) {
 
-    newSelectedCell(cell);
+    CellCommon.newSelectedCell(cell);
     _state.mousedown = true;
     return;
 }
@@ -21,7 +14,12 @@ function cellMousedown (cell) {
 function cellMouseover (cell) {
 
     if (_state.mousedown) {
-        handleDrag(cell);
+        CellHandlers.handleDrag(cell);
     }
     return;
+}
+
+module.exports = {
+    cellMousedown,
+    cellMouseover
 }

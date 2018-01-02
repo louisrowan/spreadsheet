@@ -12,3 +12,8 @@ function translatePxToNum (px) {
 
     return +(px.slice(0, -2));
 }
+
+module.exports = {
+    updateHeightWidth,
+    translatePxToNum
+}

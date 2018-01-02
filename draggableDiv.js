@@ -1,5 +1,7 @@
 'use strict';
 
+const _state = require('./state')._state;
+
 function DraggableDiv() {
 
     this.div = document.createElement('div');
@@ -18,4 +20,9 @@ function hideDraggableDiv (div) {
 
     div = div || _state.draggableDiv;
     div.style.visibility = 'hidden';
+}
+
+module.exports = {
+    DraggableDiv,
+    hideDraggableDiv
 }

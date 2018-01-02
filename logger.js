@@ -22,3 +22,5 @@ function LoggerObject () {
 
     return this;
 }
+
+module.exports = LoggerObject;

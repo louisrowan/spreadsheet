@@ -13,3 +13,7 @@ function getColumnCount (cells) {
     }
     return cols;
 }
+
+module.exports = {
+    getColumnCount
+}

@@ -1,5 +1,13 @@
 'use strict';
 
+const _state = require('./state')._state;
+const CellListeners = require('./cell/eventListeners');
+const CellHandlers = require('./cell/eventHandlers');
+const ToolbarListeners = require('./toolbar/eventListeners');
+const CellCommon = require('./cell/common');
+const DraggableDiv = require('./draggableDiv');
+const Common = require('./common');
+
 // common code
 const getCell = (e) => {
 
@@ -21,19 +29,19 @@ window.addEventListener('mouseover', (e) => window_Mouseover(e));
 const window_Input = (e) => {
 
     const cell = getCell(e);
-    return cell ? cellInput(cell) : '';
+    return cell ? CellHandlers.cellInput(cell) : '';
 }
 
 const window_Mousedown = (e) => {
 
     const cell = getCell(e);
-    return cell ? cellMousedown(cell) : '';
+    return cell ? CellListeners.cellMousedown(cell) : '';
 }
 
 const window_Mouseover = (e) => {
 
     const cell = getCell(e);
-    return cell ? cellMouseover(cell) : '';   
+    return cell ? CellListeners.cellMouseover(cell) : '';   
 }
 
 const window_Mousemove = (e) => {
@@ -81,16 +89,16 @@ const window_Keyup = (e) => {
 const handleCommandActiveKeydown = (e) => {
 
     if (e.key === 'c') {
-        cutCopyButton_Click('copy');
+        ToolbarListeners.cutCopyButton_Click('copy');
         return;
     }
     else if (e.key === 'x') {
-        cutCopyButton_Click('cut');
+        ToolbarListeners.cutCopyButton_Click('cut');
         return;
     }
     else if (e.key === 'v') {
         e.preventDefault();
-        pasteButton_Click();
+        ToolbarListeners.pasteButton_Click();
         return;
     }
     return;
@@ -99,8 +107,8 @@ const handleCommandActiveKeydown = (e) => {
 
 const handleResizeRowColumn = (e, type) => {
 
-    hideDraggableDiv();
-    deactivateAllCells();
+    DraggableDiv.hideDraggableDiv();
+    CellCommon.deactivateAllCells();
 
     let marker;
     let mousePosition;
@@ -129,17 +137,17 @@ const handleResizeRowColumn = (e, type) => {
     const i = headerArray.indexOf(marker);
     const headerToMove = headerArray[i - 1];
 
-    const position = headerArray.slice(0, i).reduce((a, b) => a += translatePxToNum(b.div.style[prop]), heightOffset)
+    const position = headerArray.slice(0, i).reduce((a, b) => a += Common.translatePxToNum(b.div.style[prop]), heightOffset)
     const movement = mousePosition - position;
 
-    if (type === 'column' && translatePxToNum(headerToMove.div.style[prop]) <= 50 && movement < 0) return;
-    if (type === 'row' && translatePxToNum(headerToMove.div.style[prop]) <= 25 && movement < 0) return;
+    if (type === 'column' && Common.translatePxToNum(headerToMove.div.style[prop]) <= 50 && movement < 0) return;
+    if (type === 'row' && Common.translatePxToNum(headerToMove.div.style[prop]) <= 25 && movement < 0) return;
 
-    updateHeightWidth(headerToMove.div, movement, prop);
-    updateHeightWidth(_spreadsheetContainer, movement, prop)
+    Common.updateHeightWidth(headerToMove.div, movement, prop);
+    Common.updateHeightWidth(_spreadsheetContainer, movement, prop)
 
     const cells = _state.allCells.filter((c) => c[type] === marker[type] - 1);
-    cells.forEach((c) => updateHeightWidth(c.div, movement, prop))
+    cells.forEach((c) => Common.updateHeightWidth(c.div, movement, prop))
     return;
 }
 
@@ -166,6 +174,6 @@ const handleNavigateCells = (e) => {
     }
 
     const newElement = _state.allCells.find((cell) => cell.row === row && cell.column === column);
-    newSelectedCell(newElement);
+    CellCommon.newSelectedCell(newElement);
     newElement.input.focus();
 }

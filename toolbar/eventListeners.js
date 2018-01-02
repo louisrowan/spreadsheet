@@ -1,5 +1,9 @@
 'use strict';
 
+const _state = require('../state')._state;
+const CellCommon = require('../cell/common');
+const ToolbarHandlers = require('./eventHandlers');
+
 function eraseButton_Click () {
 
     _state.activeCells.forEach((cell) => cell.input.value = '');
@@ -17,11 +21,11 @@ function cssButton_Click (atts) {
 
 function cutCopyButton_Click (type) {
 
-    sortCellsByPosition(_state.activeCells);
+    CellCommon.sortCellsByPosition(_state.activeCells);
     _state.cutCopy.type = type;
     _state.cutCopy.cells = _state.activeCells.map((c) => {
 
-        const copied = copyCell(c);
+        const copied = CellCommon.copyCell(c);
         copied.row = c.row;
         copied.column = c.column
         return copied;
@@ -30,7 +34,7 @@ function cutCopyButton_Click (type) {
 
 function pasteButton_Click () {
 
-    handlePaste();
+    ToolbarHandlers.handlePaste();
 }
 
 function sumButton_Click () {
@@ -70,4 +74,12 @@ function sumButton_Click () {
         });
         cellToSum.input.value = sum;
     })
+}
+
+module.exports = {
+    eraseButton_Click,
+    cssButton_Click,
+    cutCopyButton_Click,
+    pasteButton_Click,
+    sumButton_Click
 }

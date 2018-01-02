@@ -1,5 +1,9 @@
 'use strict';
 
+const Styles = require('./styles');
+const _state = require('../state')._state;
+const Common = require('../common');
+
 function Cell (row, column) {
 
     // create elements
@@ -14,8 +18,8 @@ function Cell (row, column) {
     this.active = false;
 
     // add styles
-    cellStyle(this.div);
-    inputStyle(this.input);
+    Styles.cellStyle(this.div);
+    Styles.inputStyle(this.input);
 
     // connect elements and add cell to allCells array
     this.div.appendChild(this.input);
@@ -49,16 +53,16 @@ function ColumnHeader (column) {
 
         return _state.columnHeaders.slice(0, column + 1).reduce((a, b) => {
 
-            return a += translatePxToNum(b.div.style.width);
+            return a += Common.translatePxToNum(b.div.style.width);
         }, 0)
     }
 
     // add styles
-    cellStyle(this.div);
-    headerCellStyle(this.div);
+    Styles.cellStyle(this.div);
+    Styles.headerCellStyle(this.div);
     this.span.style.height = this.div.style.height;
-    columnHeaderSpanStyle(this.span);
-    columnHeaderTextStyle(this.textElement);
+    Styles.columnHeaderSpanStyle(this.span);
+    Styles.columnHeaderTextStyle(this.textElement);
 
     // event listeners
     this.span.addEventListener('mousedown', (e) => _state.colDrag = this);
@@ -108,16 +112,16 @@ function RowHeader (row) {
 
         return _state.rowHeaders.slice(0, row).reduce((a, b) => {
 
-            return a += translatePxToNum(b.div.style.height);
+            return a += Common.translatePxToNum(b.div.style.height);
         }, 100 + CELL_HEIGHT)
     }
     this.textElement.innerText = row + 1 > 0 ? row + 1 : '';
 
     // add styles
-    cellStyle(this.div);
-    headerCellStyle(this.div);
-    columnHeaderTextStyle(this.textElement);
-    rowHeaderSpanStyle(this.span, this.div);
+    Styles.cellStyle(this.div);
+    Styles.headerCellStyle(this.div);
+    Styles.columnHeaderTextStyle(this.textElement);
+    Styles.rowHeaderSpanStyle(this.span, this.div);
 
     // event listeners
     this.span.addEventListener('mousedown', (e) => _state.rowDrag = this);
@@ -137,4 +141,11 @@ function SpreadsheetContainer () {
     this.div.style.width = `${CELL_WIDTH * (COL_COUNT + 1)}px`;
 
     return this.div;
+}
+
+module.exports = {
+    Cell,
+    ColumnHeader,
+    RowHeader,
+    SpreadsheetContainer
 }

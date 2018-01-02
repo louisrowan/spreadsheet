@@ -1,13 +1,19 @@
 'use strict';
 
+const _state = require('../state')._state;
+const Styles = require('./styles');
+const CellCommon = require('./common');
+
 const handleDrag = (cell) => {
 
     const draggableDiv = _state.draggableDiv;
     const start = _state.startCellRect;
-    inputStyle(start.input);
+    Styles.inputStyle(start.input);
 
-    const endBounding = getCellBounding(cell);
-    const startBounding = getCellBounding(start);
+    console.log('common?', CellCommon);
+
+    const endBounding = CellCommon.getCellBounding(cell);
+    const startBounding = CellCommon.getCellBounding(start);
     _state.endCellRect = cell;
 
     const left = Math.min(startBounding.x, endBounding.x);
@@ -34,7 +40,7 @@ const handleDrag = (cell) => {
 
         if (cell.copied) { return };
 
-        if (isSameCell(cell, start)) {
+        if (CellCommon.isSameCell(cell, start)) {
             cell.input.style.background = 'white';
         }
         else if(topRow <= cell.row &&
@@ -42,10 +48,10 @@ const handleDrag = (cell) => {
             botRow >= cell.row &&
             rightCol >= cell.column)
         {
-            addToActiveCells(cell);
+            CellCommon.addToActiveCells(cell);
             cell.input.style.background = 'lightgray';
         } else if (cell.active) {
-            removeFromActiveCells(cell);
+            CellCommon.removeFromActiveCells(cell);
             cell.input.style.background = 'white';
         }
     });
@@ -78,4 +84,22 @@ const handleFuncCellOutput = (cell) => {
         }
     })
     return;
+}
+
+function cellInput (cell) {
+
+    if (_state.funcCellOutput[cell.id]) {
+        CellHandlers.handleFuncCellOutput(cell);
+    }
+    if (_state.funcCellInput[cell.id]) {
+        CellHandlers.handleFuncCellInput(cell);
+    }
+    return;
+}
+
+module.exports = {
+    handleDrag,
+    handleFuncCellInput,
+    handleFuncCellOutput,
+    cellInput
 }

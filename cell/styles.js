@@ -82,3 +82,12 @@ function columnHeaderTextStyle (element, height) {
     style['paddingTop'] = (CELL_HEIGHT/3) + 'px';
     return;
 }
+
+module.exports = {
+    cellStyle,
+    inputStyle,
+    headerCellStyle,
+    columnHeaderSpanStyle,
+    rowHeaderSpanStyle,
+    columnHeaderTextStyle
+}

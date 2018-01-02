@@ -1,11 +1,15 @@
 'use strict';
 
+const _state = require('../state')._state;
+const CellCommon = require('../cell/common');
+const ToolbarCommon = require('./common');
+
 function handlePaste () {
 
     // sort copied cells, find top-right from active cells
-    _state.cutCopy.cells = sortCellsByPosition(_state.cutCopy.cells);
-    const startCell = sortCellsByPosition(_state.activeCells)[0];
-    const cols = getColumnCount(_state.cutCopy.cells)
+    _state.cutCopy.cells = CellCommon.sortCellsByPosition(_state.cutCopy.cells);
+    const startCell = CellCommon.sortCellsByPosition(_state.activeCells)[0];
+    const cols = ToolbarCommon.getColumnCount(_state.cutCopy.cells)
 
     // reset active cells to empty, find first cell to being copying to from allCells array and its index in the array
     _state.activeCells = [];
@@ -34,7 +38,7 @@ function handlePaste () {
     _state.activeCells.forEach((cell, index) => {
 
         cell.input.value = _state.cutCopy.cells[index].input.value;
-        cellInput(cell);
+        CellCommon.cellInput(cell);
         if (_state.cutCopy.type === 'cut') {
             handleCut(_state.activeCells, _state.cutCopy.cells[index]);
         }
@@ -43,9 +47,13 @@ function handlePaste () {
 
 function handleCut (pastedCells, cutCell) {
 
-    const found = pastedCells.find((p) => isSameCell(p, cutCell));
+    const found = pastedCells.find((p) => CellCommon.isSameCell(p, cutCell));
     if (!found) {
-        const originalCutCell = _state.allCells.find((c) => isSameCell(c, cutCell));
-        clearCell(originalCutCell);
+        const originalCutCell = _state.allCells.find((c) => CellCommon.isSameCell(c, cutCell));
+        CellCommon.clearCell(originalCutCell);
     } 
+}
+
+module.exports = {
+    handlePaste
 }

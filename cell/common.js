@@ -1,5 +1,11 @@
 'use strict';
 
+const _state = require('../state')._state;
+const Common = require('../common');
+const CellElement = require('./elements');
+const CellHandlers = require('./eventHandlers');
+const Styles = require('./styles');
+
 function newSelectedCell(cell) {
 
     deactivateAllCells();
@@ -23,7 +29,7 @@ function newSelectedCell(cell) {
 
 function copyCell (cell) {
 
-    const newCell = new Cell();
+    const newCell = new CellElement.Cell();
     newCell.input.value = cell.input.value;
     newCell.copied = true;
 
@@ -46,8 +52,8 @@ function isSameCell (cell1, cell2) {
 function clearCell (cell) {
 
     cell.input.value = '';
-    inputStyle(cell.input);
-    cellInput(cell);
+    Styles.inputStyle(cell.input);
+    CellHandlers.cellInput(cell);
 }
 
 function getCellBounding (cell) {
@@ -58,8 +64,8 @@ function getCellBounding (cell) {
     return {
         x: column.position(),
         y: row.position(),
-        width: translatePxToNum(cell.div.style.width),
-        height: translatePxToNum(cell.div.style.height)
+        width: Common.translatePxToNum(cell.div.style.width),
+        height: Common.translatePxToNum(cell.div.style.height)
     }
 }
 
@@ -90,3 +96,14 @@ function deactivateAllCells() {
     return;
 }
 
+module.exports = {
+    newSelectedCell,
+    copyCell,
+    sortCellsByPosition,
+    isSameCell,
+    clearCell,
+    getCellBounding,
+    addToActiveCells,
+    removeFromActiveCells,
+    deactivateAllCells
+}

@@ -7,6 +7,7 @@ new feature list:
 5. sort selected cells
 6. sum cells
 7. clicking a row or column header should make all of its cells active and paint the draggable div around them
+8. try using webpack
 
 _______________________
 

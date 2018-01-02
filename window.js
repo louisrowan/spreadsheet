@@ -2,7 +2,6 @@
 
 const _state = require('./state')._state;
 const CellListeners = require('./cell/eventListeners');
-const CellHandlers = require('./cell/eventHandlers');
 const ToolbarListeners = require('./toolbar/eventListeners');
 const CellCommon = require('./cell/common');
 const DraggableDiv = require('./draggableDiv');
@@ -29,7 +28,7 @@ window.addEventListener('mouseover', (e) => window_Mouseover(e));
 const window_Input = (e) => {
 
     const cell = getCell(e);
-    return cell ? CellHandlers.cellInput(cell) : '';
+    return cell ? CellListeners.cellInput(cell) : '';
 }
 
 const window_Mousedown = (e) => {

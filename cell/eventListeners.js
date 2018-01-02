@@ -19,7 +19,19 @@ function cellMouseover (cell) {
     return;
 }
 
+function cellInput (cell) {
+
+    if (_state.funcCellOutput[cell.id]) {
+        CellHandlers.handleFuncCellOutput(cell);
+    }
+    if (_state.funcCellInput[cell.id]) {
+        CellHandlers.handleFuncCellInput(cell);
+    }
+    return;
+}
+
 module.exports = {
     cellMousedown,
-    cellMouseover
+    cellMouseover,
+    cellInput
 }

@@ -3,7 +3,6 @@
 const _state = require('../state')._state;
 const Common = require('../common');
 const CellElement = require('./elements');
-const CellHandlers = require('./eventHandlers');
 const Styles = require('./styles');
 
 function newSelectedCell(cell) {
@@ -51,9 +50,11 @@ function isSameCell (cell1, cell2) {
 
 function clearCell (cell) {
 
+    const CellListeners = require('./eventListeners');
+
     cell.input.value = '';
     Styles.inputStyle(cell.input);
-    CellHandlers.cellInput(cell);
+    CellListeners.cellInput(cell);
 }
 
 function getCellBounding (cell) {

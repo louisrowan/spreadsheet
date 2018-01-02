@@ -10,8 +10,6 @@ const handleDrag = (cell) => {
     const start = _state.startCellRect;
     Styles.inputStyle(start.input);
 
-    console.log('common?', CellCommon);
-
     const endBounding = CellCommon.getCellBounding(cell);
     const startBounding = CellCommon.getCellBounding(start);
     _state.endCellRect = cell;
@@ -86,20 +84,8 @@ const handleFuncCellOutput = (cell) => {
     return;
 }
 
-function cellInput (cell) {
-
-    if (_state.funcCellOutput[cell.id]) {
-        CellHandlers.handleFuncCellOutput(cell);
-    }
-    if (_state.funcCellInput[cell.id]) {
-        CellHandlers.handleFuncCellInput(cell);
-    }
-    return;
-}
-
 module.exports = {
     handleDrag,
     handleFuncCellInput,
-    handleFuncCellOutput,
-    cellInput
+    handleFuncCellOutput
 }

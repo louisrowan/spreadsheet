@@ -2,6 +2,7 @@
 
 const _state = require('../state')._state;
 const CellCommon = require('../cell/common');
+const CellListeners = require('../cell/eventListeners');
 const ToolbarCommon = require('./common');
 
 function handlePaste () {
@@ -38,7 +39,7 @@ function handlePaste () {
     _state.activeCells.forEach((cell, index) => {
 
         cell.input.value = _state.cutCopy.cells[index].input.value;
-        CellCommon.cellInput(cell);
+        CellListeners.cellInput(cell);
         if (_state.cutCopy.type === 'cut') {
             handleCut(_state.activeCells, _state.cutCopy.cells[index]);
         }

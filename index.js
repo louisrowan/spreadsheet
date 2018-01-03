@@ -38,7 +38,7 @@ for (let i = -1; i < COL_COUNT; ++i) {
 }
 
 // timeout to paint screen and then add cells
-setTimeout(() => {
+process.nextTick(() => {
     for (let i = 0; i < ROW_COUNT; ++i) {
 
         const _row = new CellElement.RowHeader(i);
@@ -51,7 +51,7 @@ setTimeout(() => {
             _spreadsheetContainer.appendChild(_cell.div);
         }
     }
-}, 0);
+});
 
 main.appendChild(new DraggableDiv());
 require('./window');

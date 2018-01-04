@@ -3,6 +3,9 @@
 const Styles = require('./styles');
 const _state = require('../state')._state;
 const Common = require('../common');
+const CELL_HEIGHT = require('../constants').CELL_HEIGHT;
+const CELL_WIDTH = require('../constants').CELL_WIDTH;
+const COL_COUNT = require('../constants').COL_COUNT;
 
 function Cell (row, column) {
 

@@ -1,5 +1,7 @@
 'use strict';
 
+const COL_COUNT = require('./constants').COL_COUNT;
+const ROW_COUNT = require('./constants').ROW_COUNT;
 const LoggerObject = require('./logger.js');
 const ToolbarElement = require('./toolbar/elements');
 const CellElement = require('./cell/elements');
@@ -9,10 +11,7 @@ const DraggableDiv = require('./draggableDiv').DraggableDiv;
 const Logger = new LoggerObject();
 const main = document.getElementById('main');
 
-window.ROW_COUNT = 10;
-window.COL_COUNT = 10;
-window.CELL_WIDTH = 80;
-window.CELL_HEIGHT = 40;
+
 
 const body = document.body;
 body.style.padding = '0px';
@@ -54,4 +53,6 @@ process.nextTick(() => {
 });
 
 main.appendChild(new DraggableDiv());
-require('./window');
+require('./window/eventListeners');
+
+

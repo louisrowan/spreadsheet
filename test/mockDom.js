@@ -10,6 +10,9 @@ function Element (e) {
     this.setAttribute = (att, value) => {
 
         this.att = value;
+        if (att === 'id') {
+            global[value] = this;
+        }
     }
     this.addEventListener = () => {};
     this.style = {};
@@ -17,12 +20,24 @@ function Element (e) {
 
 // const startServer = (done) => {
 
-//     global.document = {
-//         createElement: (e) => {
+    global.document = {
+        body: {
+            style: {}
+        },
+        createElement: (e) => {
 
-//             return new Element(e)
-//         }
-//     }
+            return new Element(e)
+        },
+        getElementById: (id) => global[id]
+    }
+
+    global.window = {
+        addEventListener: () => {}
+    };
+
+    global.main = new Element();
+
+
 
 //     global.ROW_COUNT = 5;
 //     global.COL_COUNT = 5;
@@ -50,14 +65,11 @@ function Element (e) {
 //     return done(main);
 // }
 
-const ChildProcess = require('child_process');
 
 const startServer = (done) => {
 
-    console.log('hi');
-    const main = ChildProcess.spawn('node', ['index.js']);
-    // console.log('groc?', grocery);
-    return done(main)
+
+    return done(require('../index'));
 
 
 }

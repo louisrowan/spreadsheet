@@ -1,6 +1,5 @@
 'use strict';
 
-const jasmine = require('jasmine');
 const mockDom = require('./mockDom.js');
 
 describe('App', () => {
@@ -8,6 +7,8 @@ describe('App', () => {
     it('Starts server and renders content', () => {
 
         mockDom.startServer((app) => {
+
+            console.log(global);
 
             // console.log('app?', app);
 
@@ -27,7 +28,6 @@ describe('App', () => {
             cellMousedown(randCell, null);
             expect(_state.activeCells.length).toBe(1);
             const activeCell = _state.activeCells[0];
-            console.log('active', activeCell);
             expect(randCell.row).toBe(activeCell.row);
             expect(randCell.column).toBe(activeCell.column);
             expect(randCell.id).toBe(activeCell.id);

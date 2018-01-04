@@ -1,5 +1,6 @@
 'use strict';
 
+const COL_COUNT = require('../constants').COL_COUNT;
 const _state = require('../state')._state;
 const CellCommon = require('../cell/common');
 const CellListeners = require('../cell/eventListeners');

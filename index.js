@@ -1,17 +1,15 @@
 'use strict';
 
-const COL_COUNT = require('./constants').COL_COUNT;
-const ROW_COUNT = require('./constants').ROW_COUNT;
+const { COL_COUNT, ROW_COUNT } = require('./constants');
 const LoggerObject = require('./logger.js');
 const ToolbarElement = require('./toolbar/elements');
 const CellElement = require('./cell/elements');
-const _state = require('./state')._state;
+const { $state, $setState } = require('./state')
 const DraggableDiv = require('./draggableDiv').DraggableDiv;
+
 
 const Logger = new LoggerObject();
 const main = document.getElementById('main');
-
-
 
 const body = document.body;
 body.style.padding = '0px';
@@ -33,7 +31,9 @@ for (let i = -1; i < COL_COUNT; ++i) {
 
     const _header = new CellElement.ColumnHeader(i);
     _spreadsheetContainer.appendChild(_header.div);
-    _state.columnHeaders.push(_header);
+    $setState({
+        columnHeaders: $state().columnHeaders.concat(_header)
+    });
 }
 
 // timeout to paint screen and then add cells
@@ -42,7 +42,9 @@ process.nextTick(() => {
 
         const _row = new CellElement.RowHeader(i);
         _spreadsheetContainer.appendChild(_row.div);
-        _state.rowHeaders.push(_row);
+        $setState({
+            rowHeaders: $state().rowHeaders.concat(_row)
+        });
 
         for (let j = 0; j < COL_COUNT; ++j) {
 

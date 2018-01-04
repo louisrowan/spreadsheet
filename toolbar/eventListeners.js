@@ -1,12 +1,23 @@
 'use strict';
 
 const _state = require('../state')._state;
+const { $cell, $setCell, $state } = require('../state');
 const CellCommon = require('../cell/common');
 const ToolbarHandlers = require('./eventHandlers');
 
 function eraseButton_Click () {
 
-    _state.activeCells.forEach((cell) => cell.input.value = '');
+    // _state.activeCells.forEach((cell) => cell.input.value = '');
+
+    $state().activeCells.forEach((cell) => {
+
+        console.log('update cell');
+        const c = $cell(cell.id);
+        // cell.input.value = '';
+        $setCell({
+            c: cell
+        });
+    })
 }
 
 function cssButton_Click (atts) {

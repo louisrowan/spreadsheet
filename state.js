@@ -25,6 +25,7 @@ const $state = () => {
     return Object.assign({}, _state);
 }
 
+
 const $setState = (args) => {
 
     if (typeof args !== 'object') {
@@ -46,7 +47,39 @@ const $setState = (args) => {
     return _state;
 }
 
+const $cell = (id) => {
+
+    const copyCell = require('./cell/common').copyCell;
+
+    return copyCell(_state.allCells.find((c) => c.id === id)) || console.warn('cell', id, 'not found');
+}
+
+const $setCell = (args) => {
+
+    if (typeof args !== 'object') {
+        console.warn('bad input for set cell', args)
+    }
+
+    Object.keys(args).forEach((cell) => {
+
+        console.log(cell);
+
+        const oldCell = _state.allCells.find((c) => c.id === cell.id);
+        if (!oldCell) {
+            console.warn('bad set cell request for', cell);
+            return
+        }
+
+        const newCell = args[cell];
+        oldCell = newCell;
+    })
+
+    return;
+}
+
 module.exports = {
+    $cell,
+    $setCell,
     $state,
     $setState,
     _state

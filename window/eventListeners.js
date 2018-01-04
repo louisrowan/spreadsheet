@@ -3,7 +3,8 @@
 const CellListeners = require('../cell/eventListeners');
 const WindowCommon = require('./common');
 const WindowHandlers = require('./eventHandlers');
-const _state = require('../state')._state;
+const $state = require('../state').$state;
+const $setState = require('../state').$setState;
 
 window.addEventListener('mouseup', (e) => windowMouseup());
 window.addEventListener('keydown', (e) => windowKeydown(e));
@@ -33,19 +34,21 @@ const windowMouseover = (e) => {
 
 const windowMousemove = (e) => {
 
-    if (_state.colDrag) {
+    if ($state().colDrag) {
         WindowHandlers.handleResizeRowColumn(e, 'column');
     }
-    else if (_state.rowDrag) {
+    else if ($state().rowDrag) {
         WindowHandlers.handleResizeRowColumn(e, 'row');
     }
 };
 
 const windowMouseup = () => {
 
-    _state.mousedown = false;
-    _state.colDrag = false;
-    _state.rowDrag = false;
+    $setState({
+        mousedown: false,
+        colDrag: false,
+        rowDrag: false
+    });
 }
 
 const windowKeydown = (e) => {
@@ -58,10 +61,13 @@ const windowKeydown = (e) => {
     }
 
     if (e.key === 'Meta') {
-        return _state.commandActive = true;
+        $setState({
+            commandActive: true
+        });
+        return;
     }
 
-    if (_state.commandActive) {
+    if ($state().commandActive) {
         return WindowHandlers.handleCommandActiveKeydown(e);
     }
 }
@@ -69,6 +75,8 @@ const windowKeydown = (e) => {
 const windowKeyup = (e) => {
 
     if (e.key === 'Meta') {
-        _state.commandActive = false;
+        $setState({
+            commandActive: false
+        });
     } 
 }

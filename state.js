@@ -4,6 +4,8 @@ const _state = {
     allCells: [], // array of cell objects containing all cells in spreadsheet
     activeCells: [], // array of cell objects containing 'active' cells
     mousedown: false, // boolean to determine when mouseover is a drag event
+    colDrag: false,
+    rowDrag: false,
     draggableDiv: {}, // htmlElement that is used to show multi-selection and drag events
     startCellRect: {}, // cell at start of draggableDiv
     endCellRect: {}, // cell at end of draggableDiv
@@ -18,23 +20,34 @@ const _state = {
     funcCellInput: {} // obj containing cells by id with array of funcCellOutput linked
 };
 
-// const _getState = (key) => {
+const $state = () => {
 
-//     const newState = Object.assign({}, { [key]: _state[key]});
-//     return newState[key]
-// }
+    return Object.assign({}, _state);
+}
 
-// const _setState = (key, newValue) => {
+const $setState = (args) => {
 
-//     console.log('in set state', _state[key]);
-//     console.log('key', key);
+    if (typeof args !== 'object') {
+        console.warn('bad input for set state', args)
+    }
 
-//     _state[key] = newValue;
+    Object.keys(args).forEach((key) => {
 
-//     console.log('and now', _state[key]);
-//     return;
-// }
+        const oldState = _state[key];
+        if (!oldState && oldState != false) {
+            console.warn('bad request for', key, _state, _state[key])
+            return;
+        }
+
+        const newState = args[key];
+        _state[key] = newState;
+    })
+
+    return _state;
+}
 
 module.exports = {
+    $state,
+    $setState,
     _state
 }

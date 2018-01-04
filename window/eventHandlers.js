@@ -5,8 +5,10 @@ const ROW_COUNT = require('../constants').ROW_COUNT;
 const COL_COUNT = require('../constants').COL_COUNT;
 const CellCommon = require('../cell/common');
 const ToolbarListeners = require('../toolbar/eventListeners');
+const Common = require('../common');
 const DraggableDiv = require('../draggableDiv');
-const _state = require('../state')._state;
+const $state = require('../state').$state;
+const $setState = require('../state').$setState;
 
 const handleCommandActiveKeydown = (e) => {
 
@@ -38,16 +40,16 @@ const handleResizeRowColumn = (e, type) => {
     let prop;
     let heightOffset;
     if (type === 'row') {
-        marker = _state.rowDrag;
+        marker = $state().rowDrag;
         mousePosition = e.clientY;
-        headerArray = _state.rowHeaders;
+        headerArray = $state().rowHeaders;
         prop = 'height';
         heightOffset = 100 + CELL_HEIGHT;
     }
     else if (type === 'column') {
-        marker = _state.colDrag;
+        marker = $state().colDrag;
         mousePosition = e.clientX;
-        headerArray = _state.columnHeaders;
+        headerArray = $state().columnHeaders;
         prop = 'width';
         heightOffset = 0;
     }
@@ -68,14 +70,14 @@ const handleResizeRowColumn = (e, type) => {
     Common.updateHeightWidth(headerToMove.div, movement, prop);
     Common.updateHeightWidth(document.getElementById('spreadsheet-div'), movement, prop)
 
-    const cells = _state.allCells.filter((c) => c[type] === marker[type] - 1);
+    const cells = $state().allCells.filter((c) => c[type] === marker[type] - 1);
     cells.forEach((c) => Common.updateHeightWidth(c.div, movement, prop))
     return;
 }
 
 const handleNavigateCells = (e) => {
 
-    const activeElement = _state.allCells.find((cell) => 'cell-' + cell.id === document.activeElement.id);
+    const activeElement = $state().allCells.find((cell) => 'cell-' + cell.id === document.activeElement.id);
     if (!activeElement) { return };
     let row = activeElement.row;
     let column = activeElement.column;
@@ -95,7 +97,7 @@ const handleNavigateCells = (e) => {
             break;
     }
 
-    const newElement = _state.allCells.find((cell) => cell.row === row && cell.column === column);
+    const newElement = $state().allCells.find((cell) => cell.row === row && cell.column === column);
     CellCommon.newSelectedCell(newElement);
     newElement.input.focus();
 }

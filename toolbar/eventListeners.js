@@ -7,7 +7,7 @@ const ToolbarHandlers = require('./eventHandlers');
 
 function eraseButton_Click () {
 
-    _state.activeCells.forEach((cell) => cell.input.value = '');
+    _state.activeCells.forEach((id) => _state.allCells[id].input.value = '');
 
     // $state().activeCells.forEach((cell) => {
 
@@ -22,7 +22,9 @@ function eraseButton_Click () {
 
 function cssButton_Click (atts) {
 
-    _state.activeCells.forEach((cell) => {
+    _state.activeCells.forEach((id) => {
+
+        const cell = _state.allCells[id];
 
         // toggle property
         let style = cell.input.style;
@@ -55,8 +57,10 @@ function sumButton_Click () {
     }
 
     const cellsByCol = {};
-    let finalRow = _state.activeCells[0].row;
-    _state.activeCells.forEach((cell) => {
+    let finalRow = _state.allCells[_state.activeCells[0]].row;
+    _state.activeCells.forEach((id) => {
+
+        const cell = _state.allCells[id]
 
         finalRow = cell.row > finalRow ? cell.row : finalRow;
 

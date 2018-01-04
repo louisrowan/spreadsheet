@@ -1,11 +1,11 @@
 'use strict';
 
 const _state = {
-    allCells: {}, // array of cell objects containing all cells in spreadsheet
-    activeCells: [], // array of cell objects containing 'active' cells
+    allCells: {}, // object containing all cells.  key: id, value: cell
+    activeCells: [], // array of cell object id's that are currently 'active'
     mousedown: false, // boolean to determine when mouseover is a drag event
-    colDrag: false,
-    rowDrag: false,
+    colDrag: false, // boolean to determine if column width drag is active
+    rowDrag: false, // boolean to determine if row height drag is active
     draggableDiv: {}, // htmlElement that is used to show multi-selection and drag events
     startCellRect: {}, // cell at start of draggableDiv
     endCellRect: {}, // cell at end of draggableDiv

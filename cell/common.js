@@ -73,8 +73,8 @@ function getCellBounding (cell) {
 
 function addToActiveCells (cell) {
 
-    if (!_state.activeCells.find((active) => active.id === cell.id)) {
-        _state.activeCells.push(cell);
+    if (!_state.activeCells.find((active) => active === cell.id)) {
+        _state.activeCells.push(cell.id);
         cell.active = true;
     }
     return;
@@ -82,7 +82,7 @@ function addToActiveCells (cell) {
 
 function removeFromActiveCells(cell) {
 
-    const index = _state.activeCells.indexOf(cell);
+    const index = _state.activeCells.indexOf(cell.id);
     if (index > -1) {
         _state.activeCells.splice(index, 1);
         cell.input.style.border = '1px solid rgb(238, 238, 238)';

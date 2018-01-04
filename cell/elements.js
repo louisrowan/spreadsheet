@@ -26,7 +26,7 @@ function Cell (row, column) {
 
     // connect elements and add cell to allCells array
     this.div.appendChild(this.input);
-    _state.allCells.push(this);
+    // _state.allCells.push(this);
     return this;
 }
 

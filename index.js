@@ -4,7 +4,7 @@ const { COL_COUNT, ROW_COUNT } = require('./constants');
 const LoggerObject = require('./logger.js');
 const ToolbarElement = require('./toolbar/elements');
 const CellElement = require('./cell/elements');
-const { $state, $setState } = require('./state')
+const { $state, $setState, _state } = require('./state')
 const DraggableDiv = require('./draggableDiv').DraggableDiv;
 
 
@@ -50,6 +50,7 @@ process.nextTick(() => {
 
             const _cell = new CellElement.Cell(i, j);
             _spreadsheetContainer.appendChild(_cell.div);
+            _state.allCells.push(_cell);
         }
     }
 });

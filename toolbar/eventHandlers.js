@@ -37,7 +37,10 @@ function handlePaste () {
     }
 
     // Loop through these active cells and copy value from copied array
+    console.log('cut copy', _state.activeCells);
     _state.activeCells.forEach((cell, index) => {
+
+        // console.log('cell?', cell);
 
         cell.input.value = _state.cutCopy.cells[index].input.value;
         CellListeners.cellInput(cell);

@@ -29,6 +29,7 @@ function newSelectedCell(cell) {
 function copyCell (cell) {
 
     const newCell = new CellElement.Cell();
+    newCell.input.style = Object.assign({}, cell.input.style);
     newCell.input.value = cell.input.value;
     newCell.copied = true;
 

@@ -1,7 +1,7 @@
 'use strict';
 
 const _state = {
-    allCells: [], // array of cell objects containing all cells in spreadsheet
+    allCells: {}, // array of cell objects containing all cells in spreadsheet
     activeCells: [], // array of cell objects containing 'active' cells
     mousedown: false, // boolean to determine when mouseover is a drag event
     colDrag: false,
@@ -51,7 +51,7 @@ const $cell = (id) => {
 
     const copyCell = require('./cell/common').copyCell;
 
-    return copyCell(_state.allCells.find((c) => c.id === id)) || console.warn('cell', id, 'not found');
+    return copyCell(_state.allCells[id]) || console.warn('cell', id, 'not found');
 }
 
 const $setCell = (args) => {
@@ -64,7 +64,7 @@ const $setCell = (args) => {
 
         console.log(cell);
 
-        const oldCell = _state.allCells.find((c) => c.id === cell.id);
+        const oldCell = _state.allCells[cell.id];
         if (!oldCell) {
             console.warn('bad set cell request for', cell);
             return

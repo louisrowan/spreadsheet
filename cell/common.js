@@ -94,7 +94,7 @@ function removeFromActiveCells(cell) {
 
 function deactivateAllCells() {
 
-    _state.allCells.forEach((cell) => removeFromActiveCells(cell));
+    Object.keys(_state.allCells).forEach((cell) => removeFromActiveCells(_state.allCells[cell]));
     return;
 }
 

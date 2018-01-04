@@ -34,7 +34,9 @@ const handleDrag = (cell) => {
     const topRow = Math.min(start.row, cell.row);
     const botRow = Math.max(start.row, cell.row);
 
-    _state.allCells.forEach((cell) => {
+    Object.keys(_state.allCells).forEach((cell) => {
+
+        cell = _state.allCells[cell];
 
         if (cell.copied) { return };
 
@@ -60,10 +62,10 @@ const handleFuncCellInput = (cell) => {
 
     _state.funcCellInput[cell.id].forEach((inputCell) => {
 
-        const cellToUpdate = _state.allCells.find((c) => c.id === inputCell);
+        const cellToUpdate = _state.allCells[inputCell]
         cellToUpdate.input.value = _state.funcCellOutput[inputCell].reduce((a, b) => {
 
-            const cellToSum = _state.allCells.find((_c) => _c.id === b);
+            const cellToSum = _state.allCells[b];
             if (isNaN(+cellToSum.input.value)) {
                 return a;
             }

@@ -75,7 +75,8 @@ function sumButton_Click () {
 
         const sum = cellsByCol[i].reduce((a, b) => a += +b.val, 0);
         const column = cellsByCol[i][0].column;
-        const cellToSum = _state.allCells.find((c) => c.row === finalRow + 1 && c.column === column);
+        const cellToSum = _state.allCells[`r${finalRow + 1}.c${column}`]
+        // const cellToSum = _state.allCells.find((c) => c.row === finalRow + 1 && c.column === column);
 
         _state.funcCellOutput[cellToSum.id] = cellsByCol[i].map((i) => i.id);
 

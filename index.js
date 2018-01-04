@@ -50,7 +50,7 @@ process.nextTick(() => {
 
             const _cell = new CellElement.Cell(i, j);
             _spreadsheetContainer.appendChild(_cell.div);
-            _state.allCells.push(_cell);
+            _state.allCells[_cell.id] = _cell;
         }
     }
 });

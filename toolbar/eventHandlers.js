@@ -15,7 +15,7 @@ function handlePaste () {
 
     // reset active cells to empty, find first cell to being copying to from allCells array and its index in the array
     _state.activeCells = [];
-    const ac = _state.allCells.find((ac) => ac.id === startCell.id)
+    const ac = _state.allCells[startCell.id]
     const index = _state.allCells.indexOf(ac);
 
     // push cell from allCells to activeCells array, accounting for new rows
@@ -54,7 +54,7 @@ function handleCut (pastedCells, cutCell) {
 
     const found = pastedCells.find((p) => CellCommon.isSameCell(p, cutCell));
     if (!found) {
-        const originalCutCell = _state.allCells.find((c) => CellCommon.isSameCell(c, cutCell));
+        const originalCutCell = _state.allCells[cutCell.id];
         CellCommon.clearCell(originalCutCell);
     } 
 }

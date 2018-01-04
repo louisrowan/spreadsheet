@@ -70,14 +70,15 @@ const handleResizeRowColumn = (e, type) => {
     Common.updateHeightWidth(headerToMove.div, movement, prop);
     Common.updateHeightWidth(document.getElementById('spreadsheet-div'), movement, prop)
 
-    const cells = $state().allCells.filter((c) => c[type] === marker[type] - 1);
+    const cells = Object.keys($state().allCells).filter((c) => c[type] === marker[type] - 1);
     cells.forEach((c) => Common.updateHeightWidth(c.div, movement, prop))
     return;
 }
 
 const handleNavigateCells = (e) => {
 
-    const activeElement = $state().allCells.find((cell) => 'cell-' + cell.id === document.activeElement.id);
+    // const activeElement = $state().allCells.find((cell) => 'cell-' + cell.id === document.activeElement.id);
+    const activeElement = $state().allCells[document.activeElement.id.slice(5)];
     if (!activeElement) { return };
     let row = activeElement.row;
     let column = activeElement.column;
@@ -97,7 +98,7 @@ const handleNavigateCells = (e) => {
             break;
     }
 
-    const newElement = $state().allCells.find((cell) => cell.row === row && cell.column === column);
+    const newElement = $state().allCells[`r${row}.c${column}`]
     CellCommon.newSelectedCell(newElement);
     newElement.input.focus();
 }

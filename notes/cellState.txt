@@ -33,3 +33,12 @@ how to handle cells:
 
 2. _state.cutCopy.cells = [(array with ids)]
 3. _state.activeCells = [(array with ids)]
+
+
+
+------------
+things to be retrieved from state:
+1. first level value like 'colDrag'
+2. specific allCell
+3. loop through all allCells
+4. loop through array of cell Ids

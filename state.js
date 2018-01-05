@@ -20,9 +20,19 @@ const _state = {
     funcCellInput: {} // obj containing cells by id with array of funcCellOutput linked
 };
 
-const $state = () => {
+const $state = (path) => {
 
-    return Object.assign({}, _state);
+    if (!path) {
+        return _state;
+    }
+
+    path = path.split(':');
+    let current = _state;
+    for (let i = 0; i < path.length; ++i) {
+        current = current[path[i]];
+    }
+
+    return current;
 }
 
 
@@ -61,8 +71,6 @@ const $setCell = (args) => {
     }
 
     Object.keys(args).forEach((cell) => {
-
-        console.log(cell);
 
         const oldCell = _state.allCells[cell.id];
         if (!oldCell) {

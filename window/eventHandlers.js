@@ -7,16 +7,17 @@ const CellCommon = require('../cell/common');
 const ToolbarListeners = require('../toolbar/eventListeners');
 const Common = require('../common');
 const DraggableDiv = require('../draggableDiv');
-const $state = require('../state').$state;
-const $setState = require('../state').$setState;
+const { $state, $setState } = require('../state');
 
 const handleCommandActiveKeydown = (e) => {
 
     if (e.key === 'c') {
+        e.preventDefault();
         ToolbarListeners.cutCopyButton_Click('copy');
         return;
     }
     else if (e.key === 'x') {
+        e.preventDefault();
         ToolbarListeners.cutCopyButton_Click('cut');
         return;
     }
@@ -70,8 +71,12 @@ const handleResizeRowColumn = (e, type) => {
     Common.updateHeightWidth(headerToMove.div, movement, prop);
     Common.updateHeightWidth(document.getElementById('spreadsheet-div'), movement, prop)
 
-    const cells = Object.keys($state().allCells).filter((c) => c[type] === marker[type] - 1);
-    cells.forEach((c) => Common.updateHeightWidth(c.div, movement, prop))
+    const cells = Object.keys($state('allCells')).filter((c) => {
+
+        const cell = $state(`allCells:${c}`);
+        return cell[type] === marker[type] - 1;
+    });
+    cells.forEach((c) => Common.updateHeightWidth($state(`allCells:${c}:div`), movement, prop))
     return;
 }
 

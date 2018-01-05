@@ -34,10 +34,10 @@ const windowMouseover = (e) => {
 
 const windowMousemove = (e) => {
 
-    if ($state().colDrag) {
+    if ($state('colDrag')) {
         WindowHandlers.handleResizeRowColumn(e, 'column');
     }
-    else if ($state().rowDrag) {
+    else if ($state('rowDrag')) {
         WindowHandlers.handleResizeRowColumn(e, 'row');
     }
 };
@@ -67,7 +67,7 @@ const windowKeydown = (e) => {
         return;
     }
 
-    if ($state().commandActive) {
+    if ($state('commandActive')) {
         return WindowHandlers.handleCommandActiveKeydown(e);
     }
 }

@@ -2,6 +2,7 @@
 
 const Styles = require('./styles');
 const _state = require('../state')._state;
+const { $state } = require('../state');
 const Common = require('../common');
 const CELL_HEIGHT = require('../constants').CELL_HEIGHT;
 const CELL_WIDTH = require('../constants').CELL_WIDTH;
@@ -26,7 +27,6 @@ function Cell (row, column) {
 
     // connect elements and add cell to allCells array
     this.div.appendChild(this.input);
-    // _state.allCells.push(this);
     return this;
 }
 
@@ -54,7 +54,7 @@ function ColumnHeader (column) {
     this.textElement.innerText = column < 0 ? '' : getLetter();
     this.position = () => {
 
-        return _state.columnHeaders.slice(0, column + 1).reduce((a, b) => {
+        return $state('columnHeaders').slice(0, column + 1).reduce((a, b) => {
 
             return a += Common.translatePxToNum(b.div.style.width);
         }, 0)
@@ -113,7 +113,7 @@ function RowHeader (row) {
     this.row = row;
     this.position = () => {
 
-        return _state.rowHeaders.slice(0, row).reduce((a, b) => {
+        return $state('rowHeaders').slice(0, row).reduce((a, b) => {
 
             return a += Common.translatePxToNum(b.div.style.height);
         }, 100 + CELL_HEIGHT)

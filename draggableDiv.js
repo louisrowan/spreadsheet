@@ -20,7 +20,7 @@ function DraggableDiv() {
 
 function hideDraggableDiv (div) {
 
-    div = $state().draggableDiv;
+    div = $state('draggableDiv');
     div.style.visibility = 'hidden';
 }
 

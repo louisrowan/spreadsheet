@@ -17,7 +17,7 @@ function cellMousedown (cell) {
 
 function cellMouseover (cell) {
 
-    if ($state().mousedown) {
+    if ($state('mousedown')) {
         CellHandlers.handleDrag(cell);
     }
     return;
@@ -25,10 +25,10 @@ function cellMouseover (cell) {
 
 function cellInput (cell) {
 
-    if ($state().funcCellOutput[cell.id]) {
+    if ($state(`funcCellOutput:${cell.id}`)) {
         CellHandlers.handleFuncCellOutput(cell);
     }
-    if ($state().funcCellInput[cell.id]) {
+    if ($state(`funcCellInput:${cell.id}`)) {
         CellHandlers.handleFuncCellInput(cell);
     }
     return;

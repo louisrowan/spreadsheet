@@ -4,7 +4,7 @@ new flow:
 
 - ignore if no active cells
 
-* if active cells, create cell array containing those cell IDs and save to _state.cutCopy.cells. this should be an ARRAY of ARRAYS: each ROW is an array. This means that the # of inner arrays is equal to the ROW COUNT and the length of these inner array will ALWAYS be the same and is the COL count
+* if active cells, create cell array containing those cell IDs and save to _state.cutCopy.cells. this should be an ARRAY of ARRAYS: each ROW is an array. This means that the # of inner arrays is equal to the ROW COUNT and the length of these inner arrays will ALWAYS be the same as each other, and is the COL count
 * _state.cutCopy.type = either cut/paste
 
 2. (paste button clicked)

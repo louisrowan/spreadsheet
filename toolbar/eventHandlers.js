@@ -32,8 +32,6 @@ function handlePaste () {
             }
             CellCommon.overwriteCellProps(allCell, _state.cutCopy.cells[r][c]);
 
-            console.log(_state.cutCopy);
-
             if (_state.cutCopy.type === 'cut') {
                 const cutCell = _state.allCells[_state.cutCopy.cells[r][c].id];
                 console.log('cutcell?', cutCell);

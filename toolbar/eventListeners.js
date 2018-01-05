@@ -47,6 +47,7 @@ function cutCopyButton_Click (type) {
 
     _state.activeCells = CellCommon.sortCellIdsByPosition(_state.activeCells);
     _state.cutCopy.cells = [];
+    _state.cutCopy.type = type;
     let currentRow = [];
     let row;
     _state.activeCells.forEach((id) => {
@@ -62,7 +63,7 @@ function cutCopyButton_Click (type) {
             currentRow = [];
             row = cell.row;
         }
-        currentRow.push(cell.id);
+        currentRow.push(CellCommon.copyCell(cell));
     });
     _state.cutCopy.cells.push(currentRow);
     return;

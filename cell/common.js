@@ -36,6 +36,12 @@ function copyCell (cell) {
     return newCell;
 };
 
+function overwriteCellProps (origin, source) {
+
+    origin.style = Object.assign({}, source.style);
+    origin.input.value = source.input.value;
+}
+
 function sortCellIdsByPosition (cellIds) {
 
     return cellIds.sort((a, b) => {
@@ -44,9 +50,9 @@ function sortCellIdsByPosition (cellIds) {
     });
 };
 
-const parseRow = (id) => id.substr(1).split('.c')[0];
+const parseRow = (id) => +id.substr(1).split('.c')[0];
 
-const parseColumn = (id) => id.substr(1).split('.c')[1];
+const parseColumn = (id) => +id.substr(1).split('.c')[1];
 
 function isSameCell (cell1, cell2) {
 
@@ -111,5 +117,8 @@ module.exports = {
     getCellBounding,
     addToActiveCells,
     removeFromActiveCells,
-    deactivateAllCells
+    deactivateAllCells,
+    parseRow,
+    parseColumn,
+    overwriteCellProps
 }

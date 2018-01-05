@@ -32,17 +32,21 @@ function cssButton_Click (atts) {
     });
 }
 
+// function cutCopyButton_Click (type) {
+
+//     CellCommon.sortCellIdsByPosition(_state.activeCells);
+//     _state.cutCopy.type = type;
+//     _state.cutCopy.cells = _state.activeCells.map((id) => {
+
+//         const copied = CellCommon.copyCell(_state.allCells[c]);
+//         return copied;
+//     });
+// }
+
 function cutCopyButton_Click (type) {
 
-    CellCommon.sortCellsByPosition(_state.activeCells);
-    _state.cutCopy.type = type;
-    _state.cutCopy.cells = _state.activeCells.map((c) => {
-
-        const copied = CellCommon.copyCell(c);
-        copied.row = c.row;
-        copied.column = c.column
-        return copied;
-    });
+    _state.activeCells = CellCommon.sortCellIdsByPosition(_state.activeCells);
+    
 }
 
 function pasteButton_Click () {

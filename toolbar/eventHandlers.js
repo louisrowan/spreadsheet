@@ -9,8 +9,8 @@ const ToolbarCommon = require('./common');
 function handlePaste () {
 
     // sort copied cells, find top-right from active cells
-    _state.cutCopy.cells = CellCommon.sortCellsByPosition(_state.cutCopy.cells);
-    const startCell = CellCommon.sortCellsByPosition(_state.activeCells)[0];
+    _state.cutCopy.cells = CellCommon.sortCellIdsByPosition(_state.cutCopy.cells);
+    const startCell = CellCommon.sortCellIdsByPosition(_state.activeCells)[0];
     const cols = ToolbarCommon.getColumnCount(_state.cutCopy.cells)
 
     // reset active cells to empty, find first cell to being copying to from allCells array and its index in the array

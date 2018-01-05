@@ -28,7 +28,7 @@ function newSelectedCell(cell) {
 
 function copyCell (cell) {
 
-    const newCell = new CellElement.Cell();
+    const newCell = new CellElement.Cell(cell.row, cell.column);
     newCell.input.style = Object.assign({}, cell.input.style);
     newCell.input.value = cell.input.value;
     newCell.copied = true;
@@ -36,11 +36,20 @@ function copyCell (cell) {
     return newCell;
 };
 
-function sortCellsByPosition (cells) {
+function sortCellIdsByPosition (cellIds) {
 
-    return cells.sort((a, b) => {
+    const splitId = (id) => {
 
-        return a.row - b.row || a.column - b.column;
+        id = id.substr(1).split('.c');
+        return {
+            row: id[0],
+            column: id[1]
+        }
+    }
+
+    return cellIds.sort((a, b) => {
+
+        return splitId(a).row - splitId(b).row || splitId(a).column - splitId(b).column;
     });
 };
 
@@ -101,7 +110,7 @@ function deactivateAllCells() {
 module.exports = {
     newSelectedCell,
     copyCell,
-    sortCellsByPosition,
+    sortCellIdsByPosition,
     isSameCell,
     clearCell,
     getCellBounding,

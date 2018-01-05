@@ -38,20 +38,15 @@ function copyCell (cell) {
 
 function sortCellIdsByPosition (cellIds) {
 
-    const splitId = (id) => {
-
-        id = id.substr(1).split('.c');
-        return {
-            row: id[0],
-            column: id[1]
-        }
-    }
-
     return cellIds.sort((a, b) => {
 
-        return splitId(a).row - splitId(b).row || splitId(a).column - splitId(b).column;
+        return parseRow(a) - parseRow(b) || parseColumn(a) - parseColumn(b);
     });
 };
+
+const parseRow = (id) => id.substr(1).split('.c')[0];
+
+const parseColumn = (id) => id.substr(1).split('.c')[1];
 
 function isSameCell (cell1, cell2) {
 

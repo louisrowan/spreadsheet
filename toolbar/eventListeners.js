@@ -46,7 +46,26 @@ function cssButton_Click (atts) {
 function cutCopyButton_Click (type) {
 
     _state.activeCells = CellCommon.sortCellIdsByPosition(_state.activeCells);
-    
+    _state.cutCopy.cells = [];
+    let currentRow = [];
+    let row;
+    _state.activeCells.forEach((id) => {
+
+        const cell = _state.allCells[id];
+
+        if (!row) {
+            row = cell.row
+        }
+
+        if (row !== cell.row) {
+            _state.cutCopy.cells.push(currentRow);
+            currentRow = [];
+            row = cell.row;
+        }
+        currentRow.push(cell.id);
+    });
+    _state.cutCopy.cells.push(currentRow);
+    return;
 }
 
 function pasteButton_Click () {

@@ -32,17 +32,6 @@ function cssButton_Click (atts) {
     });
 }
 
-// function cutCopyButton_Click (type) {
-
-//     CellCommon.sortCellIdsByPosition(_state.activeCells);
-//     _state.cutCopy.type = type;
-//     _state.cutCopy.cells = _state.activeCells.map((id) => {
-
-//         const copied = CellCommon.copyCell(_state.allCells[c]);
-//         return copied;
-//     });
-// }
-
 function cutCopyButton_Click (type) {
 
     _state.activeCells = CellCommon.sortCellIdsByPosition(_state.activeCells);

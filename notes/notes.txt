@@ -50,23 +50,6 @@ solution a:
 
 
 
-_________________________
-
-setting state functionally for cells
-
-step 1:
-retrieve copy of cell. needs:
--id
--row
--col
--input and input styles
-
-step 2:
-mutate this copy
-
-step 3:
-pass in mutated copy and overwrite cell in allCells array with the new values given from the copy
-
 
 
 

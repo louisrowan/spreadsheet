@@ -1,92 +1,116 @@
 'use strict';
 
-function newSelectedCell(cell) {
+const _state = require('../state')._state;
+const { $state } = require('../state');
+const Common = require('../common');
+const CellElement = require('./elements');
+const CellStateUpdate = require('./stateUpdate');
+const WindowStateUpdate = require('../window/stateUpdate');
+const Styles = require('./styles');
 
-    deactivateAllCells();
-    addToActiveCells(cell);
-    cell.input.style.border = '2px solid green';
+const internals = {};
 
-    _state.startCellRect = cell;
-    _state.endCellRect = {};
 
-    const draggableDiv = _state.draggableDiv;
-    const bound = getCellBounding(cell);
+// internal-only
 
-    draggableDiv.style.visibility = 'visible';
-    draggableDiv.style.left = bound.x + 'px';
-    draggableDiv.style.top = bound.y + 'px';
-    draggableDiv.style.width = '0px';
-    draggableDiv.style.height = '0px';
+
+// internal and external functions
+
+internals.newSelectedCell = exports.newSelectedCell = (cell) => {
+
+    CellStateUpdate.deactivateAllCells();
+    CellStateUpdate.addToActiveCells(cell);
+    CellStateUpdate.styleSelectedCell(cell);
+    CellStateUpdate.updateStartCellRect(cell);
+    CellStateUpdate.updateEndCellRect()
+
+    const bound = internals.getCellBounding(cell);
+    WindowStateUpdate.setDraggableDivToCell(bound);
 
     return;
 };
 
-function copyCell (cell) {
 
-    const newCell = new Cell();
+internals.getCellBounding = exports.getCellBounding = (cell) => {
+
+    const column = $state(`columnHeaders:${cell.column + 1}`);
+    const row = $state(`rowHeaders:${cell.row}`);
+
+    return {
+        x: column.position(),
+        y: row.position(),
+        width: Common.translatePxToNum(cell.div.style.width),
+        height: Common.translatePxToNum(cell.div.style.height)
+    }
+};
+
+
+// external functions
+
+exports.copyCell = (cell) => {
+
+    const newCell = new CellElement.Cell(cell.row, cell.column);
+    newCell.input.style = Object.assign({}, cell.input.style);
     newCell.input.value = cell.input.value;
     newCell.copied = true;
 
     return newCell;
 };
 
-function sortCellsByPosition (cells) {
 
-    return cells.sort((a, b) => {
+exports.overwriteCellProps = (origin, source) => {
 
-        return a.row - b.row || a.column - b.column;
+    origin.style = Object.assign({}, source.style);
+    origin.input.value = source.input.value;
+};
+
+
+exports.sortCellIdsByPosition = (cellIds) => {
+
+    return cellIds.sort((a, b) => {
+
+        return parseRow(a) - parseRow(b) || parseColumn(a) - parseColumn(b);
     });
 };
 
-function isSameCell (cell1, cell2) {
+
+exports.parseRow = (id) => +id.substr(1).split('.c')[0];
+
+
+exports.parseColumn = (id) => +id.substr(1).split('.c')[1];
+
+
+exports.isSameCell = (cell1, cell2) => {
 
     return cell1.row === cell2.row && cell1.column === cell2.column;
-}
+};
 
-function clearCell (cell) {
+
+exports.clearCell = (cell) => {
+
+    const CellListeners = require('./eventListeners');
 
     cell.input.value = '';
-    inputStyle(cell.input);
-    cellInput(cell);
-}
+    Styles.inputStyle(cell.input);
+    CellListeners.cellInputListener(cell);
+};
 
-function getCellBounding (cell) {
+exports.getMultiCellDimensions = (startCell, endCell) => {
 
-    const column = _state.columnHeaders[cell.column + 1];
-    const row = _state.rowHeaders[cell.row];
-    
+    const startBounding = internals.getCellBounding(startCell);
+    const endBounding = internals.getCellBounding(endCell);
+
+    const left = Math.min(startBounding.x, endBounding.x);
+    const top = Math.min(startBounding.y, endBounding.y);
+    const maxWidth = Math.max(startBounding.x + startBounding.width, endBounding.x + endBounding.width);
+    const maxHeight = Math.max(startBounding.y + startBounding.height, endBounding.y + endBounding.height);
+    const width = maxWidth - left;
+    const height = maxHeight - top;
+
     return {
-        x: column.position(),
-        y: row.position(),
-        width: translatePxToNum(cell.div.style.width),
-        height: translatePxToNum(cell.div.style.height)
+        left,
+        top,
+        width,
+        height
     }
-}
-
-function addToActiveCells (cell) {
-
-    if (!_state.activeCells.find((active) => active.id === cell.id)) {
-        _state.activeCells.push(cell);
-        cell.active = true;
-    }
-    return;
-}
-
-function removeFromActiveCells(cell) {
-
-    const index = _state.activeCells.indexOf(cell);
-    if (index > -1) {
-        _state.activeCells.splice(index, 1);
-        cell.input.style.border = '1px solid rgb(238, 238, 238)';
-        cell.input.style.background = 'white';
-        cell.active = false;
-    }
-    return;
-}
-
-function deactivateAllCells() {
-
-    _state.allCells.forEach((cell) => removeFromActiveCells(cell));
-    return;
-}
-
+};

@@ -1,5 +1,9 @@
 'use strict';
 
+const Validate = require('../common').validate;
+const CELL_HEIGHT = require('../constants').CELL_HEIGHT
+const CELL_WIDTH = require('../constants').CELL_WIDTH;
+
 function cellStyle(div) {
 
     const style = div.style;
@@ -81,4 +85,13 @@ function columnHeaderTextStyle (element, height) {
     style['pointerEvents'] = 'none';
     style['paddingTop'] = (CELL_HEIGHT/3) + 'px';
     return;
+}
+
+module.exports = {
+    cellStyle,
+    inputStyle,
+    headerCellStyle,
+    columnHeaderSpanStyle,
+    rowHeaderSpanStyle,
+    columnHeaderTextStyle
 }

@@ -19,3 +19,8 @@ function commonButtonStyle(button) {
     button.style.width = '70px';
     button.style.height = '35px';
 }
+
+module.exports = {
+    styleToolbar,
+    commonButtonStyle
+}

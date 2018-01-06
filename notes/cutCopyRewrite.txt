@@ -1,0 +1,26 @@
+new flow:
+
+1. (cut/copy button clicked)
+
+- ignore if no active cells
+
+* if active cells, create cell array containing those cell IDs and save to _state.cutCopy.cells. this should be an ARRAY of ARRAYS: each ROW is an array. This means that the # of inner arrays is equal to the ROW COUNT and the length of these inner arrays will ALWAYS be the same as each other, and is the COL count
+* _state.cutCopy.type = either cut/paste
+
+2. (paste button clicked)
+
+a. find and save space of first 'active' element. If multiple cells are active find the top-left which is lowest row, lowest column
+
+b. check the 'cutCopy array' for the first element in the first array. then find the corresponding cell in ALLCELLS.
+
+c. use a 'copy cell' function that will retrieve the values from the copied cell, and paste them into this first new ACTIVE cell.
+
+d. move along the first 'cutCopy array' until either reaching the end, or reaching a point where there exists no cell in ALLCELLS. at this point, skip to next array and repeat process from steps b-c
+
+e. if type was 'cut' then call 'clear cells' on entire cutcopy cell array. then reassign this to copy - while a hack this will make the future 
+
+
+**** problem:
+if original value changes we lose input. therefor 'copyArray' SHOULD contain copies of the cells
+
+NOTHING SHOULD BE SORTED. THE CELLS SHOULD BE PLACED INTO ARRAY IN ORDER TO BEGIN WITH.

@@ -1,6 +1,5 @@
 'use strict';
 
-const jasmine = require('jasmine');
 const mockDom = require('./mockDom.js');
 
 describe('App', () => {
@@ -8,6 +7,10 @@ describe('App', () => {
     it('Starts server and renders content', () => {
 
         mockDom.startServer((app) => {
+
+            console.log(global);
+
+            // console.log('app?', app);
 
             expect(app).toBeDefined();
             expect(_state).toBeDefined();

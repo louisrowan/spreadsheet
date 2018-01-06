@@ -1,13 +1,30 @@
 'use strict';
 
+const _state = require('../state')._state;
+const { $cell, $setCell, $state } = require('../state');
+const CellCommon = require('../cell/common');
+const ToolbarHandlers = require('./eventHandlers');
+
 function eraseButton_Click () {
 
-    _state.activeCells.forEach((cell) => cell.input.value = '');
+    _state.activeCells.forEach((id) => _state.allCells[id].input.value = '');
+
+    // $state().activeCells.forEach((cell) => {
+
+    //     console.log('update cell');
+    //     const c = $cell(cell.id);
+    //     // cell.input.value = '';
+    //     $setCell({
+    //         c: cell
+    //     });
+    // })
 }
 
 function cssButton_Click (atts) {
 
-    _state.activeCells.forEach((cell) => {
+    _state.activeCells.forEach((id) => {
+
+        const cell = _state.allCells[id];
 
         // toggle property
         let style = cell.input.style;
@@ -17,20 +34,33 @@ function cssButton_Click (atts) {
 
 function cutCopyButton_Click (type) {
 
-    sortCellsByPosition(_state.activeCells);
+    _state.activeCells = CellCommon.sortCellIdsByPosition(_state.activeCells);
+    _state.cutCopy.cells = [];
     _state.cutCopy.type = type;
-    _state.cutCopy.cells = _state.activeCells.map((c) => {
+    let currentRow = [];
+    let row;
+    _state.activeCells.forEach((id) => {
 
-        const copied = copyCell(c);
-        copied.row = c.row;
-        copied.column = c.column
-        return copied;
+        const cell = _state.allCells[id];
+
+        if (!row) {
+            row = cell.row
+        }
+
+        if (row !== cell.row) {
+            _state.cutCopy.cells.push(currentRow);
+            currentRow = [];
+            row = cell.row;
+        }
+        currentRow.push(CellCommon.copyCell(cell));
     });
+    _state.cutCopy.cells.push(currentRow);
+    return;
 }
 
 function pasteButton_Click () {
 
-    handlePaste();
+    ToolbarHandlers.handlePaste();
 }
 
 function sumButton_Click () {
@@ -40,8 +70,10 @@ function sumButton_Click () {
     }
 
     const cellsByCol = {};
-    let finalRow = _state.activeCells[0].row;
-    _state.activeCells.forEach((cell) => {
+    let finalRow = _state.allCells[_state.activeCells[0]].row;
+    _state.activeCells.forEach((id) => {
+
+        const cell = _state.allCells[id]
 
         finalRow = cell.row > finalRow ? cell.row : finalRow;
 
@@ -60,7 +92,8 @@ function sumButton_Click () {
 
         const sum = cellsByCol[i].reduce((a, b) => a += +b.val, 0);
         const column = cellsByCol[i][0].column;
-        const cellToSum = _state.allCells.find((c) => c.row === finalRow + 1 && c.column === column);
+        const cellToSum = _state.allCells[`r${finalRow + 1}.c${column}`]
+        // const cellToSum = _state.allCells.find((c) => c.row === finalRow + 1 && c.column === column);
 
         _state.funcCellOutput[cellToSum.id] = cellsByCol[i].map((i) => i.id);
 
@@ -70,4 +103,12 @@ function sumButton_Click () {
         });
         cellToSum.input.value = sum;
     })
+}
+
+module.exports = {
+    eraseButton_Click,
+    cssButton_Click,
+    cutCopyButton_Click,
+    pasteButton_Click,
+    sumButton_Click
 }

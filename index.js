@@ -1,12 +1,15 @@
 'use strict';
 
+const { COL_COUNT, ROW_COUNT } = require('./constants');
+const LoggerObject = require('./logger.js');
+const ToolbarElement = require('./toolbar/elements');
+const CellElement = require('./cell/elements');
+const { $state, $setState, _state } = require('./state')
+const DraggableDiv = require('./draggableDiv').DraggableDiv;
+
+
 const Logger = new LoggerObject();
 const main = document.getElementById('main');
-
-const ROW_COUNT = 10;
-const COL_COUNT = 10;
-const CELL_WIDTH = 80;
-const CELL_HEIGHT = 40;
 
 const body = document.body;
 body.style.padding = '0px';
@@ -14,37 +17,45 @@ body.style.margin = '0px';
 
 
 // add nav bar
-const _toolbar = new Toolbar();
+const _toolbar = new ToolbarElement.Toolbar();
 main.appendChild(_toolbar);
-main.appendChild(new ToolbarBuffer);
+main.appendChild(new ToolbarElement.ToolbarBuffer());
 
 // add spreadsheet container
-const _spreadsheetContainer = new SpreadsheetContainer();
+const _spreadsheetContainer = new CellElement.SpreadsheetContainer();
 main.appendChild(_spreadsheetContainer);
 
 
 // add column headers
 for (let i = -1; i < COL_COUNT; ++i) {
 
-    const _header = new ColumnHeader(i);
+    const _header = new CellElement.ColumnHeader(i);
     _spreadsheetContainer.appendChild(_header.div);
-    _state.columnHeaders.push(_header);
+    $setState({
+        columnHeaders: $state().columnHeaders.concat(_header)
+    });
 }
 
 // timeout to paint screen and then add cells
-setTimeout(() => {
+process.nextTick(() => {
     for (let i = 0; i < ROW_COUNT; ++i) {
 
-        const _row = new RowHeader(i);
+        const _row = new CellElement.RowHeader(i);
         _spreadsheetContainer.appendChild(_row.div);
-        _state.rowHeaders.push(_row);
+        $setState({
+            rowHeaders: $state().rowHeaders.concat(_row)
+        });
 
         for (let j = 0; j < COL_COUNT; ++j) {
 
-            const _cell = new Cell(i, j);
+            const _cell = new CellElement.Cell(i, j);
             _spreadsheetContainer.appendChild(_cell.div);
+            _state.allCells[_cell.id] = _cell;
         }
     }
-}, 0);
+});
 
 main.appendChild(new DraggableDiv());
+require('./window/eventListeners');
+
+

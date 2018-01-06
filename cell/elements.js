@@ -1,5 +1,13 @@
 'use strict';
 
+const Styles = require('./styles');
+const _state = require('../state')._state;
+const { $state } = require('../state');
+const Common = require('../common');
+const CELL_HEIGHT = require('../constants').CELL_HEIGHT;
+const CELL_WIDTH = require('../constants').CELL_WIDTH;
+const COL_COUNT = require('../constants').COL_COUNT;
+
 function Cell (row, column) {
 
     // create elements
@@ -14,12 +22,11 @@ function Cell (row, column) {
     this.active = false;
 
     // add styles
-    cellStyle(this.div);
-    inputStyle(this.input);
+    Styles.cellStyle(this.div);
+    Styles.inputStyle(this.input);
 
     // connect elements and add cell to allCells array
     this.div.appendChild(this.input);
-    _state.allCells.push(this);
     return this;
 }
 
@@ -47,18 +54,18 @@ function ColumnHeader (column) {
     this.textElement.innerText = column < 0 ? '' : getLetter();
     this.position = () => {
 
-        return _state.columnHeaders.slice(0, column + 1).reduce((a, b) => {
+        return $state('columnHeaders').slice(0, column + 1).reduce((a, b) => {
 
-            return a += translatePxToNum(b.div.style.width);
+            return a += Common.translatePxToNum(b.div.style.width);
         }, 0)
     }
 
     // add styles
-    cellStyle(this.div);
-    headerCellStyle(this.div);
+    Styles.cellStyle(this.div);
+    Styles.headerCellStyle(this.div);
     this.span.style.height = this.div.style.height;
-    columnHeaderSpanStyle(this.span);
-    columnHeaderTextStyle(this.textElement);
+    Styles.columnHeaderSpanStyle(this.span);
+    Styles.columnHeaderTextStyle(this.textElement);
 
     // event listeners
     this.span.addEventListener('mousedown', (e) => _state.colDrag = this);
@@ -106,18 +113,18 @@ function RowHeader (row) {
     this.row = row;
     this.position = () => {
 
-        return _state.rowHeaders.slice(0, row).reduce((a, b) => {
+        return $state('rowHeaders').slice(0, row).reduce((a, b) => {
 
-            return a += translatePxToNum(b.div.style.height);
+            return a += Common.translatePxToNum(b.div.style.height);
         }, 100 + CELL_HEIGHT)
     }
     this.textElement.innerText = row + 1 > 0 ? row + 1 : '';
 
     // add styles
-    cellStyle(this.div);
-    headerCellStyle(this.div);
-    columnHeaderTextStyle(this.textElement);
-    rowHeaderSpanStyle(this.span, this.div);
+    Styles.cellStyle(this.div);
+    Styles.headerCellStyle(this.div);
+    Styles.columnHeaderTextStyle(this.textElement);
+    Styles.rowHeaderSpanStyle(this.span, this.div);
 
     // event listeners
     this.span.addEventListener('mousedown', (e) => _state.rowDrag = this);
@@ -132,9 +139,17 @@ function RowHeader (row) {
 function SpreadsheetContainer () {
 
     this.div = document.createElement('div');
+    this.div.setAttribute('id', 'spreadsheet-div');
     this.div.style.padding = '0px';
     this.div.style.margin = '0px';
     this.div.style.width = `${CELL_WIDTH * (COL_COUNT + 1)}px`;
 
     return this.div;
+}
+
+module.exports = {
+    Cell,
+    ColumnHeader,
+    RowHeader,
+    SpreadsheetContainer
 }

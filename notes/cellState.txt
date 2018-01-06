@@ -1,0 +1,44 @@
+- save actual cells in ONE place
+- any other grouping of cells (copy, active, etc) should only have cell IDs that can fetch the ACTUAL cells
+- cells need to be saved in an OBJECT. so can be looped through OR accessed directly
+
+- 
+
+
+_________________________
+
+setting state functionally for cells
+
+step 1:
+retrieve copy of cell. needs:
+-id
+-row
+-col
+-input and input styles
+
+step 2:
+mutate this copy
+
+step 3:
+pass in mutated copy and overwrite cell in allCells array with the new values given from the copy
+
+
+
+******
+how to handle cells:
+
+1. _state.allCells: {
+    'r1c1': <cell with id r1c1>
+}
+
+2. _state.cutCopy.cells = [(array with ids)]
+3. _state.activeCells = [(array with ids)]
+
+
+
+------------
+things to be retrieved from state:
+1. first level value like 'colDrag'
+2. specific allCell
+3. loop through all allCells
+4. loop through array of cell Ids

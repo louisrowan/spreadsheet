@@ -1,52 +1,61 @@
 'use strict';
 
+const { $state } = require('../state');
+const Styles = require('./styles');
+const CellCommon = require('./common');
+const CellStateUpdate = require('./stateUpdate');
+const WindowStateUpdate = require('../window/stateUpdate');
+
+
+const handleCellMousedown = (cell) => {
+
+    CellCommon.newSelectedCell(cell);
+    WindowStateUpdate.toggleMousedown(true)
+}
+
+
 const handleDrag = (cell) => {
 
-    const draggableDiv = _state.draggableDiv;
-    const start = _state.startCellRect;
-    inputStyle(start.input);
+    const start = $state('startCellRect');
+    const { left, top, width, height } = CellCommon.getMultiCellDimensions(start, cell);
 
-    const endBounding = getCellBounding(cell);
-    const startBounding = getCellBounding(start);
-    _state.endCellRect = cell;
-
-    const left = Math.min(startBounding.x, endBounding.x);
-    const top = Math.min(startBounding.y, endBounding.y);
-
-    const maxWidth = Math.max(startBounding.x + startBounding.width, endBounding.x + endBounding.width);
-    const maxHeight = Math.max(startBounding.y + startBounding.height, endBounding.y + endBounding.height);
-
-    const width = maxWidth - left;
-    const height = maxHeight - top;
-
-    draggableDiv.style.left = left + 'px';
-    draggableDiv.style.top = top + 'px';
-    draggableDiv.style.width = width + 'px';
-    draggableDiv.style.height = height + 'px';
-
+    Styles.inputStyle(start.input);
+    CellStateUpdate.updateEndCellRect(cell);
+    WindowStateUpdate.setDraggableDivToDimensions(left, top, width, height)
 
     const leftCol = Math.min(start.column, cell.column);
     const rightCol = Math.max(start.column, cell.column);
     const topRow = Math.min(start.row, cell.row);
     const botRow = Math.max(start.row, cell.row);
 
-    _state.allCells.forEach((cell) => {
+    Object.keys($state('allCells')).forEach((id) => {
 
-        if (cell.copied) { return };
+        const cell = $state(`allCells:${id}`);
 
-        if (isSameCell(cell, start)) {
-            cell.input.style.background = 'white';
+        let backgroundColor;
+        // if cell is start cell, set background to white
+        if (CellCommon.isSameCell(cell, start)) {
+            backgroundColor = 'white';
         }
+        // else if cell is within start-end row-col grid, add to active cells
         else if(topRow <= cell.row &&
             leftCol <= cell.column &&
             botRow >= cell.row &&
             rightCol >= cell.column)
         {
-            addToActiveCells(cell);
-            cell.input.style.background = 'lightgray';
-        } else if (cell.active) {
-            removeFromActiveCells(cell);
-            cell.input.style.background = 'white';
+            CellStateUpdate.addToActiveCells(cell);
+            backgroundColor = 'lightgray'
+        }
+        // else if cell was marked as active, remove from active cells
+        else if (cell.active) {
+            CellStateUpdate.removeFromActiveCells(cell);
+            backgroundColor = 'white'
+        }
+        // else do nothing
+        else {};
+        // if background color set, call update function
+        if (backgroundColor) {
+            CellStateUpdate.updateCellStyleBackground(cell, backgroundColor)
         }
     });
     return;
@@ -54,28 +63,21 @@ const handleDrag = (cell) => {
 
 const handleFuncCellInput = (cell) => {
 
-    _state.funcCellInput[cell.id].forEach((inputCell) => {
+    $state(`funcCellInput:${cell.id}`).forEach((inputCellId) => {
 
-        const cellToUpdate = _state.allCells.find((c) => c.id === inputCell);
-        cellToUpdate.input.value = _state.funcCellOutput[inputCell].reduce((a, b) => {
-
-            const cellToSum = _state.allCells.find((_c) => _c.id === b);
-            if (isNaN(+cellToSum.input.value)) {
-                return a;
-            }
-            return a += +cellToSum.input.value;
-        }, 0)
+        const cellToUpdate = $state(`allCells:${inputCellId}`);
+        CellStateUpdate.updateFuncCellInputValue(cellToUpdate);
     })
 }
 
 const handleFuncCellOutput = (cell) => {
 
-    delete _state.funcCellOutput[cell.id];
-    Object.keys(_state.funcCellInput).forEach((each) => {
+    CellStateUpdate.updateFuncCellOutputValue(cell);
+}
 
-        if (_state.funcCellInput[each].includes(cell.id)) {
-            delete _state.funcCellInput[each];
-        }
-    })
-    return;
+module.exports = {
+    handleCellMousedown,
+    handleDrag,
+    handleFuncCellInput,
+    handleFuncCellOutput
 }

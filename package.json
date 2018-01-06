@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jasmine test/*"
+    "test": "jasmine test/*",
+    "watch": "webpack --watch",
+    "start": "webpack && open index.html"
   },
   "repository": {
     "type": "git",
@@ -20,5 +22,8 @@
     "express": "^4.16.2",
     "jasmine": "^2.8.0",
     "rewire": "^3.0.2"
+  },
+  "dependencies": {
+    "webpack": "^3.10.0"
   }
 }

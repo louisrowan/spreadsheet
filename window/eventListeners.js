@@ -17,19 +17,19 @@ window.addEventListener('mouseover', (e) => windowMouseover(e));
 const windowInput = (e) => {
 
     const cell = WindowCommon.getCell(e);
-    return cell ? CellListeners.cellInput(cell) : '';
+    return cell ? CellListeners.cellInputListener(cell) : '';
 }
 
 const windowMousedown = (e) => {
 
     const cell = WindowCommon.getCell(e);
-    return cell ? CellListeners.cellMousedown(cell) : '';
+    return cell ? CellListeners.cellMousedownListener(cell) : '';
 }
 
 const windowMouseover = (e) => {
 
     const cell = WindowCommon.getCell(e);
-    return cell ? CellListeners.cellMouseover(cell) : '';   
+    return cell && $state('mousedown') ? CellListeners.cellMouseoverListener(cell) : '';   
 }
 
 const windowMousemove = (e) => {

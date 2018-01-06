@@ -1,0 +1,28 @@
+problem:
+
+- changing state all over the place
+
+
+solution:
+
+- need a much more structured way of doing things.
+
+level 1: listen for events and determine if any actions need to be taken from these events
+- eventListeners.js
+
+level 2: logic that analyzes event and current state, and what next state should be
+- eventHandlers.js
+
+level 3: implement next state
+- stateUpdate.js
+
+
+*state should be changed ONCE, in multiple places if needed. but all at the same time.
+
+
+handling common:
+common functions should NOT update state. anything changing state needs to be in stateUpdate
+
+
+*** TODO ****
+- keep track of 'paths' for each possible event. which functions call others, etc.

@@ -6,24 +6,18 @@ const $setState = require('../state').$setState;
 const CellCommon = require('./common');
 const CellHandlers = require('./eventHandlers');
 
-function cellMousedown (cell) {
 
-    CellCommon.newSelectedCell(cell);
-    $setState({
-        mousedown: true
-    });
-    return;
+exports.cellMousedownListener = (cell) => {
+
+    CellHandlers.handleCellMousedown(cell);
 }
 
-function cellMouseover (cell) {
+exports.cellMouseoverListener (cell) {
 
-    if ($state('mousedown')) {
-        CellHandlers.handleDrag(cell);
-    }
-    return;
+    CellHandlers.handleDrag(cell);
 }
 
-function cellInput (cell) {
+exports.cellInputListener (cell) {
 
     if ($state(`funcCellOutput:${cell.id}`)) {
         CellHandlers.handleFuncCellOutput(cell);
@@ -32,10 +26,4 @@ function cellInput (cell) {
         CellHandlers.handleFuncCellInput(cell);
     }
     return;
-}
-
-module.exports = {
-    cellMousedown,
-    cellMouseover,
-    cellInput
 }

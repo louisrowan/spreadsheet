@@ -12,12 +12,12 @@ exports.cellMousedownListener = (cell) => {
     CellHandlers.handleCellMousedown(cell);
 }
 
-exports.cellMouseoverListener (cell) {
+exports.cellMouseoverListener = (cell) => {
 
     CellHandlers.handleDrag(cell);
 }
 
-exports.cellInputListener (cell) {
+exports.cellInputListener = (cell) => {
 
     if ($state(`funcCellOutput:${cell.id}`)) {
         CellHandlers.handleFuncCellOutput(cell);

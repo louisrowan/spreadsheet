@@ -45,6 +45,12 @@ internals.getCellBounding = exports.getCellBounding = (cell) => {
 };
 
 
+internals.parseRow = exports.parseRow = (id) => +id.substr(1).split('.c')[0];
+
+
+internals.parseColumn = exports.parseColumn = (id) => +id.substr(1).split('.c')[1];
+
+
 // external functions
 
 exports.copyCell = (cell) => {
@@ -69,15 +75,9 @@ exports.sortCellIdsByPosition = (cellIds) => {
 
     return cellIds.sort((a, b) => {
 
-        return parseRow(a) - parseRow(b) || parseColumn(a) - parseColumn(b);
+        return internals.parseRow(a) - internals.parseRow(b) || internals.parseColumn(a) - internals.parseColumn(b);
     });
 };
-
-
-exports.parseRow = (id) => +id.substr(1).split('.c')[0];
-
-
-exports.parseColumn = (id) => +id.substr(1).split('.c')[1];
 
 
 exports.isSameCell = (cell1, cell2) => {

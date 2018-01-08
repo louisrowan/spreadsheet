@@ -26,3 +26,209 @@ common functions should NOT update state. anything changing state needs to be in
 
 *** TODO ****
 - keep track of 'paths' for each possible event. which functions call others, etc.
+
+
+
+
+
+** "routes" **
+
+
+1. Event: window Mouseup
+Target: -
+Value: -
+path:
+1 - window mouseup listener:
+_state.mousedown = false;
+_state.colDrag = false;
+_state.rowDrag = false;
+________________________
+
+2. Event: window Input
+Target: cell
+Value: (character)
+path:
+1 - window input lisener;
+2 - cell input listener
+
+*if cell is func output:*
+3. handle func cell output
+4. cell state update: update func cell output value:
+-delete _state.funcCellOutput[cell.id] (array of the corresponding input values)
+-delete this cell's value from any other cell's _state.funcCellInput array
+
+*if cell is func input:*
+3. handle func cell input
+4. loop through funcCellInput array and update the correspondinding output cell's value
+________________-
+
+3. Event: window Mousedown
+Target: cell
+value: -
+path:
+1. window mousedown listener
+if cell:
+2. cell mousedown listener
+3. handle cell mousedown
+4. cellcommon - new selected cell
+- update state: deactivate all cells
+- update state: add current cell as active cells
+- update state: style selected cell
+- update state: update start cell rect (cell)
+- update state: select end cell rect (empty)
+- update state: move draggable div to selected cell
+
+(back in mousedown handler)
+_state.mousedown = true
+___________________________-
+
+
+4. Event: window Mouseover
+target: cell
+value: -
+path:
+1. window mouseover listener
+if cell and _state.mousedown (drag event):
+2. cell mouseover listener
+3. cell handle drag
+
+in handle drag:
+4. cell common - get multi cell dimensions (dimensions of start and end cell rect)
+
+back in cell handle drag:
+- update state: style active cell
+- update state: update end cell rect
+- update state: update draggable div dimensions
+
+- loop through all cells and either:
+- add to active cells and style
+- remove from active cells and style
+_____________________
+
+
+5. Event: window mousemove (this should be mouseover)
+target: cell && 'coldrag' or 'rowdrag'
+value: -
+path:
+1. window mousemove listner
+2. window handleResizeRowColumn handler:
+- update state: hide draggable div
+- update state: deactivate all cells (maybe all cells in row/col should be active)
+
+- calculate which row/col is being modified and mouse position. return if resizing too small
+- update state: update header size
+- update state: spreadsheetdiv (find a better way to do this)
+- update state: all cells in row/col
+____________________________
+
+
+6. Event: window keydown
+target: ''
+value: char
+path:
+
+**if key = 'meta' ( command )**
+- update state: commandActive: true
+
+**if key = arrowkey **
+1. window handler navigate cells
+- find active cell, row and col
+- find new cell based on active cell and movement
+2. cell common - new selected cell
+- update state: deactivate all cells
+- update state: add current cell as active cells
+- update state: style selected cell
+- update state: update start cell rect (cell)
+- update state: select end cell rect (empty)
+- update state: move draggable div to selected cell
+
+(back in handler)
+- html focus on active element (need to replace this as its too slow)
+________________
+
+
+7. Event: window keyup
+target: ''
+value: ''
+path:
+1. window keyup listener
+if _state.commandactive:
+  -update state: commandActive false
+
+----------------------------------------------------------------------
+toolbar events:
+
+1. Event: eraseButton click
+target: erasebutton
+value: ''
+path:
+1. erase button click (element listener)
+2. toolbar listener erasebutton - click
+- update state: set all 'active cell' input to ''
+_______
+
+2. Event: cssbutton click
+target: cssbutton
+value: type of button
+path:
+1. css button click (element listener)
+2. cssButton click listener:
+- update state: loop thru all active cells and toggle the inputted style (this needs to be updated)
+_______________________________-
+
+3. Event: CutcopyButton click
+target: cut or copy button
+value: cut or copy
+path:
+1. button click
+2. cutCopyButtonClick listener
+- update state: sort active cells
+- update state: clear cutCopy array
+- update state: apply cut/copy type
+
+- loop through active cells, map cells into array of arrays - each array is a row
+_________________________________
+
+4. Event: pasteButton click
+target: paste button
+value: ''
+path:
+1. button click
+2. pasteButtonClick listener
+3. toolbar handle paste
+
+- REPLY if not active cells
+- find first active cell and its row/column
+- loop through cutCopy array of arrays and:
+    - update state: overwrite activeCell with corresponding cut/copy cell props
+    - update state: if 'cut', clear out cut/copy cell
+    - update state: if 'cut', change type to 'copy'
+    ______________________________-
+
+5. Event: sumButton click
+target: sum button
+value: ''
+path:
+1. button click
+2. sumButton click listener
+- RETURN if not enough cells active
+- loop through active cells to create 'cellsByCol' object with key: col and value: cell props
+- loop thru these objects and calculate sum from all the cells' input, then find the cell to put this by finding the 'next' cell in the column
+- update state: update 'output' cell to contain values of all the input cells
+- update state: loop thru 'input' cells to point to the outputted cell
+_____________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

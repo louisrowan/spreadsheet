@@ -1,10 +1,8 @@
 'use strict';
 
-const CellListeners = require('../cell/eventListeners');
 const WindowCommon = require('./common');
-const WindowHandlers = require('./eventHandlers');
 const $state = require('../state').$state;
-const $setState = require('../state').$setState;
+const Handler = require('../eventHandler');
 
 window.addEventListener('mouseup', (e) => windowMouseup());
 window.addEventListener('keydown', (e) => windowKeydown(e));
@@ -14,42 +12,66 @@ window.addEventListener('input', (e) => windowInput(e));
 window.addEventListener('mousedown', (e) => windowMousedown(e));
 window.addEventListener('mouseover', (e) => windowMouseover(e));
 
+
 const windowInput = (e) => {
 
     const cell = WindowCommon.getCell(e);
-    return cell ? CellListeners.cellInputListener(cell) : '';
+
+    if (!cell) return;
+
+    return Handler({
+        type: 'cellInput',
+        cell
+    });
 }
+
 
 const windowMousedown = (e) => {
 
     const cell = WindowCommon.getCell(e);
-    return cell ? CellListeners.cellMousedownListener(cell) : '';
+    
+    if (!cell) return;
+
+    return Handler({
+        type: 'cellMousedown',
+        cell
+    });
 }
+
 
 const windowMouseover = (e) => {
 
     const cell = WindowCommon.getCell(e);
-    return cell && $state('mousedown') ? CellListeners.cellMouseoverListener(cell) : '';   
+
+    if (!cell || !$state('mousedown')) return;
+
+    return Handler({
+        type: 'cellMouseover',
+        cell
+    });
 }
+
 
 const windowMousemove = (e) => {
 
     if ($state('colDrag')) {
-        WindowHandlers.handleResizeRowColumn(e, 'column');
+
+        return Handler({
+            type: 'resizeRowColumn',
+            value: 'column',
+            e
+        });
     }
     else if ($state('rowDrag')) {
-        WindowHandlers.handleResizeRowColumn(e, 'row');
+
+        return Handler({
+            type: 'resizeRowColumn',
+            value: 'row',
+            e
+        });
     }
 };
 
-const windowMouseup = () => {
-
-    $setState({
-        mousedown: false,
-        colDrag: false,
-        rowDrag: false
-    });
-}
 
 const windowKeydown = (e) => {
 
@@ -57,26 +79,31 @@ const windowKeydown = (e) => {
         e.key === 'ArrowRight' ||
         e.key === 'ArrowUp' ||
         e.key === 'ArrowDown') {
-        return WindowHandlers.handleNavigateCells(e);
+
+        return Handler({
+            type: 'navigateCells',
+            e
+        });
     }
 
-    if (e.key === 'Meta') {
-        $setState({
-            commandActive: true
+    else if (e.key === 'Meta') {
+
+        return Handler({
+            type: 'enableCommandActive'
         });
-        return;
     }
 
     if ($state('commandActive')) {
-        return WindowHandlers.handleCommandActiveKeydown(e);
+
+        return Handler({
+            type: 'commandActiveKeydown',
+            e
+        });
     }
 }
 
-const windowKeyup = (e) => {
 
-    if (e.key === 'Meta') {
-        $setState({
-            commandActive: false
-        });
-    } 
-}
+const windowMouseup = () => Handler({ type: 'windowMouseup' });
+
+
+const windowKeyup = () => Handler({ type: 'windowKeyup' });

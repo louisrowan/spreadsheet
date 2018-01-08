@@ -4,6 +4,7 @@ const CELL_HEIGHT = require('../constants').CELL_HEIGHT;
 const ROW_COUNT = require('../constants').ROW_COUNT;
 const COL_COUNT = require('../constants').COL_COUNT;
 const CellCommon = require('../cell/common');
+const CellStateUpdate = require('../cell/stateUpdate');
 const ToolbarListeners = require('../toolbar/eventListeners');
 const Common = require('../common');
 const DraggableDiv = require('../draggableDiv');
@@ -33,7 +34,7 @@ const handleCommandActiveKeydown = (e) => {
 const handleResizeRowColumn = (e, type) => {
 
     DraggableDiv.hideDraggableDiv();
-    CellCommon.deactivateAllCells();
+    CellStateUpdate.deactivateAllCells();
 
     let marker;
     let mousePosition;
@@ -108,8 +109,34 @@ const handleNavigateCells = (e) => {
     newElement.input.focus();
 }
 
+const handleMouseup = () => {
+
+    $setState({
+        mousedown: false,
+        colDrag: false,
+        rowDrag: false
+    });
+}
+
+const handleWindowKeyup = () => {
+
+    $setState({
+        commandActive: false
+    });
+}
+
+const enableCommandActive = () => {
+
+    $setState({
+        commandActive: true
+    });
+}
+
 module.exports = {
     handleCommandActiveKeydown,
     handleNavigateCells,
-    handleResizeRowColumn
+    handleResizeRowColumn,
+    handleMouseup,
+    handleWindowKeyup,
+    enableCommandActive
 }

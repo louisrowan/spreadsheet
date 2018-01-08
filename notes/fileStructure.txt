@@ -221,14 +221,41 @@ _____________________________________
 
 
 
+************************************
+new 'handler' idea:
+
+2 types of events:
+1. window event: this relates to cells, and sort of key press, mouse move, input, drag, etc.
+
+
+2. Toolbar click event: these are clicks to toolbar buttons that depend on 'active' cells.
+- right now there are multiple events for this. there should be ONE event listening for button clicks. this can be moved to 'window'. these buttons do not contain any additional info that needs to be retrieved like cells do.
 
 
 
+potential flow:
+
+1. all events start in various window listener. check state to determine if event should be triggered but do NOT update anything
+
+2. all events then go to SAME main event handler function. this will allow for much better debugging.
+
+main handler:
+3. create 'newState' object = {}
+
+4. create 'newCells' object = {}
+
+5. handle logic of whatever happened
+
+6. update 'newstate' object
+
+7. assign new state over state, newcells over allcells
 
 
 
+**common things that need to be handled**
 
-
+- there should be ONE update cell function
+input (cell, obj of values to Overwrite)
 
 
 

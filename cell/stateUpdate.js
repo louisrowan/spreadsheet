@@ -1,6 +1,6 @@
 'use strict';
 
-const { _state, $state } = require('../state');
+const { _state, $state, $setState, $updateCell } = require('../state');
 
 const addToActiveCells = (cell) => {
 
@@ -21,9 +21,38 @@ const removeFromActiveCells = (cell) => {
     }
 }
 
+const removeFromActiveCells2 = (state, cell) => {
+
+    const index = $state('activeCells').indexOf(cell.id);
+    if (index > -1) {
+        state.activeCells.splice(index, 1);
+        // cell.input.style.border = '1px solid rgb(238, 238, 238)';
+        // cell.input.style.background = 'white';
+        // cell.active = false;
+        $updateCell(cell, {
+            input: {
+                style: {
+                    border: '1px solid rgb(238, 238, 238)',
+                    background: 'white'
+                }
+            },
+            active: false
+        })
+    }
+}
+
 const deactivateAllCells = () => {
 
     Object.keys($state('allCells')).forEach((cellId) => removeFromActiveCells(_state.allCells[cellId]));
+}
+
+const deactivateAllCells2 = (state) => {
+
+    Object.keys(state.allCells).forEach((id) => {
+
+        const cell = state.allCells[id];
+        removeFromActiveCells2(state, cell);
+    })
 }
 
 const styleSelectedCell = (cell) => {
@@ -70,10 +99,16 @@ const updateFuncCellOutputValue = (cell) => {
     })
 }
 
+// const updateCell = (cell, props) => {
+
+
+// }
+
 module.exports = {
     addToActiveCells,
     removeFromActiveCells,
     deactivateAllCells,
+    deactivateAllCells2,
     styleSelectedCell,
     updateStartCellRect,
     updateEndCellRect,

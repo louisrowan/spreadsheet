@@ -38,57 +38,34 @@ const $state = (path) => {
 
 const $setState = (args) => {
 
-    if (typeof args !== 'object') {
-        console.warn('bad input for set state', args)
+    return Object.assign(_state, args)
+}
+
+
+const $updateCell = (cell, newProps) => {
+
+    let tmp = cell;
+    if (typeof cell === 'string') {
+        cell = _state.allCells[cell];
     }
 
-    Object.keys(args).forEach((key) => {
-
-        const oldState = _state[key];
-        if (!oldState && oldState != false) {
-            console.warn('bad request for', key, _state, _state[key])
-            return;
-        }
-
-        const newState = args[key];
-        _state[key] = newState;
-    })
-
-    return _state;
-}
-
-const $cell = (id) => {
-
-    const copyCell = require('./cell/common').copyCell;
-
-    return copyCell(_state.allCells[id]) || console.warn('cell', id, 'not found');
-}
-
-const $setCell = (args) => {
-
-    if (typeof args !== 'object') {
-        console.warn('bad input for set cell', args)
+    if (!cell) {
+        console.warn('no cell found for', tmp)
     }
 
-    Object.keys(args).forEach((cell) => {
+    console.log('in update cell', cell);
 
-        const oldCell = _state.allCells[cell.id];
-        if (!oldCell) {
-            console.warn('bad set cell request for', cell);
-            return
-        }
+    const t = Object.assign(cell, newProps)
 
-        const newCell = args[cell];
-        oldCell = newCell;
-    })
+    console.log(t);
 
-    return;
+    return Object.assign(cell, newProps);
 }
+
 
 module.exports = {
-    $cell,
-    $setCell,
     $state,
     $setState,
+    $updateCell,
     _state
 }

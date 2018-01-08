@@ -81,11 +81,13 @@ const handleResizeRowColumn = (e, type) => {
     return;
 }
 
-const handleNavigateCells = (e) => {
+const handleNavigateCells = (args) => {
 
-    // const activeElement = $state().allCells.find((cell) => 'cell-' + cell.id === document.activeElement.id);
-    const activeElement = $state().allCells[document.activeElement.id.slice(5)];
-    if (!activeElement) { return };
+    const { e, state} = args;
+
+    const activeElement = state.allCells[document.activeElement.id.slice(5)];
+    if (!activeElement) return;
+
     let row = activeElement.row;
     let column = activeElement.column;
 
@@ -104,32 +106,36 @@ const handleNavigateCells = (e) => {
             break;
     }
 
-    const newElement = $state().allCells[`r${row}.c${column}`]
-    CellCommon.newSelectedCell(newElement);
-    newElement.input.focus();
+    const cell = state.allCells[`r${row}.c${column}`];
+    CellCommon.newSelectedCell2(state, cell);
+    cell.input.focus();
+
+    return;
 }
 
-const handleMouseup = () => {
+const handleMouseup = (state) => {
 
     $setState({
         mousedown: false,
         colDrag: false,
         rowDrag: false
     });
+
+    return;
 }
 
-const handleWindowKeyup = () => {
+const handleWindowKeyup = (state) => {
 
-    $setState({
-        commandActive: false
-    });
+    $setState({ commandActive: false });
+
+    return;
 }
 
-const enableCommandActive = () => {
+const enableCommandActive = (state) => {
 
-    $setState({
-        commandActive: true
-    });
+    $setState({ commandActive: true });
+
+    return;
 }
 
 module.exports = {

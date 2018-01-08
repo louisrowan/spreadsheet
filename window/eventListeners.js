@@ -19,7 +19,7 @@ const windowInput = (e) => {
 
     if (!cell) return;
 
-    return Handler({
+    return new Handler({
         type: 'cellInput',
         cell
     });
@@ -32,7 +32,7 @@ const windowMousedown = (e) => {
     
     if (!cell) return;
 
-    return Handler({
+    return new Handler({
         type: 'cellMousedown',
         cell
     });
@@ -45,7 +45,7 @@ const windowMouseover = (e) => {
 
     if (!cell || !$state('mousedown')) return;
 
-    return Handler({
+    return new Handler({
         type: 'cellMouseover',
         cell
     });
@@ -56,7 +56,7 @@ const windowMousemove = (e) => {
 
     if ($state('colDrag')) {
 
-        return Handler({
+        return new Handler({
             type: 'resizeRowColumn',
             value: 'column',
             e
@@ -64,7 +64,7 @@ const windowMousemove = (e) => {
     }
     else if ($state('rowDrag')) {
 
-        return Handler({
+        return new Handler({
             type: 'resizeRowColumn',
             value: 'row',
             e
@@ -80,7 +80,7 @@ const windowKeydown = (e) => {
         e.key === 'ArrowUp' ||
         e.key === 'ArrowDown') {
 
-        return Handler({
+        return new Handler({
             type: 'navigateCells',
             e
         });
@@ -88,14 +88,14 @@ const windowKeydown = (e) => {
 
     else if (e.key === 'Meta') {
 
-        return Handler({
+        return new Handler({
             type: 'enableCommandActive'
         });
     }
 
     if ($state('commandActive')) {
 
-        return Handler({
+        return new Handler({
             type: 'commandActiveKeydown',
             e
         });
@@ -103,7 +103,7 @@ const windowKeydown = (e) => {
 }
 
 
-const windowMouseup = () => Handler({ type: 'windowMouseup' });
+const windowMouseup = () => new Handler({ type: 'windowMouseup' });
 
 
-const windowKeyup = () => Handler({ type: 'windowKeyup' });
+const windowKeyup = () => new Handler({ type: 'windowKeyup' });

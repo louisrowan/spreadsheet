@@ -3,14 +3,12 @@
 const CellListeners = require('./cell/eventListeners');
 const ToolbarListeners = require('./toolbar/eventListeners');
 const WindowHandlers = require('./window/eventHandlers');
+const { _state } = require('./state');
 
-module.exports = (args) => {
+module.exports = function (args) {
 
     const { type, value, e, cell } = args;
-    const newState = {};
-    const newCells = {};
-
-    console.log('in here', event);
+    const state = _state;
 
     switch (type) {
         case 'cellInput':
@@ -26,23 +24,22 @@ module.exports = (args) => {
             WindowHandlers.handleResizeRowColumn(e, value);
             break;
         case 'windowMouseup':
-            WindowHandlers.handleMouseup();
+            WindowHandlers.handleMouseup(state);
             break;
         case 'navigateCells':
-            WindowHandlers.handleNavigateCells(e);
+            WindowHandlers.handleNavigateCells({ e, state});
             break;
         case 'enableCommandActive':
-            WindowHandlers.enableCommandActive();
+            WindowHandlers.enableCommandActive(state);
             break;
         case 'commandActiveKeydown':
             WindowHandlers.handleCommandActiveKeydown(e);
             break;
         case 'windowKeyup':
-            WindowHandlers.handleWindowKeyup();
+            WindowHandlers.handleWindowKeyup(state);
             break;
         default:
             console.log('err', args);
     }
-
     return;
 }

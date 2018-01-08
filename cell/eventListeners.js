@@ -2,7 +2,6 @@
 
 // const _state = require('../state')._state;
 const $state = require('../state').$state;
-const $setState = require('../state').$setState;
 const CellCommon = require('./common');
 const CellHandlers = require('./eventHandlers');
 

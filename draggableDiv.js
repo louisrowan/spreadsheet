@@ -1,6 +1,6 @@
 'use strict';
 
-const { $state, $setState } = require('./state');
+const { $state, _state } = require('./state');
 
 function DraggableDiv() {
 
@@ -10,9 +10,7 @@ function DraggableDiv() {
     this.div.style.background = 'transparent';
     this.div.style.border = '2px solid green';
     this.div.style['boxSizing'] = 'border-box';
-    $setState({
-        draggableDiv: this.div
-    });
+    _state.draggableDiv = this.div;
     hideDraggableDiv(this.div);
 
     return this.div;

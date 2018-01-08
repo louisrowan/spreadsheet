@@ -30,6 +30,20 @@ internals.newSelectedCell = exports.newSelectedCell = (cell) => {
     return;
 };
 
+exports.newSelectedCell2 = (state, cell) => {
+
+    CellStateUpdate.deactivateAllCells2(state);
+    CellStateUpdate.addToActiveCells(cell);
+    CellStateUpdate.styleSelectedCell(cell);
+    CellStateUpdate.updateStartCellRect(cell);
+    CellStateUpdate.updateEndCellRect()
+
+    const bound = internals.getCellBounding(cell);
+    WindowStateUpdate.setDraggableDivToCell(bound);
+
+    return;
+};
+
 
 internals.getCellBounding = exports.getCellBounding = (cell) => {
 
@@ -53,6 +67,7 @@ internals.parseColumn = exports.parseColumn = (id) => +id.substr(1).split('.c')[
 
 // external functions
 
+// old
 exports.copyCell = (cell) => {
 
     const newCell = new CellElement.Cell(cell.row, cell.column);
@@ -62,6 +77,21 @@ exports.copyCell = (cell) => {
 
     return newCell;
 };
+
+// new
+exports.cloneCell = (cell) => {
+
+    const clonedCell = {
+        input: {
+            value: cell.input.value,
+            style: Object.assign({}, cell.input.style)
+        },
+        row: cell.row,
+        column: cell.column,
+        id: `r${cell.row}.c${cell.column}`
+    }
+    return clonedCell;
+}
 
 
 exports.overwriteCellProps = (origin, source) => {

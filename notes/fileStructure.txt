@@ -259,3 +259,18 @@ input (cell, obj of values to Overwrite)
 
 
 
+---------------------------
+newstate/oldstate idea seems like extra comlpexity without helping anything.
+
+instead, just get state once and then pass it around.
+
+how to update state:
+
+update cell method:
+input: cell or cell ID
+output: updated cell (state has been modified as well)
+
+
+update state method:
+input: array of objs with (key: state key, value: new value);
+

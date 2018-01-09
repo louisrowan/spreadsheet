@@ -24,6 +24,7 @@ main.appendChild(new ToolbarElement.ToolbarBuffer());
 // add spreadsheet container
 const _spreadsheetContainer = new CellElement.SpreadsheetContainer();
 main.appendChild(_spreadsheetContainer);
+_state.spreadsheetContainer = _spreadsheetContainer;
 
 
 // add column headers

@@ -1,28 +1,25 @@
 'use strict';
 
-// const _state = require('../state')._state;
-const $state = require('../state').$state;
-const CellCommon = require('./common');
 const CellHandlers = require('./eventHandlers');
 
 
-exports.cellMousedownListener = (cell) => {
+exports.cellMousedownListener = (state, cell) => {
 
-    CellHandlers.handleCellMousedown(cell);
+    CellHandlers.handleCellMousedown(state, cell);
 }
 
-exports.cellMouseoverListener = (cell) => {
+exports.cellMouseoverListener = (state, cell) => {
 
-    CellHandlers.handleDrag(cell);
+    CellHandlers.handleDrag(state, cell);
 }
 
-exports.cellInputListener = (cell) => {
+exports.cellInputListener = (state, cell) => {
 
-    if ($state(`funcCellOutput:${cell.id}`)) {
-        CellHandlers.handleFuncCellOutput(cell);
+    if (state.funcCellOutput[cell.id]) {
+        CellHandlers.handleFuncCellOutput(state, cell);
     }
-    if ($state(`funcCellInput:${cell.id}`)) {
-        CellHandlers.handleFuncCellInput(cell);
+    if (state.funcCellInput[cell.id]) {
+        CellHandlers.handleFuncCellInput(state, cell);
     }
     return;
 }

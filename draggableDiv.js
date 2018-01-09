@@ -1,6 +1,6 @@
 'use strict';
 
-const { $state, _state } = require('./state');
+const { $state, _state, $updateDraggable } = require('./state');
 
 function DraggableDiv() {
 
@@ -16,10 +16,9 @@ function DraggableDiv() {
     return this.div;
 }
 
-function hideDraggableDiv (div) {
+function hideDraggableDiv () {
 
-    div = $state('draggableDiv');
-    div.style.visibility = 'hidden';
+    $updateDraggable({ visibility: 'hidden'});
 }
 
 module.exports = {

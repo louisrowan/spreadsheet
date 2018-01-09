@@ -7,6 +7,7 @@ const _state = {
     colDrag: false, // boolean to determine if column width drag is active
     rowDrag: false, // boolean to determine if row height drag is active
     draggableDiv: {}, // htmlElement that is used to show multi-selection and drag events
+    spreadsheetContainer: {}, // div surrounding all cells
     startCellRect: {}, // cell at start of draggableDiv
     endCellRect: {}, // cell at end of draggableDiv
     cutCopy: {
@@ -53,13 +54,34 @@ const $updateCell = (cell, newProps) => {
         console.warn('no cell found for', tmp)
     }
 
-    console.log('in update cell', cell);
+    if (newProps.style) {
+        Object.assign(cell.input.style, newProps.style);
+        delete newProps.style;
+    }
 
-    const t = Object.assign(cell, newProps)
+    if (newProps.divStyle) {
+        Object.assign(cell.div.style, newProps.divStyle);
+        delete newProps.divStyle
+    }
 
-    console.log(t);
+    Object.assign(cell, newProps)
+    return cell;
+}
 
-    return Object.assign(cell, newProps);
+
+const $updateDraggable = (styles) => {
+
+    if (typeof styles !== 'object') {
+        console.warn('bad input for update draggable', styles);
+    }
+
+    Object.assign(_state.draggableDiv.style, styles);
+}
+
+
+const $updateElementStyle = (element, styles) => {
+
+    return Object.assign(element.style, styles);
 }
 
 
@@ -67,5 +89,7 @@ module.exports = {
     $state,
     $setState,
     $updateCell,
-    _state
+    _state,
+    $updateDraggable,
+    $updateElementStyle
 }

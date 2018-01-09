@@ -1,25 +1,24 @@
 'use strict';
 
-const { $state } = require('../state');
-const Styles = require('./styles');
+const { $updateCell } = require('../state');
 const CellCommon = require('./common');
 const CellStateUpdate = require('./stateUpdate');
 const WindowStateUpdate = require('../window/stateUpdate');
 
 
-const handleCellMousedown = (cell) => {
+const handleCellMousedown = (state, cell) => {
 
-    CellCommon.newSelectedCell(cell);
+    CellCommon.newSelectedCell(state, cell);
     WindowStateUpdate.toggleMousedown(true)
 }
 
 
-const handleDrag = (cell) => {
+const handleDrag = (state, cell) => {
 
-    const start = $state('startCellRect');
-    const { left, top, width, height } = CellCommon.getMultiCellDimensions(start, cell);
+    const start = state.startCellRect;
+    const { left, top, width, height } = CellCommon.getMultiCellDimensions(state, start, cell);
 
-    Styles.inputStyle(start.input);
+    $updateCell(start, { style: { border: '1px solid rgb(238, 238, 238)' }});
     CellStateUpdate.updateEndCellRect(cell);
     WindowStateUpdate.setDraggableDivToDimensions(left, top, width, height)
 
@@ -28,9 +27,9 @@ const handleDrag = (cell) => {
     const topRow = Math.min(start.row, cell.row);
     const botRow = Math.max(start.row, cell.row);
 
-    Object.keys($state('allCells')).forEach((id) => {
+    Object.keys(state.allCells).forEach((id) => {
 
-        const cell = $state(`allCells:${id}`);
+        const cell = state.allCells[id];
 
         let backgroundColor;
         // if cell is start cell, set background to white
@@ -43,36 +42,36 @@ const handleDrag = (cell) => {
             botRow >= cell.row &&
             rightCol >= cell.column)
         {
-            CellStateUpdate.addToActiveCells(cell);
+            CellStateUpdate.addToActiveCells(state, cell);
             backgroundColor = 'lightgray'
         }
         // else if cell was marked as active, remove from active cells
         else if (cell.active) {
-            CellStateUpdate.removeFromActiveCells(cell);
+            CellStateUpdate.removeFromActiveCells(state, cell);
             backgroundColor = 'white'
         }
         // else do nothing
         else {};
         // if background color set, call update function
         if (backgroundColor) {
-            CellStateUpdate.updateCellStyleBackground(cell, backgroundColor)
+            $updateCell(cell, { style: { background: backgroundColor }})
         }
     });
     return;
 }
 
-const handleFuncCellInput = (cell) => {
+const handleFuncCellInput = (state, cell) => {
 
-    $state(`funcCellInput:${cell.id}`).forEach((inputCellId) => {
+    state.funcCellInput[cell.id].forEach((inputCellId) => {
 
-        const cellToUpdate = $state(`allCells:${inputCellId}`);
-        CellStateUpdate.updateFuncCellInputValue(cellToUpdate);
+        const cellToUpdate = state.allCells[inputCellId];
+        CellStateUpdate.updateFuncCellInputValue(state, cellToUpdate);
     })
 }
 
-const handleFuncCellOutput = (cell) => {
+const handleFuncCellOutput = (state, cell) => {
 
-    CellStateUpdate.updateFuncCellOutputValue(cell);
+    CellStateUpdate.updateFuncCellOutputValue(state, cell);
 }
 
 module.exports = {

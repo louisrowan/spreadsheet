@@ -16,39 +16,25 @@ const internals = {};
 
 // internal and external functions
 
-internals.newSelectedCell = exports.newSelectedCell = (cell) => {
+internals.newSelectedCell = exports.newSelectedCell = (state, cell) => {
 
-    CellStateUpdate.deactivateAllCells();
-    CellStateUpdate.addToActiveCells(cell);
+    CellStateUpdate.deactivateAllCells(state);
+    CellStateUpdate.addToActiveCells(state, cell);
     CellStateUpdate.styleSelectedCell(cell);
     CellStateUpdate.updateStartCellRect(cell);
     CellStateUpdate.updateEndCellRect()
 
-    const bound = internals.getCellBounding(cell);
-    WindowStateUpdate.setDraggableDivToCell(bound);
-
-    return;
-};
-
-exports.newSelectedCell2 = (state, cell) => {
-
-    CellStateUpdate.deactivateAllCells2(state);
-    CellStateUpdate.addToActiveCells(cell);
-    CellStateUpdate.styleSelectedCell(cell);
-    CellStateUpdate.updateStartCellRect(cell);
-    CellStateUpdate.updateEndCellRect()
-
-    const bound = internals.getCellBounding(cell);
+    const bound = internals.getCellBounding(state, cell);
     WindowStateUpdate.setDraggableDivToCell(bound);
 
     return;
 };
 
 
-internals.getCellBounding = exports.getCellBounding = (cell) => {
+internals.getCellBounding = exports.getCellBounding = (state, cell) => {
 
-    const column = $state(`columnHeaders:${cell.column + 1}`);
-    const row = $state(`rowHeaders:${cell.row}`);
+    const column = state.columnHeaders[cell.column + 1];
+    const row = state.rowHeaders[cell.row];
 
     return {
         x: column.position(),
@@ -125,10 +111,10 @@ exports.clearCell = (cell) => {
     CellListeners.cellInputListener(cell);
 };
 
-exports.getMultiCellDimensions = (startCell, endCell) => {
+exports.getMultiCellDimensions = (state, startCell, endCell) => {
 
-    const startBounding = internals.getCellBounding(startCell);
-    const endBounding = internals.getCellBounding(endCell);
+    const startBounding = internals.getCellBounding(state, startCell);
+    const endBounding = internals.getCellBounding(state, endCell);
 
     const left = Math.min(startBounding.x, endBounding.x);
     const top = Math.min(startBounding.y, endBounding.y);

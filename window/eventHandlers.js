@@ -1,14 +1,12 @@
 'use strict';
 
-const CELL_HEIGHT = require('../constants').CELL_HEIGHT;
-const ROW_COUNT = require('../constants').ROW_COUNT;
-const COL_COUNT = require('../constants').COL_COUNT;
+const { CELL_HEIGHT, ROW_COUNT, COL_COUNT } = require('../constants');
 const CellCommon = require('../cell/common');
 const CellStateUpdate = require('../cell/stateUpdate');
 const ToolbarListeners = require('../toolbar/eventListeners');
 const Common = require('../common');
 const DraggableDiv = require('../draggableDiv');
-const { $state, $setState } = require('../state');
+const { $setState, $updateElementStyle, $updateCell } = require('../state');
 
 const handleCommandActiveKeydown = (e) => {
 
@@ -31,10 +29,10 @@ const handleCommandActiveKeydown = (e) => {
 }
 
 
-const handleResizeRowColumn = (e, type) => {
+const handleResizeRowColumn = (state, e, type) => {
 
     DraggableDiv.hideDraggableDiv();
-    CellStateUpdate.deactivateAllCells();
+    CellStateUpdate.deactivateAllCells(state);
 
     let marker;
     let mousePosition;
@@ -42,16 +40,16 @@ const handleResizeRowColumn = (e, type) => {
     let prop;
     let heightOffset;
     if (type === 'row') {
-        marker = $state().rowDrag;
+        marker = state.rowDrag;
         mousePosition = e.clientY;
-        headerArray = $state().rowHeaders;
+        headerArray = state.rowHeaders;
         prop = 'height';
         heightOffset = 100 + CELL_HEIGHT;
     }
     else if (type === 'column') {
-        marker = $state().colDrag;
+        marker = state.colDrag;
         mousePosition = e.clientX;
-        headerArray = $state().columnHeaders;
+        headerArray = state.columnHeaders;
         prop = 'width';
         heightOffset = 0;
     }
@@ -69,15 +67,23 @@ const handleResizeRowColumn = (e, type) => {
     if (type === 'column' && Common.translatePxToNum(headerToMove.div.style[prop]) <= 50 && movement < 0) return;
     if (type === 'row' && Common.translatePxToNum(headerToMove.div.style[prop]) <= 25 && movement < 0) return;
 
-    Common.updateHeightWidth(headerToMove.div, movement, prop);
-    Common.updateHeightWidth(document.getElementById('spreadsheet-div'), movement, prop)
+    const headerChange = Common.getNewHeightWidth(headerToMove.div, movement, prop);
+    $updateElementStyle(headerToMove.div, headerChange);
 
-    const cells = Object.keys($state('allCells')).filter((c) => {
+    const containerChange = Common.getNewHeightWidth(state.spreadsheetContainer, movement, prop);
+    $updateElementStyle(state.spreadsheetContainer, containerChange);
 
-        const cell = $state(`allCells:${c}`);
+    const cells = Object.keys(state.allCells).filter((c) => {
+
+        const cell = state.allCells[c];
         return cell[type] === marker[type] - 1;
     });
-    cells.forEach((c) => Common.updateHeightWidth($state(`allCells:${c}:div`), movement, prop))
+    cells.forEach((c) => {
+
+        const cell = state.allCells[c];
+        const cellChange = Common.getNewHeightWidth(cell.div, movement, prop);
+        $updateCell(cell, { divStyle: cellChange });
+    })
     return;
 }
 
@@ -107,11 +113,11 @@ const handleNavigateCells = (args) => {
     }
 
     const cell = state.allCells[`r${row}.c${column}`];
-    CellCommon.newSelectedCell2(state, cell);
+    CellCommon.newSelectedCell(state, cell);
     cell.input.focus();
 
     return;
-}
+};
 
 const handleMouseup = (state) => {
 
@@ -122,21 +128,24 @@ const handleMouseup = (state) => {
     });
 
     return;
-}
+};
+
 
 const handleWindowKeyup = (state) => {
 
     $setState({ commandActive: false });
 
     return;
-}
+};
+
 
 const enableCommandActive = (state) => {
 
     $setState({ commandActive: true });
 
     return;
-}
+};
+
 
 module.exports = {
     handleCommandActiveKeydown,
@@ -145,4 +154,4 @@ module.exports = {
     handleMouseup,
     handleWindowKeyup,
     enableCommandActive
-}
+};

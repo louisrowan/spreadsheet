@@ -12,16 +12,16 @@ module.exports = function (args) {
 
     switch (type) {
         case 'cellInput':
-            CellListeners.cellInputListener(cell);
+            CellListeners.cellInputListener(state, cell);
             break;
         case 'cellMousedown':
-            CellListeners.cellMousedownListener(cell);
+            CellListeners.cellMousedownListener(state, cell);
             break;
         case 'cellMouseover':
-            CellListeners.cellMouseoverListener(cell);
+            CellListeners.cellMouseoverListener(state, cell);
             break;
         case 'resizeRowColumn':
-            WindowHandlers.handleResizeRowColumn(e, value);
+            WindowHandlers.handleResizeRowColumn(state, e, value);
             break;
         case 'windowMouseup':
             WindowHandlers.handleMouseup(state);

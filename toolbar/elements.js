@@ -3,6 +3,7 @@
 const Styles = require('./styles');
 const ToolbarListeners = require('./eventListeners');
 
+
 function Toolbar () {
 
     this.toolbar = document.createElement('div');
@@ -12,7 +13,8 @@ function Toolbar () {
     internals.addButtons(this.toolbar);
 
     return this.toolbar;
-}
+};
+
 
 function ToolbarBuffer () {
 
@@ -20,18 +22,19 @@ function ToolbarBuffer () {
     this.div.style.height = document.getElementById('toolbar-div').style.height;
 
     return this.div;
-}
+};
+
 
 function EraseButton() {
 
     this.button = document.createElement('button');
     this.button.innerText = 'Delete';
+    this.button.setAttribute('id', 'deleteButton');
     Styles.commonButtonStyle(this.button);
 
-    this.button.addEventListener('click', (e) => ToolbarListeners.eraseButton_Click());
-
     return this.button;
-}
+};
+
 
 function DropdownButton(atts) {
 
@@ -41,53 +44,53 @@ function DropdownButton(atts) {
     this.button.style[atts.key] = 'red';
 
     return this.button;
-}
+};
 
 
 function CssButton(atts) {
 
     this.button = document.createElement('button');
     this.button.innerText = atts.text;
+    this.button.setAttribute('id', atts.id);
     this.button.style[atts.key] = atts.value;
     Styles.commonButtonStyle(this.button);
 
-    this.button.addEventListener('click', (e) => ToolbarListeners.cssButton_Click(atts));
-
     return this.button;
-}
+};
+
 
 function CutCopyButton (type) {
 
     this.button = document.createElement('button');
     this.button.innerText = type;
+    this.button.setAttribute('id', `${type}Button`);
     Styles.commonButtonStyle(this.button);
 
-    this.button.addEventListener('click', (e) => ToolbarListeners.cutCopyButton_Click(type));
-
     return this.button;
-}
+};
+
 
 function PasteButton () {
 
     this.button = document.createElement('button');
     this.button.innerText = 'paste';
+    this.button.setAttribute('id', 'pasteButton');
     Styles.commonButtonStyle(this.button);
 
-    this.button.addEventListener('click', (e) => ToolbarListeners.pasteButton_Click());
-
     return this.button;
-}
+};
+
 
 function SumButton () {
 
     this.button = document.createElement('button');
     this.button.innerText = 'sum';
+    this.button.setAttribute('id', 'sumButton');
     Styles.commonButtonStyle(this.button);
 
-    this.button.addEventListener('click', (e) => ToolbarListeners.sumButton_Click());
-
     return this.button;
-}
+};
+
 
 const internals = {};
 
@@ -97,32 +100,38 @@ internals.addButtons = function (toolbar) {
         {
             key: 'fontWeight',
             value: 'bold',
-            text: 'B'
+            text: 'B',
+            id: 'boldButton'
         },
         {
             key: 'fontStyle',
             value: 'italic',
-            text: 'I'
+            text: 'I',
+            id: 'italicButton'
         },
         {
             key: 'textDecoration',
             value: 'underline',
-            text: 'U'
+            text: 'U',
+            id: 'underlineButton'
         },
         {
             key: 'textAlign',
             value: 'left',
-            text: '='
+            text: '=',
+            id: 'leftalignButton'
         },
         {
             key: 'textAlign',
             value: 'center',
-            text: '='
+            text: '=',
+            id: 'centeralignButton'
         },
         {
             key: 'textAlign',
             value: 'right',
-            text: '='
+            text: '=',
+            id: 'rightalignButton'
         }
     ];
 
@@ -149,7 +158,8 @@ internals.addButtons = function (toolbar) {
     toolbar.appendChild(new CutCopyButton('copy'));
     toolbar.appendChild(new PasteButton());
     toolbar.appendChild(new SumButton());
-}
+};
+
 
 module.exports = {
     Toolbar,
@@ -160,4 +170,4 @@ module.exports = {
     CutCopyButton,
     PasteButton,
     SumButton
-}
+};

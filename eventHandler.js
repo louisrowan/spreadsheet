@@ -5,6 +5,7 @@ const ToolbarListeners = require('./toolbar/eventListeners');
 const WindowHandlers = require('./window/eventHandlers');
 const { _state } = require('./state');
 
+
 module.exports = function (args) {
 
     const { type, value, e, cell } = args;
@@ -33,10 +34,13 @@ module.exports = function (args) {
             WindowHandlers.enableCommandActive(state);
             break;
         case 'commandActiveKeydown':
-            WindowHandlers.handleCommandActiveKeydown(e);
+            WindowHandlers.handleCommandActiveKeydown(state, e);
             break;
         case 'windowKeyup':
             WindowHandlers.handleWindowKeyup(state);
+            break;
+        case 'buttonClick':
+            ToolbarListeners.handleButtonClick(state, e);
             break;
         default:
             console.log('err', args);

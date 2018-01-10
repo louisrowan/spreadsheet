@@ -1,15 +1,15 @@
 'use strict';
 
-const _state = require('../state')._state;
-const { $state } = require('../state');
+const { $updateCell } = require('../state');
 const Common = require('../common');
 const CellElement = require('./elements');
+const CellListeners = require('./eventListeners');
 const CellStateUpdate = require('./stateUpdate');
 const WindowStateUpdate = require('../window/stateUpdate');
 const Styles = require('./styles');
 
-const internals = {};
 
+const internals = {};
 
 // internal-only
 
@@ -53,7 +53,6 @@ internals.parseColumn = exports.parseColumn = (id) => +id.substr(1).split('.c')[
 
 // external functions
 
-// old
 exports.copyCell = (cell) => {
 
     const newCell = new CellElement.Cell(cell.row, cell.column);
@@ -64,26 +63,20 @@ exports.copyCell = (cell) => {
     return newCell;
 };
 
-// new
-exports.cloneCell = (cell) => {
-
-    const clonedCell = {
-        input: {
-            value: cell.input.value,
-            style: Object.assign({}, cell.input.style)
-        },
-        row: cell.row,
-        column: cell.column,
-        id: `r${cell.row}.c${cell.column}`
-    }
-    return clonedCell;
-}
-
 
 exports.overwriteCellProps = (origin, source) => {
 
-    origin.style = Object.assign({}, source.style);
-    origin.input.value = source.input.value;
+    const sourceStyle = source.input.style;
+
+    $updateCell(origin, {
+        style: {
+            fontWeight: sourceStyle.fontWeight,
+            fontStyle: sourceStyle.fontStyle,
+            textDecoration: sourceStyle.textDecoration,
+            textAlign: sourceStyle.textAlign
+        },
+        value: source.input.value
+    });
 };
 
 
@@ -102,14 +95,15 @@ exports.isSameCell = (cell1, cell2) => {
 };
 
 
-exports.clearCell = (cell) => {
+exports.clearCell = (state, cell) => {
 
-    const CellListeners = require('./eventListeners');
+    $updateCell(cell, {
+        value: ' '
+    });
 
-    cell.input.value = '';
-    Styles.inputStyle(cell.input);
-    CellListeners.cellInputListener(cell);
+    CellListeners.cellInputListener(state, cell);
 };
+
 
 exports.getMultiCellDimensions = (state, startCell, endCell) => {
 

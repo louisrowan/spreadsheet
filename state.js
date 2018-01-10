@@ -10,10 +10,8 @@ const _state = {
     spreadsheetContainer: {}, // div surrounding all cells
     startCellRect: {}, // cell at start of draggableDiv
     endCellRect: {}, // cell at end of draggableDiv
-    cutCopy: {
-        type: '', // string indicating if action is cut or copy
-        cells: [] // array of cell objects containing cells on cut/copy clipboard
-    },
+    cutCopyType: '', // string indicating if action is cut or copy
+    cutCopyCells: [], // array of cell objects containing cells on cut/copy clipboard
     commandActive: false, // boolean to determine if command key is being held down
     columnHeaders: [], // array of column header objects
     rowHeaders: [], //  array of row header objects,
@@ -62,6 +60,10 @@ const $updateCell = (cell, newProps) => {
     if (newProps.divStyle) {
         Object.assign(cell.div.style, newProps.divStyle);
         delete newProps.divStyle
+    }
+
+    if (newProps.value) {
+        cell.input.value = newProps.value
     }
 
     Object.assign(cell, newProps)

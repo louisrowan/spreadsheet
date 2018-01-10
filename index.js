@@ -4,11 +4,11 @@ const { COL_COUNT, ROW_COUNT } = require('./constants');
 const LoggerObject = require('./logger.js');
 const ToolbarElement = require('./toolbar/elements');
 const CellElement = require('./cell/elements');
-const { $state, _state } = require('./state')
+const { _state } = require('./state')
 const DraggableDiv = require('./draggableDiv').DraggableDiv;
 
 
-const Logger = new LoggerObject();
+// const Logger = new LoggerObject();
 const main = document.getElementById('main');
 
 const body = document.body;

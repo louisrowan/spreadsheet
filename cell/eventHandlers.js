@@ -10,7 +10,7 @@ const handleCellMousedown = (state, cell) => {
 
     CellCommon.newSelectedCell(state, cell);
     WindowStateUpdate.toggleMousedown(true)
-}
+};
 
 
 const handleDrag = (state, cell) => {
@@ -58,7 +58,8 @@ const handleDrag = (state, cell) => {
         }
     });
     return;
-}
+};
+
 
 const handleFuncCellInput = (state, cell) => {
 
@@ -67,12 +68,14 @@ const handleFuncCellInput = (state, cell) => {
         const cellToUpdate = state.allCells[inputCellId];
         CellStateUpdate.updateFuncCellInputValue(state, cellToUpdate);
     })
-}
+};
+
 
 const handleFuncCellOutput = (state, cell) => {
 
     CellStateUpdate.updateFuncCellOutputValue(state, cell);
-}
+};
+
 
 module.exports = {
     handleCellMousedown,

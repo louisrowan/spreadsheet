@@ -1,6 +1,6 @@
 'use strict';
 
-function getColumnCount (cells) {
+exports.getColumnCount = (cells) => {
 
     // determine # of columns that copied cell rectangle contains
     let cols = 0;
@@ -12,8 +12,4 @@ function getColumnCount (cells) {
         ++cols;
     }
     return cols;
-}
-
-module.exports = {
-    getColumnCount
-}
+};

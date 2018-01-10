@@ -1,6 +1,6 @@
 'use strict';
 
-const { $state, _state, $updateDraggable } = require('./state');
+const { $setState, $updateDraggable } = require('./state');
 
 function DraggableDiv() {
 
@@ -10,13 +10,13 @@ function DraggableDiv() {
     this.div.style.background = 'transparent';
     this.div.style.border = '2px solid green';
     this.div.style['boxSizing'] = 'border-box';
-    _state.draggableDiv = this.div;
+    $setState({ draggableDiv: this.div })
     hideDraggableDiv(this.div);
 
     return this.div;
 }
 
-function hideDraggableDiv () {
+const hideDraggableDiv = () => {
 
     $updateDraggable({ visibility: 'hidden'});
 }
@@ -24,4 +24,4 @@ function hideDraggableDiv () {
 module.exports = {
     DraggableDiv,
     hideDraggableDiv
-}
+};

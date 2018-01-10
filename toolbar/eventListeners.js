@@ -1,45 +1,93 @@
 'use strict';
 
-const _state = require('../state')._state;
-const { $cell, $setCell, $state } = require('../state');
+const { $cell, $setCell, _state, $setState } = require('../state');
 const CellCommon = require('../cell/common');
-const ToolbarHandlers = require('./eventHandlers');
 
-function eraseButton_Click () {
 
-    _state.activeCells.forEach((id) => _state.allCells[id].input.value = '');
+const handleButtonClick = (state, e) => {
 
-    // $state().activeCells.forEach((cell) => {
+    if (!e.target.id) return;
 
-    //     console.log('update cell');
-    //     const c = $cell(cell.id);
-    //     // cell.input.value = '';
-    //     $setCell({
-    //         c: cell
-    //     });
-    // })
-}
+    switch (e.target.id) {
+        case 'deleteButton':
+            eraseButtonClick(state);
+            break;
+        case 'boldButton':
+            cssButtonClick(state, {
+                key: 'fontWeight', value: 'bold'
+            });
+            break;
+        case 'italicButton':
+            cssButtonClick(state, {
+                key: 'fontStyle', value: 'italic'
+            });
+            break;
+        case 'underlineButton':
+            cssButtonClick(state, {
+                key: 'textDecoration', value: 'underline'
+            });
+            break;
+        case 'leftalignButton':
+            cssButtonClick(state, {
+                key: 'textAlign', value: 'left'
+            });
+            break;
+        case 'centeralignButton':
+            cssButtonClick(state, {
+                key: 'textAlign', value: 'center'
+            });
+            break;
+        case 'rightalignButton':
+            cssButtonClick(state, {
+                key: 'textAlign', value: 'right'
+            });
+            break;
+        case 'cutButton':
+            cutCopyButtonClick(state, 'cut');
+            break;
+        case 'copyButton':
+            cutCopyButtonClick(state, 'copy');
+            break;
+        case 'pasteButton':
+            pasteButtonClick(state);
+            break;
+        case 'sumButton':
+            sumButtonClick();
+            break;
+        default:
+            console.warn('bad button click', e);
+    }
+};
 
-function cssButton_Click (atts) {
 
-    _state.activeCells.forEach((id) => {
+const eraseButtonClick = (state) => {
 
-        const cell = _state.allCells[id];
+    state.activeCells.forEach((id) => state.allCells[id].input.value = '');
+
+};
+
+
+const cssButtonClick = (state, atts) => {;
+
+    state.activeCells.forEach((id) => {
+
+        const cell = state.allCells[id];
 
         // toggle property
         let style = cell.input.style;
         style[atts.key] = style[atts.key] === atts.value ? '' : atts.value;
     });
-}
+};
 
-function cutCopyButton_Click (type) {
 
-    _state.activeCells = CellCommon.sortCellIdsByPosition(_state.activeCells);
-    _state.cutCopy.cells = [];
-    _state.cutCopy.type = type;
+const cutCopyButtonClick = (state, type) => {
+
+    state.activeCells = CellCommon.sortCellIdsByPosition(state.activeCells);
+    $setState({ cutCopyCells: [], cutCopyType: type })
+
     let currentRow = [];
     let row;
-    _state.activeCells.forEach((id) => {
+    state.activeCells.forEach((id) => {
 
         const cell = _state.allCells[id];
 
@@ -48,22 +96,63 @@ function cutCopyButton_Click (type) {
         }
 
         if (row !== cell.row) {
-            _state.cutCopy.cells.push(currentRow);
+            // clone array and push new row array into it
+            const addedLastRow = state.cutCopyCells.concat();
+            addedLastRow.push(currentRow);
+            $setState({ cutCopyCells: addedLastRow })
             currentRow = [];
             row = cell.row;
         }
         currentRow.push(CellCommon.copyCell(cell));
     });
-    _state.cutCopy.cells.push(currentRow);
+    // clone array and push new row array into it
+    const addedLastRow = state.cutCopyCells.concat();
+    addedLastRow.push(currentRow)
+    $setState({ cutCopyCells: addedLastRow })
     return;
-}
+};
 
-function pasteButton_Click () {
 
-    ToolbarHandlers.handlePaste();
-}
+const pasteButtonClick = (state) => {
 
-function sumButton_Click () {
+    // return if no active cells
+    if (state.activeCells.length < 1) {
+        console.warn('pasting with no active cells')
+        return
+    }
+
+    // step 1: find 'first' active elemnt
+    const firstActive = CellCommon.sortCellIdsByPosition(state.activeCells)[0];
+    const firstRow = CellCommon.parseRow(firstActive);
+    const firstColumn = CellCommon.parseColumn(firstActive);
+
+    // step 2: set up looping of copy/paste rows (outer array)
+    for (let r = 0; r < state.cutCopyCells.length; ++r) {
+
+        const currentRow = state.cutCopyCells[r];
+        for (let c = 0; c < currentRow.length; ++c) {
+
+            const allCell = state.allCells[`r${firstRow + r}.c${firstColumn + c}`];
+            if (!allCell) {
+                break;
+            }
+
+            CellCommon.overwriteCellProps(allCell, state.cutCopyCells[r][c]);
+
+            if (state.cutCopyType === 'cut') {
+                const cutCell = state.allCells[state.cutCopyCells[r][c].id];
+                CellCommon.clearCell(state, cutCell)
+            }
+        }
+    }
+
+    if (state.cutCopyType === 'cut') {
+        $setState({ cutCopyType: 'copy' })
+    }
+};
+
+
+const sumButtonClick = (state) => {
 
     if (!_state.activeCells || _state.activeCells.length < 2) {
         return;
@@ -103,12 +192,11 @@ function sumButton_Click () {
         });
         cellToSum.input.value = sum;
     })
-}
+};
+
 
 module.exports = {
-    eraseButton_Click,
-    cssButton_Click,
-    cutCopyButton_Click,
-    pasteButton_Click,
-    sumButton_Click
-}
+    handleButtonClick,
+    cutCopyButtonClick,
+    pasteButtonClick
+};

@@ -1,23 +1,17 @@
 'use strict';
 
-// function updateHeightWidth (element, diff, prop) {
-
-//     const original = translatePxToNum(element.style[prop]);
-//     const updated = `${+original + +diff}px`;
-//     element.style[prop] = updated;
-//     return;
-// }
-
 const getNewHeightWidth = (element, diff, property) => {
 
     const original = translatePxToNum(element.style[property]);
     return { [property]: `${+original + +diff}px` }
-}
+};
 
-function translatePxToNum (px) {
+
+const translatePxToNum = (px) => {
 
     return +(px.slice(0, -2));
-}
+};
+
 
 const validate = (args, funcName) => {
 
@@ -33,11 +27,11 @@ const validate = (args, funcName) => {
         }
     })
     return;
-}
+};
+
 
 module.exports = {
-    // updateHeightWidth,
     getNewHeightWidth,
     translatePxToNum,
     validate
-}
+};

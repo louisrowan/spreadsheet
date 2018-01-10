@@ -1,6 +1,6 @@
 'use strict';
 
-function styleToolbar(toolbar) {
+const styleToolbar = (toolbar) => {
 
     const style = toolbar.style;
 
@@ -11,16 +11,17 @@ function styleToolbar(toolbar) {
     style.width = '100%';
     style['zIndex'] = '999';
     style['minWidth'] = '500px';
+};
 
-}
 
-function commonButtonStyle(button) {
+const commonButtonStyle = (button) => {
 
     button.style.width = '70px';
     button.style.height = '35px';
-}
+};
+
 
 module.exports = {
     styleToolbar,
     commonButtonStyle
-}
+};

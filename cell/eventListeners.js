@@ -6,12 +6,14 @@ const CellHandlers = require('./eventHandlers');
 exports.cellMousedownListener = (state, cell) => {
 
     CellHandlers.handleCellMousedown(state, cell);
-}
+};
+
 
 exports.cellMouseoverListener = (state, cell) => {
 
     CellHandlers.handleDrag(state, cell);
-}
+};
+
 
 exports.cellInputListener = (state, cell) => {
 

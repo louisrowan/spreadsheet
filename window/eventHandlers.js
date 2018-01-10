@@ -8,25 +8,26 @@ const Common = require('../common');
 const DraggableDiv = require('../draggableDiv');
 const { $setState, $updateElementStyle, $updateCell } = require('../state');
 
-const handleCommandActiveKeydown = (e) => {
+
+const handleCommandActiveKeydown = (state, e) => {
 
     if (e.key === 'c') {
         e.preventDefault();
-        ToolbarListeners.cutCopyButton_Click('copy');
+        ToolbarListeners.cutCopyButtonClick(state, 'copy');
         return;
     }
     else if (e.key === 'x') {
         e.preventDefault();
-        ToolbarListeners.cutCopyButton_Click('cut');
+        ToolbarListeners.cutCopyButtonClick(state, 'cut');
         return;
     }
     else if (e.key === 'v') {
         e.preventDefault();
-        ToolbarListeners.pasteButton_Click();
+        ToolbarListeners.pasteButtonClick(state);
         return;
     }
     return;
-}
+};
 
 
 const handleResizeRowColumn = (state, e, type) => {
@@ -85,7 +86,8 @@ const handleResizeRowColumn = (state, e, type) => {
         $updateCell(cell, { divStyle: cellChange });
     })
     return;
-}
+};
+
 
 const handleNavigateCells = (args) => {
 

@@ -1,12 +1,9 @@
 'use strict';
 
 const Styles = require('./styles');
-const _state = require('../state')._state;
-const { $state } = require('../state');
+const { _state } = require('../state');
 const Common = require('../common');
-const CELL_HEIGHT = require('../constants').CELL_HEIGHT;
-const CELL_WIDTH = require('../constants').CELL_WIDTH;
-const COL_COUNT = require('../constants').COL_COUNT;
+const { CELL_HEIGHT, CELL_WIDTH, COL_COUNT } = require('../constants');
 
 function Cell (row, column) {
 
@@ -27,19 +24,9 @@ function Cell (row, column) {
 
     // connect elements and add cell to allCells array
     this.div.appendChild(this.input);
+
     return this;
-}
-
-Cell.prototype.getText = function() {
-
-    return this.input.value;
-}
-
-Cell.prototype.setText = function(val) {
-
-    this.input.value = val;
-    return this.input.value;
-}
+};
 
 
 function ColumnHeader (column) {
@@ -54,7 +41,7 @@ function ColumnHeader (column) {
     this.textElement.innerText = column < 0 ? '' : getLetter();
     this.position = () => {
 
-        return $state('columnHeaders').slice(0, column + 1).reduce((a, b) => {
+        return _state.columnHeaders.slice(0, column + 1).reduce((a, b) => {
 
             return a += Common.translatePxToNum(b.div.style.width);
         }, 0)
@@ -75,7 +62,7 @@ function ColumnHeader (column) {
     this.div.appendChild(this.textElement)
 
     return this;
-}
+};
 
 
 const getLetter = (function() {
@@ -100,7 +87,8 @@ const getLetter = (function() {
         ++letterIndex;
         return result;
     }
-}())
+}());
+
 
 function RowHeader (row) {
 
@@ -113,7 +101,7 @@ function RowHeader (row) {
     this.row = row;
     this.position = () => {
 
-        return $state('rowHeaders').slice(0, row).reduce((a, b) => {
+        return _state.rowHeaders.slice(0, row).reduce((a, b) => {
 
             return a += Common.translatePxToNum(b.div.style.height);
         }, 100 + CELL_HEIGHT)
@@ -134,7 +122,8 @@ function RowHeader (row) {
     this.div.appendChild(this.textElement);
 
     return this;
-}
+};
+
 
 function SpreadsheetContainer () {
 
@@ -147,9 +136,10 @@ function SpreadsheetContainer () {
     return this.div;
 }
 
+
 module.exports = {
     Cell,
     ColumnHeader,
     RowHeader,
     SpreadsheetContainer
-}
+};

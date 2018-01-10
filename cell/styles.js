@@ -4,7 +4,7 @@ const Validate = require('../common').validate;
 const CELL_HEIGHT = require('../constants').CELL_HEIGHT
 const CELL_WIDTH = require('../constants').CELL_WIDTH;
 
-function cellStyle(div) {
+exports.cellStyle = (div) => {
 
     const style = div.style;
     
@@ -12,9 +12,10 @@ function cellStyle(div) {
     style.height = CELL_HEIGHT + 'px';
     style.float = 'left';
     return;
-}
+};
 
-function inputStyle(input) {
+
+exports.inputStyle = (input) => {
 
     const style = input.style;
     
@@ -29,9 +30,10 @@ function inputStyle(input) {
     style['textDecoration'] = 'none';
     style['textAlign'] = 'left';
     return;
-}
+};
 
-function headerCellStyle (div) {
+
+exports.headerCellStyle = (div) => {
 
     const style = div.style;
 
@@ -40,9 +42,10 @@ function headerCellStyle (div) {
     style.position = 'relative';
     style['boxSizing'] = 'border-box';
     return;
-}
+};
 
-function columnHeaderSpanStyle (div) {
+
+exports.columnHeaderSpanStyle = (div) => {
 
     const style = div.style;
 
@@ -54,9 +57,10 @@ function columnHeaderSpanStyle (div) {
     style.cursor = 'col-resize';
     style['boxSizing'] = 'border-box';
     return;
-}
+};
 
-function rowHeaderSpanStyle (span, div) {
+
+exports.rowHeaderSpanStyle = (span, div) => {
 
     const style = span.style;
 
@@ -68,9 +72,10 @@ function rowHeaderSpanStyle (span, div) {
     style.cursor = 'row-resize';
     style['boxSizing'] = 'border-box';
     return;
-}
+};
 
-function columnHeaderTextStyle (element, height) {
+
+exports.columnHeaderTextStyle = (element, height) => {
 
     const style = element.style;
 
@@ -85,13 +90,4 @@ function columnHeaderTextStyle (element, height) {
     style['pointerEvents'] = 'none';
     style['paddingTop'] = (CELL_HEIGHT/3) + 'px';
     return;
-}
-
-module.exports = {
-    cellStyle,
-    inputStyle,
-    headerCellStyle,
-    columnHeaderSpanStyle,
-    rowHeaderSpanStyle,
-    columnHeaderTextStyle
-}
+};

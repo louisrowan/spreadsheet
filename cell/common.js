@@ -1,40 +1,40 @@
 'use strict';
 
-const _state = require('../state')._state;
-const { $state } = require('../state');
+const { $updateCell } = require('../state');
 const Common = require('../common');
 const CellElement = require('./elements');
+const CellListeners = require('./eventListeners');
 const CellStateUpdate = require('./stateUpdate');
 const WindowStateUpdate = require('../window/stateUpdate');
 const Styles = require('./styles');
 
-const internals = {};
 
+const internals = {};
 
 // internal-only
 
 
 // internal and external functions
 
-internals.newSelectedCell = exports.newSelectedCell = (cell) => {
+internals.newSelectedCell = exports.newSelectedCell = (state, cell) => {
 
-    CellStateUpdate.deactivateAllCells();
-    CellStateUpdate.addToActiveCells(cell);
+    CellStateUpdate.deactivateAllCells(state);
+    CellStateUpdate.addToActiveCells(state, cell);
     CellStateUpdate.styleSelectedCell(cell);
     CellStateUpdate.updateStartCellRect(cell);
     CellStateUpdate.updateEndCellRect()
 
-    const bound = internals.getCellBounding(cell);
+    const bound = internals.getCellBounding(state, cell);
     WindowStateUpdate.setDraggableDivToCell(bound);
 
     return;
 };
 
 
-internals.getCellBounding = exports.getCellBounding = (cell) => {
+internals.getCellBounding = exports.getCellBounding = (state, cell) => {
 
-    const column = $state(`columnHeaders:${cell.column + 1}`);
-    const row = $state(`rowHeaders:${cell.row}`);
+    const column = state.columnHeaders[cell.column + 1];
+    const row = state.rowHeaders[cell.row];
 
     return {
         x: column.position(),
@@ -43,6 +43,12 @@ internals.getCellBounding = exports.getCellBounding = (cell) => {
         height: Common.translatePxToNum(cell.div.style.height)
     }
 };
+
+
+internals.parseRow = exports.parseRow = (id) => +id.substr(1).split('.c')[0];
+
+
+internals.parseColumn = exports.parseColumn = (id) => +id.substr(1).split('.c')[1];
 
 
 // external functions
@@ -60,8 +66,17 @@ exports.copyCell = (cell) => {
 
 exports.overwriteCellProps = (origin, source) => {
 
-    origin.style = Object.assign({}, source.style);
-    origin.input.value = source.input.value;
+    const sourceStyle = source.input.style;
+
+    $updateCell(origin, {
+        style: {
+            fontWeight: sourceStyle.fontWeight,
+            fontStyle: sourceStyle.fontStyle,
+            textDecoration: sourceStyle.textDecoration,
+            textAlign: sourceStyle.textAlign
+        },
+        value: source.input.value
+    });
 };
 
 
@@ -69,15 +84,9 @@ exports.sortCellIdsByPosition = (cellIds) => {
 
     return cellIds.sort((a, b) => {
 
-        return parseRow(a) - parseRow(b) || parseColumn(a) - parseColumn(b);
+        return internals.parseRow(a) - internals.parseRow(b) || internals.parseColumn(a) - internals.parseColumn(b);
     });
 };
-
-
-exports.parseRow = (id) => +id.substr(1).split('.c')[0];
-
-
-exports.parseColumn = (id) => +id.substr(1).split('.c')[1];
 
 
 exports.isSameCell = (cell1, cell2) => {
@@ -86,19 +95,20 @@ exports.isSameCell = (cell1, cell2) => {
 };
 
 
-exports.clearCell = (cell) => {
+exports.clearCell = (state, cell) => {
 
-    const CellListeners = require('./eventListeners');
+    $updateCell(cell, {
+        value: ' '
+    });
 
-    cell.input.value = '';
-    Styles.inputStyle(cell.input);
-    CellListeners.cellInputListener(cell);
+    CellListeners.cellInputListener(state, cell);
 };
 
-exports.getMultiCellDimensions = (startCell, endCell) => {
 
-    const startBounding = internals.getCellBounding(startCell);
-    const endBounding = internals.getCellBounding(endCell);
+exports.getMultiCellDimensions = (state, startCell, endCell) => {
+
+    const startBounding = internals.getCellBounding(state, startCell);
+    const endBounding = internals.getCellBounding(state, endCell);
 
     const left = Math.min(startBounding.x, endBounding.x);
     const top = Math.min(startBounding.y, endBounding.y);

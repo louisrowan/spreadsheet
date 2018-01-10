@@ -7,12 +7,11 @@ const _state = {
     colDrag: false, // boolean to determine if column width drag is active
     rowDrag: false, // boolean to determine if row height drag is active
     draggableDiv: {}, // htmlElement that is used to show multi-selection and drag events
+    spreadsheetContainer: {}, // div surrounding all cells
     startCellRect: {}, // cell at start of draggableDiv
     endCellRect: {}, // cell at end of draggableDiv
-    cutCopy: {
-        type: '', // string indicating if action is cut or copy
-        cells: [] // array of cell objects containing cells on cut/copy clipboard
-    },
+    cutCopyType: '', // string indicating if action is cut or copy
+    cutCopyCells: [], // array of cell objects containing cells on cut/copy clipboard
     commandActive: false, // boolean to determine if command key is being held down
     columnHeaders: [], // array of column header objects
     rowHeaders: [], //  array of row header objects,
@@ -38,57 +37,61 @@ const $state = (path) => {
 
 const $setState = (args) => {
 
-    if (typeof args !== 'object') {
-        console.warn('bad input for set state', args)
+    return Object.assign(_state, args)
+}
+
+
+const $updateCell = (cell, newProps) => {
+
+    let tmp = cell;
+    if (typeof cell === 'string') {
+        cell = _state.allCells[cell];
     }
 
-    Object.keys(args).forEach((key) => {
-
-        const oldState = _state[key];
-        if (!oldState && oldState != false) {
-            console.warn('bad request for', key, _state, _state[key])
-            return;
-        }
-
-        const newState = args[key];
-        _state[key] = newState;
-    })
-
-    return _state;
-}
-
-const $cell = (id) => {
-
-    const copyCell = require('./cell/common').copyCell;
-
-    return copyCell(_state.allCells[id]) || console.warn('cell', id, 'not found');
-}
-
-const $setCell = (args) => {
-
-    if (typeof args !== 'object') {
-        console.warn('bad input for set cell', args)
+    if (!cell) {
+        console.warn('no cell found for', tmp)
     }
 
-    Object.keys(args).forEach((cell) => {
+    if (newProps.style) {
+        Object.assign(cell.input.style, newProps.style);
+        delete newProps.style;
+    }
 
-        const oldCell = _state.allCells[cell.id];
-        if (!oldCell) {
-            console.warn('bad set cell request for', cell);
-            return
-        }
+    if (newProps.divStyle) {
+        Object.assign(cell.div.style, newProps.divStyle);
+        delete newProps.divStyle
+    }
 
-        const newCell = args[cell];
-        oldCell = newCell;
-    })
+    if (newProps.value) {
+        cell.input.value = newProps.value
+    }
 
-    return;
+    Object.assign(cell, newProps)
+    return cell;
 }
+
+
+const $updateDraggable = (styles) => {
+
+    if (typeof styles !== 'object') {
+        console.warn('bad input for update draggable', styles);
+    }
+
+    Object.assign(_state.draggableDiv.style, styles);
+}
+
+
+const $updateElementStyle = (element, styles) => {
+
+    return Object.assign(element.style, styles);
+}
+
 
 module.exports = {
-    $cell,
-    $setCell,
     $state,
     $setState,
-    _state
+    $updateCell,
+    _state,
+    $updateDraggable,
+    $updateElementStyle
 }

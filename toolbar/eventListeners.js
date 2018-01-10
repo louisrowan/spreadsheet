@@ -86,14 +86,10 @@ const cutCopyButtonClick = (state, type) => {
     $setState({ cutCopyCells: [], cutCopyType: type })
 
     let currentRow = [];
-    let row;
+    let row = +state.allCells[state.activeCells[0]].row;
     state.activeCells.forEach((id) => {
 
         const cell = _state.allCells[id];
-
-        if (!row) {
-            row = cell.row
-        }
 
         if (row !== cell.row) {
             // clone array and push new row array into it
@@ -105,6 +101,7 @@ const cutCopyButtonClick = (state, type) => {
         }
         currentRow.push(CellCommon.copyCell(cell));
     });
+
     // clone array and push new row array into it
     const addedLastRow = state.cutCopyCells.concat();
     addedLastRow.push(currentRow)

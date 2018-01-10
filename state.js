@@ -19,21 +19,6 @@ const _state = {
     funcCellInput: {} // obj containing cells by id with array of funcCellOutput linked
 };
 
-const $state = (path) => {
-
-    if (!path) {
-        return _state;
-    }
-
-    path = path.split(':');
-    let current = _state;
-    for (let i = 0; i < path.length; ++i) {
-        current = current[path[i]];
-    }
-
-    return current;
-}
-
 
 const $setState = (args) => {
 
@@ -68,6 +53,23 @@ const $updateCell = (cell, newProps) => {
 
     Object.assign(cell, newProps)
     return cell;
+};
+
+
+const $updateFuncCellOutput = (cellId, newvalue, del) => {
+
+    if (del) {
+        delete _state.funcCellOutput[cellId];
+        return;
+    }
+
+    return _state.funcCellOutput[cellId] = newvalue;
+};
+
+
+const $updateFuncCellInput = (cellId, newvalue) => {
+
+    return _state.funcCellInput[cellId] = newvalue;
 }
 
 
@@ -88,10 +90,11 @@ const $updateElementStyle = (element, styles) => {
 
 
 module.exports = {
-    $state,
     $setState,
     $updateCell,
     _state,
     $updateDraggable,
-    $updateElementStyle
+    $updateElementStyle,
+    $updateFuncCellOutput,
+    $updateFuncCellInput
 }

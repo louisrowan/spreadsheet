@@ -1,8 +1,7 @@
 'use strict';
 
-const Validate = require('../common').validate;
-const CELL_HEIGHT = require('../constants').CELL_HEIGHT
-const CELL_WIDTH = require('../constants').CELL_WIDTH;
+const { CELL_HEIGHT, CELL_WIDTH } = require('../constants');
+
 
 exports.cellStyle = (div) => {
 

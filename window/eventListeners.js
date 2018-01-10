@@ -19,8 +19,6 @@ const windowClick = (e) => {
 
     if (e.target.nodeName === 'BUTTON') {
 
-        console.log(e);
-
         return new Handler({
             type: 'buttonClick',
             e

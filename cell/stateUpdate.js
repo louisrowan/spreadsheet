@@ -1,6 +1,6 @@
 'use strict';
 
-const { $setState, $updateCell } = require('../state');
+const { $setState, $updateCell, $updateFuncCellOutput, $updateFuncCellInput } = require('../state');
 
 const addToActiveCells = (state, cell) => {
 
@@ -59,7 +59,7 @@ const updateEndCellRect = (cell = {}) => {
 
 const updateFuncCellInputValue = (state, cell) => {
 
-    cell.input.value = state.funcCellOutput[cell.id].reduce((a, b) => {
+    const newValue = state.funcCellOutput[cell.id].reduce((a, b) => {
 
         const cellToSum = state.allCells[b];
         if (isNaN(+cellToSum.input.value)) {
@@ -67,17 +67,21 @@ const updateFuncCellInputValue = (state, cell) => {
         }
         return a += +cellToSum.input.value;
     }, 0)
+
+    $updateCell(cell, { value: newValue })
 };
 
 
 const updateFuncCellOutputValue = (state, cell) => {
 
-    delete state.funcCellOutput[cell.id];
+    $updateFuncCellOutput(cell.id, null, true)
     Object.keys(state.funcCellInput).forEach((id) => {
 
         if (state.funcCellInput[id].includes(cell.id)) {
-            const index = state.funcCellInput[id].indexOf(cell.id)
-            state.funcCellInput[id].splice(index, 1)
+            const index = state.funcCellInput[id].indexOf(cell.id);
+            const newInputArray = state.funcCellInput[id].concat();
+            newInputArray.splice(index, 1);
+            $updateFuncCellInput(id, newInputArray);
         }
     })
 };

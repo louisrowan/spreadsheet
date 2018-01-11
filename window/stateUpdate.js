@@ -1,6 +1,6 @@
 'use strict';
 
-const { _state, $setState, $updateDraggable } = require('../state');
+const { $setState, $updateDraggable } = require('../state');
 
 
 const setDraggableDivToCell = (cellBounding) => {

@@ -23,7 +23,7 @@ const _state = {
 const $setState = (args) => {
 
     return Object.assign(_state, args)
-}
+};
 
 
 const $updateCell = (cell, newProps) => {
@@ -70,7 +70,7 @@ const $updateFuncCellOutput = (cellId, newvalue, del) => {
 const $updateFuncCellInput = (cellId, newvalue) => {
 
     return _state.funcCellInput[cellId] = newvalue;
-}
+};
 
 
 const $updateDraggable = (styles) => {
@@ -80,13 +80,13 @@ const $updateDraggable = (styles) => {
     }
 
     Object.assign(_state.draggableDiv.style, styles);
-}
+};
 
 
 const $updateElementStyle = (element, styles) => {
 
     return Object.assign(element.style, styles);
-}
+};
 
 
 module.exports = {
@@ -97,4 +97,4 @@ module.exports = {
     $updateElementStyle,
     $updateFuncCellOutput,
     $updateFuncCellInput
-}
+};

@@ -1,6 +1,6 @@
 'use strict';
 
-const { $cell, $setCell, _state, $setState } = require('../state');
+const { $setState, $updateFuncCellOutput, $updateFuncCellInput, $updateCell } = require('../state');
 const CellCommon = require('../cell/common');
 
 
@@ -13,34 +13,22 @@ const handleButtonClick = (state, e) => {
             eraseButtonClick(state);
             break;
         case 'boldButton':
-            cssButtonClick(state, {
-                key: 'fontWeight', value: 'bold'
-            });
+            cssButtonClick(state, { key: 'fontWeight', value: 'bold' });
             break;
         case 'italicButton':
-            cssButtonClick(state, {
-                key: 'fontStyle', value: 'italic'
-            });
+            cssButtonClick(state, { key: 'fontStyle', value: 'italic' });
             break;
         case 'underlineButton':
-            cssButtonClick(state, {
-                key: 'textDecoration', value: 'underline'
-            });
+            cssButtonClick(state, { key: 'textDecoration', value: 'underline' });
             break;
         case 'leftalignButton':
-            cssButtonClick(state, {
-                key: 'textAlign', value: 'left'
-            });
+            cssButtonClick(state, { key: 'textAlign', value: 'left' });
             break;
         case 'centeralignButton':
-            cssButtonClick(state, {
-                key: 'textAlign', value: 'center'
-            });
+            cssButtonClick(state, { key: 'textAlign', value: 'center' });
             break;
         case 'rightalignButton':
-            cssButtonClick(state, {
-                key: 'textAlign', value: 'right'
-            });
+            cssButtonClick(state, { key: 'textAlign', value: 'right' });
             break;
         case 'cutButton':
             cutCopyButtonClick(state, 'cut');
@@ -52,7 +40,7 @@ const handleButtonClick = (state, e) => {
             pasteButtonClick(state);
             break;
         case 'sumButton':
-            sumButtonClick();
+            sumButtonClick(state);
             break;
         default:
             console.warn('bad button click', e);
@@ -62,20 +50,39 @@ const handleButtonClick = (state, e) => {
 
 const eraseButtonClick = (state) => {
 
-    state.activeCells.forEach((id) => state.allCells[id].input.value = '');
+    state.activeCells.forEach((id) => {
 
+        $updateCell(id, { value: ' ' })
+    });
 };
 
 
-const cssButtonClick = (state, atts) => {;
+const cssButtonClick = (state, atts) => {
+
+    let hasStyle = false;
+
+    for (let i = 0; i < state.activeCells.length; ++i) {
+
+        const cell = state.allCells[state.activeCells[i]];
+        const style = cell.input.style;
+        if (style[atts.key] && style[atts.key] === atts.value) {
+            hasStyle = true;
+            break;
+        }
+    }
+
+    let style = {};
+    if (hasStyle) {
+        style[atts.key] = '';
+    }
+    else {
+        style[atts.key] = atts.value;
+    }
 
     state.activeCells.forEach((id) => {
 
         const cell = state.allCells[id];
-
-        // toggle property
-        let style = cell.input.style;
-        style[atts.key] = style[atts.key] === atts.value ? '' : atts.value;
+        $updateCell(cell, { style });
     });
 };
 
@@ -89,7 +96,7 @@ const cutCopyButtonClick = (state, type) => {
     let row = +state.allCells[state.activeCells[0]].row;
     state.activeCells.forEach((id) => {
 
-        const cell = _state.allCells[id];
+        const cell = state.allCells[id];
 
         if (row !== cell.row) {
             // clone array and push new row array into it
@@ -151,15 +158,15 @@ const pasteButtonClick = (state) => {
 
 const sumButtonClick = (state) => {
 
-    if (!_state.activeCells || _state.activeCells.length < 2) {
+    if (!state.activeCells || state.activeCells.length < 2) {
         return;
     }
 
     const cellsByCol = {};
-    let finalRow = _state.allCells[_state.activeCells[0]].row;
-    _state.activeCells.forEach((id) => {
+    let finalRow = state.allCells[state.activeCells[0]].row;
+    state.activeCells.forEach((id) => {
 
-        const cell = _state.allCells[id]
+        const cell = state.allCells[id]
 
         finalRow = cell.row > finalRow ? cell.row : finalRow;
 
@@ -178,16 +185,18 @@ const sumButtonClick = (state) => {
 
         const sum = cellsByCol[i].reduce((a, b) => a += +b.val, 0);
         const column = cellsByCol[i][0].column;
-        const cellToSum = _state.allCells[`r${finalRow + 1}.c${column}`]
-        // const cellToSum = _state.allCells.find((c) => c.row === finalRow + 1 && c.column === column);
+        const cellToSum = state.allCells[`r${finalRow + 1}.c${column}`]
 
-        _state.funcCellOutput[cellToSum.id] = cellsByCol[i].map((i) => i.id);
+        const outputArray = cellsByCol[i].map((i) => i.id);
+        $updateFuncCellOutput(cellToSum.id, outputArray)
 
         cellsByCol[i].forEach((e) => {
 
-            _state.funcCellInput[e.id] = [cellToSum.id];
+            const inputArray = state.funcCellInput[e.id] ? state.funcCellInput[e.id].concat() : [];
+            inputArray.push(cellToSum.id);
+            $updateFuncCellInput(e.id, inputArray);
         });
-        cellToSum.input.value = sum;
+        $updateCell(cellToSum, { value: sum })
     })
 };
 

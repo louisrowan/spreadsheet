@@ -1,0 +1,42 @@
+right now things are looped together with elements, listeners, handlers, etc, by 'category'
+
+but categories doesnt make much sense as everything is connected anyway. might make more sense to group by type:
+
+
+eventListeners
+-eventListeners.js (all listeners)
+|
+v
+v
+
+eventHandlers
+index.js (master router)
+paste.js
+cssBuotton.js
+common.js
+etc
+
+(one file for each *event*)
+- this serves to help make it clear what the events are
+
+
+
+*all events still need to go through a specific 'listener'* this is needed in case of 'input' as the 'event' may not be triggered by the user but instead as a result of a different event.
+
+
+event listener ->> router ->> trigger ->> handler
+
+*or* ....... trigger ->> handler (in case of event such as input)
+
+
+
+
+lib/
+- cell (folder)
+- toolbar (folder)
+- listener.js
+- router.js
+- preHandler.js
+- handlers (folder)
+- common.js
+- state.js

@@ -2,11 +2,12 @@
   "name": "vanilla-spreadsheet",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
+    "lint": "eslint lib/",
     "test": "jasmine test/*",
-    "watch": "webpack --watch",
-    "start": "webpack && open index.html"
+    "start": "webpack && open index.html",
+    "watch": "webpack --watch"
   },
   "repository": {
     "type": "git",

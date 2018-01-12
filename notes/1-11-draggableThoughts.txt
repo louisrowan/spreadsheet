@@ -1,0 +1,24 @@
+Right now I am adding/removing from active cells on drag events. This is not necessary. Instead, I should only update those arrays on mouseUp.
+
+Relevant state fields:
+- activeCells
+- mousedown
+- draggableDiv ?
+- startCellRect ?
+- end CellRect ?
+
+flow:
+*mousedown*
+*mouseover*
+*mouseup*
+then re-assess.
+
+So the event is 'mouseup'. But I only need to do this if _state.drag is true. After doing this, _state.drag can be false.
+
+to trigger _state.drag... set it once I get to handle drag if not already true.
+
+-------------
+after benchmarking this was actually 10x slower. Reason being that checking the cell's color (to determine if a previously active cell needed to be turned white) seems to be taking much longer than checking 'cell.active'. and 'cell.active' is only updated on state changes.
+
+
+another idea is to stop ever looping through all cells. this seems like a must. find a way to only loop through a specific subset.

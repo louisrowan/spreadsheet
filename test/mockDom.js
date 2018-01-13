@@ -9,7 +9,7 @@ function Element (e) {
     };
     this.setAttribute = (att, value) => {
 
-        this.att = value;
+        this[att] = value;
         if (att === 'id') {
             global[value] = this;
         }

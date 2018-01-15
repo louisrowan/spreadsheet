@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint lib/",
-    "test": "jasmine test/*",
+    "test": "lab -m 0 -v -l",
     "start": "webpack && open index.html",
     "watch": "webpack --watch"
   },
@@ -21,7 +21,8 @@
   "homepage": "https://github.com/louisrowan/spreadsheet#readme",
   "devDependencies": {
     "code": "4.x.x",
-    "lab": "14.x.x"
+    "lab": "14.x.x",
+    "sinon": "4.x.x"
   },
   "dependencies": {
     "webpack": "3.x.x"

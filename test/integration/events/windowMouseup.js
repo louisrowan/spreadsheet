@@ -2,8 +2,8 @@
 
 const Code = require('code');
 const Lab = require('lab');
-const Sinon = require('sinon');
 const Router = require('../../../lib/router').router;
+const { Setup } = require('../../setupEnvironment');
 require('../../mockDom');
 
 
@@ -13,23 +13,24 @@ const lab = exports.lab = Lab.script();
 const expect = Code.expect;
 const describe = lab.describe;
 const it = lab.it;
+const beforeEach = lab.beforeEach;
 
 
 // Declare internals;
 
 const internals = {};
 
-internals.setupEnv = () => {
-
-    require('../../../lib/index');
-    return require('../../../lib/state')._state;
-};
-
 describe('window mouseup', () => {
+
+    beforeEach((next) => {
+
+        this.state = Setup();
+        return next();
+    });
 
     it('handles window mouseup', (done) => {
 
-        const state = internals.setupEnv();
+        const state = this.state;
         state.mousedown = true;
         state.colDrag = true;
         state.rowDrag = true;
@@ -37,7 +38,7 @@ describe('window mouseup', () => {
         expect(state.colDrag).to.equal(true);
         expect(state.rowDrag).to.equal(true);
 
-        Router({ type: 'windowMouseup' });
+        Router({ state, type: 'windowMouseup' });
 
         expect(state.mousedown).to.equal(false);
         expect(state.colDrag).to.equal(false);

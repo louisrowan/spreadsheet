@@ -2,8 +2,8 @@
 
 const Code = require('code');
 const Lab = require('lab');
-const Sinon = require('sinon');
 const Router = require('../../../lib/router').router;
+const { Setup } = require('../../setupEnvironment');
 require('../../mockDom');
 
 
@@ -13,26 +13,27 @@ const lab = exports.lab = Lab.script();
 const expect = Code.expect;
 const describe = lab.describe;
 const it = lab.it;
+const beforeEach = lab.beforeEach;
 
 
 // Declare internals;
 
 const internals = {};
 
-internals.setupEnv = () => {
-
-    require('../../../lib/index');
-    return require('../../../lib/state')._state;
-};
-
 describe('enable command active', () => {
+
+    beforeEach((next) => {
+
+        this.state = Setup();
+        return next();
+    });
 
     it('handles command key active', (done) => {
 
-        const state = internals.setupEnv();
+        const state = this.state;
         expect(state.commandActive).to.equal(false);
 
-        Router({ type: 'enableCommandActive' });
+        Router({ state, type: 'enableCommandActive' });
 
         expect(state.commandActive).to.equal(true);
 

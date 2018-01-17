@@ -4,6 +4,7 @@ const Code = require('code');
 const Lab = require('lab');
 const Router = require('../../../lib/router').router;
 const { Setup } = require('../../setupEnvironment');
+const { CELL_WIDTH } = require('../../../lib/constants');
 require('../../mockDom');
 
 
@@ -28,10 +29,79 @@ describe('Resize row column', () => {
         return next();
     });
 
-    // it('handles resizing a column', (done) => {
+    it('handles resizing a column', (done) => {
 
-    //     const state = this.state;
-        
-        
-    // });
+        const state = this.state;
+        const colId = 2;
+        const clientX = CELL_WIDTH * (+colId + 1); // 2 cells + row header cell
+        expect(state.colDrag).to.equal(false);
+
+        Router({
+            state,
+            type: 'colHeaderMousedown',
+            e: {
+                target: {
+                    id: `colHeader.${colId}`
+                }
+            }
+        });
+        expect(state.colDrag).to.equal(colId);
+
+        const cells = Object.keys(state.allCells).filter((id) => {
+
+            const cell = state.allCells[id];
+            return cell.column === (colId - 1);
+        });
+
+        cells.forEach((id) => {
+
+            const cell = state.allCells[id];
+            expect(cell.div.style.width).to.equal(CELL_WIDTH + 'px');
+        });
+
+        let delta;
+        delta = 2;
+        Router({
+            state,
+            type: 'resizeRowColumn',
+            value: 'column',
+            e: { clientX: clientX + delta }
+        });
+
+        cells.forEach((id) => {
+
+            const cell = state.allCells[id];
+            expect(cell.div.style.width).to.equal(CELL_WIDTH + delta + 'px');
+        });
+
+        delta = 5;
+        Router({
+            state,
+            type: 'resizeRowColumn',
+            value: 'column',
+            e: { clientX: clientX + delta }
+        });
+
+        cells.forEach((id) => {
+
+            const cell = state.allCells[id];
+            expect(cell.div.style.width).to.equal(CELL_WIDTH + delta + 'px');
+        });
+
+        delta = -2;
+        Router({
+            state,
+            type: 'resizeRowColumn',
+            value: 'column',
+            e: { clientX: clientX + delta }
+        });
+
+        cells.forEach((id) => {
+
+            const cell = state.allCells[id];
+            expect(cell.div.style.width).to.equal(CELL_WIDTH + delta + 'px');
+        });
+
+        done();
+    });
 });

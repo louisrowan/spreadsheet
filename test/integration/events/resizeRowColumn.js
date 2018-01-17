@@ -28,10 +28,10 @@ describe('Resize row column', () => {
         return next();
     });
 
-    it('handles resizing a column', (done) => {
+    // it('handles resizing a column', (done) => {
 
-        const state = this.state;
+    //     const state = this.state;
         
         
-    });
+    // });
 });

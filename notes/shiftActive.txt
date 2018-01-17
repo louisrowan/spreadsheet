@@ -1,0 +1,16 @@
+plan out selecting cells with shift.
+
+
+1. keep track of 'shift active' in state - this is on keydown when key = 'shift'
+- state
+- event listener
+- router
+- prehandler
+- handler
+
+2. new event for 'handle shift active' on keydown - intercept events before regular keydown events fire
+* order vs command active? at this point I won't worry about order*
+- event listener
+- router
+- prehandler
+- handler... same drag one?

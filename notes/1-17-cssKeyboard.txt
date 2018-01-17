@@ -7,3 +7,29 @@ delete: command-delete
 leftAlight: command-left
 rightAlign: command-right
 centerAlign: command-up OR command-down
+
+
+
+- test handlers:
+1. cell drag **********
+2. cell input **********
+3. cell mousedown **********
+4. clickcss **********
+5. clickcutcopy **********
+6. click delete **********
+7. click paste
+8. click sum
+9. commandactive keydown
+10. common
+11. enable command active **********
+12. enable shift active
+13. func cell input
+14. func cell output
+15. header mousedown
+16. keydown expand cell rect
+17. keyup **********
+18. mouseup **********
+19. navigate cells **********
+20. resize row col **********
+
+11/20

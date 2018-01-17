@@ -28,21 +28,23 @@ describe('window mouseup', () => {
         return next();
     });
 
-    it('handles window mouseup', (done) => {
+    it('handles mouseup', (done) => {
 
         const state = this.state;
-        state.mousedown = true;
-        state.colDrag = true;
-        state.rowDrag = true;
+
+        // simulate mousedown
+        const index = 2;
+        Router({ state, type: 'colHeaderMousedown', e: {
+            target: { id: `colHeader.${index}` }
+        }});
+
+        expect(state.colDrag).to.equal(index);
         expect(state.mousedown).to.equal(true);
-        expect(state.colDrag).to.equal(true);
-        expect(state.rowDrag).to.equal(true);
 
+        // mouseup
         Router({ state, type: 'windowMouseup' });
-
-        expect(state.mousedown).to.equal(false);
         expect(state.colDrag).to.equal(false);
-        expect(state.rowDrag).to.equal(false);
+        expect(state.mousedown).to.equal(false);
 
         done();
     });

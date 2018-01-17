@@ -31,7 +31,7 @@ describe('cellInput', () => {
     it('handles cell input', (done) => {
 
         const state = this.state;
-        const cell = state.startCellRect = state.allCells['r1.c1'];
+        const cell = state.allCells['r1.c1'];
         Router({ state, type: 'cellMousedown', cell })
 
         expect(cell.input.value).to.equal('');

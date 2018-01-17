@@ -28,7 +28,7 @@ global.document = {
 
         return new Element(e);
     },
-    getElementById: (id) => global[id];
+    getElementById: (id) => global[id]
 }
 
 global.window = {

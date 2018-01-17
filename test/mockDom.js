@@ -5,7 +5,7 @@ function Element (e) {
     this.children = [];
     this.appendChild = (e) => {
 
-        this.children.push(e)
+        this.children.push(e);
     };
     this.setAttribute = (att, value) => {
 
@@ -13,7 +13,7 @@ function Element (e) {
         if (att === 'id') {
             global[value] = this;
         }
-    }
+    };
     this.addEventListener = () => {};
     this.style = {};
     this.value = '';
@@ -26,9 +26,9 @@ global.document = {
     },
     createElement: (e) => {
 
-        return new Element(e)
+        return new Element(e);
     },
-    getElementById: (id) => global[id]
+    getElementById: (id) => global[id];
 }
 
 global.window = {

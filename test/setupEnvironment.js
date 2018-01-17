@@ -9,7 +9,7 @@ exports.Setup = (col = 10, row = 10) => {
 
     internals.resetState();
     const main = document.getElementById('main');
-    const body = document.body;
+    // const body = document.body;
 
     const _toolbar = new ToolbarElement.Toolbar();
     main.appendChild(_toolbar);
@@ -42,7 +42,7 @@ exports.Setup = (col = 10, row = 10) => {
 
     main.appendChild(new DraggableDiv());
     return _state;
-}
+};
 
 
 const internals = {};
@@ -67,4 +67,4 @@ internals.resetState = () => {
     _state.funcCellOutput = {};
     _state.funcCellInput = {};
     return;
-}
+};

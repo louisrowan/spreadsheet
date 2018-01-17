@@ -1,0 +1,9 @@
+function: should be able to style cells using keybindings. so when cell/s are selected, *command-b* turns them bold, etc. should be able to re-use prehandler logic for these events.
+
+bold: command-b
+underline: command-u
+italic: command-i
+delete: command-delete
+leftAlight: command-left
+rightAlign: command-right
+centerAlign: command-up OR command-down

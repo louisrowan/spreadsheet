@@ -54,7 +54,7 @@ describe('clickDelete', () => {
         state.activeCells.forEach((id) => {
 
             const cell = state.allCells[id];
-            expect(cell.input.value).to.equal(' ');
+            expect(cell.input.value).to.equal('');
         });
 
         done();

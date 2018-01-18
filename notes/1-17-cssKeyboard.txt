@@ -25,7 +25,7 @@ centerAlign: command-up OR command-down
 12. enable shift active
 13. func cell input
 14. func cell output
-15. header mousedown
+15. header mousedown **********
 16. keydown expand cell rect
 17. keyup **********
 18. mouseup **********

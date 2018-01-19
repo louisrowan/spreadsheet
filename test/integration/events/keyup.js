@@ -18,7 +18,7 @@ const beforeEach = lab.beforeEach;
 
 // Declare internals;
 
-const internals = {};
+const internals = {}; // eslint-disable-line
 
 describe('keyup', () => {
 
@@ -39,13 +39,13 @@ describe('keyup', () => {
         // do not change shift active on other key up
         Router({ state, type: 'windowKeyup', e: {
             key: 'a'
-        }})
+        }});
         expect(state.shiftActive).to.equal(true);
 
         // modify shift active on shift keyup
         Router({ state, type: 'windowKeyup', e: {
             key: 'Shift'
-        }})
+        }});
         expect(state.shiftActive).to.equal(false);
 
         done();
@@ -62,13 +62,13 @@ describe('keyup', () => {
         // do not change command active on other key up
         Router({ state, type: 'windowKeyup', e: {
             key: 'a'
-        }})
+        }});
         expect(state.commandActive).to.equal(true);
 
         // modify command active on command keyup
         Router({ state, type: 'windowKeyup', e: {
             key: 'Meta'
-        }})
+        }});
         expect(state.commandActive).to.equal(false);
 
         done();

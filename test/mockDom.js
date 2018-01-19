@@ -1,6 +1,6 @@
 // 'use strict';
 
-function Element (e) {
+function Element () {
 
     this.children = [];
     this.appendChild = (e) => {
@@ -29,7 +29,7 @@ global.document = {
         return new Element(e);
     },
     getElementById: (id) => global[id]
-}
+};
 
 global.window = {
     addEventListener: () => {}

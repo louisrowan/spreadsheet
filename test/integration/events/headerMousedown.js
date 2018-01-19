@@ -20,7 +20,7 @@ const beforeEach = lab.beforeEach;
 
 const internals = {}; // eslint-disable-line
 
-describe('window mouseup', () => {
+describe('header mousedown', () => {
 
     beforeEach((next) => {
 
@@ -28,7 +28,7 @@ describe('window mouseup', () => {
         return next();
     });
 
-    it('handles mouseup', (done) => {
+    it('handles col header mousedown', (done) => {
 
         const state = this.state;
 
@@ -39,12 +39,25 @@ describe('window mouseup', () => {
         }});
 
         expect(state.colDrag).to.equal(index);
+        expect(state.rowDrag).to.equal(false);
         expect(state.mousedown).to.equal(true);
 
-        // mouseup
-        Router({ state, type: 'windowMouseup' });
+        done();
+    });
+
+    it('handles row header mousedown', (done) => {
+
+        const state = this.state;
+
+        // simulate mousedown
+        const index = 2;
+        Router({ state, type: 'rowHeaderMousedown', e: {
+            target: { id: `rowHeader.${index}` }
+        }});
+
+        expect(state.rowDrag).to.equal(index);
         expect(state.colDrag).to.equal(false);
-        expect(state.mousedown).to.equal(false);
+        expect(state.mousedown).to.equal(true);
 
         done();
     });

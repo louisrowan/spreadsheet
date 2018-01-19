@@ -20,7 +20,7 @@ const beforeEach = lab.beforeEach;
 
 const internals = {}; // eslint-disable-line
 
-describe('window mouseup', () => {
+describe('enable shift active', () => {
 
     beforeEach((next) => {
 
@@ -28,23 +28,14 @@ describe('window mouseup', () => {
         return next();
     });
 
-    it('handles mouseup', (done) => {
+    it('handles shift key active', (done) => {
 
         const state = this.state;
+        expect(state.shiftActive).to.equal(false);
 
-        // simulate mousedown
-        const index = 2;
-        Router({ state, type: 'colHeaderMousedown', e: {
-            target: { id: `colHeader.${index}` }
-        }});
+        Router({ state, type: 'enableShiftActive' });
 
-        expect(state.colDrag).to.equal(index);
-        expect(state.mousedown).to.equal(true);
-
-        // mouseup
-        Router({ state, type: 'windowMouseup' });
-        expect(state.colDrag).to.equal(false);
-        expect(state.mousedown).to.equal(false);
+        expect(state.shiftActive).to.equal(true);
 
         done();
     });

@@ -18,7 +18,7 @@ const beforeEach = lab.beforeEach;
 
 // Declare internals;
 
-const internals = {};
+const internals = {}; // eslint-disable-line
 
 describe('cellDrag', () => {
 
@@ -50,7 +50,7 @@ describe('cellDrag', () => {
 
         // mouseup
         Router({ state, type: 'windowMouseup' });
-        expect(state.activeCells.length).to.equal(2)
+        expect(state.activeCells.length).to.equal(2);
         expect(state.activeCells.includes('r1.c2')).to.equal(true);
         expect(cell2.input.style.background).to.equal('lightgray');
 

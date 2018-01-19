@@ -1,3 +1,8 @@
 An Excel/Google-Sheets style Spreadsheet application built on plain in-browser JavaScript.
 
-No JS Frameworks, JQuery, CSS, etc. used.
+No JS frameworks, JQuery, util libraries (except in testing environment) used.
+
+Command Line steps to run locally:
+1. `git clone https://github.com/louisrowan/spreadsheet.git`
+2. `npm install && npm start`
+3. Do spreadsheet things

@@ -18,7 +18,7 @@ centerAlign: command-up OR command-down
 5. clickcutcopy **********
 6. click delete **********
 7. click paste **********
-8. click sum
+8. click sum **********
 10. common
 11. enable command active **********
 12. enable shift active **********

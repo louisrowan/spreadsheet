@@ -18,7 +18,7 @@ const beforeEach = lab.beforeEach;
 
 // Declare internals;
 
-const internals = {};
+const internals = {}; // eslint-disable-line
 
 describe('clickPaste', () => {
 
@@ -47,7 +47,7 @@ describe('clickPaste', () => {
 
         // select new cell
         const newCell = state.allCells['r3.c3'];
-        Router({ state, type: 'cellMousedown', cell: newCell})
+        Router({ state, type: 'cellMousedown', cell: newCell});
         expect(state.activeCells.length).to.equal(1);
         expect(state.activeCells[0]).to.equal('r3.c3');
         expect(newCell.input.value).to.equal('');
@@ -55,7 +55,7 @@ describe('clickPaste', () => {
         // click paste
         Router({ state, type: 'buttonClick', e: {
             target: { id: 'pasteButton' }
-        }})
+        }});
         expect(newCell.input.value).to.equal('z');
         expect(cell.input.value).to.equal('z');
 
@@ -81,7 +81,7 @@ describe('clickPaste', () => {
 
         // select new cell
         const newCell = state.allCells['r3.c3'];
-        Router({ state, type: 'cellMousedown', cell: newCell})
+        Router({ state, type: 'cellMousedown', cell: newCell });
         expect(state.activeCells.length).to.equal(1);
         expect(state.activeCells[0]).to.equal('r3.c3');
         expect(newCell.input.value).to.equal('');
@@ -90,7 +90,7 @@ describe('clickPaste', () => {
         // click paste
         Router({ state, type: 'buttonClick', e: {
             target: { id: 'pasteButton' }
-        }})
+        }});
         expect(newCell.input.value).to.equal('z');
         expect(cell.input.value).to.equal('');
         expect(state.cutCopyType).to.equal('copy'); // once pasted once, functionality should mirror copy - never modifying 'old' cells

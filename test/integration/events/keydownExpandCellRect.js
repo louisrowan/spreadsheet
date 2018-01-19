@@ -18,7 +18,7 @@ const beforeEach = lab.beforeEach;
 
 // Declare internals;
 
-const internals = {};
+const internals = {}; // eslint-disable-line
 
 describe('keydown expand cell rect', () => {
 
@@ -33,8 +33,8 @@ describe('keydown expand cell rect', () => {
         // Mouse click for 1 active cell
         const state = this.state;
         const cell = state.allCells['r1.c1'];
-        Router({ state, type: 'cellMousedown', cell })
-        Router({ state, type: 'windowMouseup' })
+        Router({ state, type: 'cellMousedown', cell });
+        Router({ state, type: 'windowMouseup' });
         expect(state.mousedown).to.equal(false);
         expect(state.startCellRect.id).to.equal(cell.id);
         expect(state.endCellRect.id).to.equal(undefined);

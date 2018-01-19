@@ -18,7 +18,7 @@ const beforeEach = lab.beforeEach;
 
 // Declare internals;
 
-const internals = {};
+const internals = {}; // eslint-disable-line
 
 describe('clickCutCopy', () => {
 

@@ -18,7 +18,7 @@ const beforeEach = lab.beforeEach;
 
 // Declare internals;
 
-const internals = {};
+const internals = {}; // eslint-disable-line
 
 describe('cellInput', () => {
 
@@ -32,7 +32,7 @@ describe('cellInput', () => {
 
         const state = this.state;
         const cell = state.allCells['r1.c1'];
-        Router({ state, type: 'cellMousedown', cell })
+        Router({ state, type: 'cellMousedown', cell });
 
         expect(cell.input.value).to.equal('');
 

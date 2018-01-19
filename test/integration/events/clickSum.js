@@ -18,7 +18,7 @@ const beforeEach = lab.beforeEach;
 
 // Declare internals;
 
-const internals = {};
+const internals = {}; // eslint-disable-line
 
 describe('click sum', () => {
 
@@ -33,7 +33,7 @@ describe('click sum', () => {
         const state = this.state;
 
         const cell1 = state.allCells['r1.c1'];
-        const cell1Val = 1;
+        const cell1Val = '1';
         Router({ state, type: 'cellMousedown', cell: cell1 });
         Router({ state, type: 'windowMouseup' });
         Router({ state, type: 'cellInput', e:
@@ -41,7 +41,7 @@ describe('click sum', () => {
         });
         
         const cell2 = state.allCells['r2.c1'];
-        const cell2Val = 5;
+        const cell2Val = '5';
         Router({ state, type: 'cellMousedown', cell: cell2 });
         Router({ state, type: 'windowMouseup' });
         Router({ state, type: 'cellInput', e:
@@ -49,7 +49,7 @@ describe('click sum', () => {
         });
 
         const cell3 = state.allCells['r3.c1'];
-        const cell3Val = 20;
+        const cell3Val = '8';
         Router({ state, type: 'cellMousedown', cell: cell3 });
         Router({ state, type: 'windowMouseup' });
         Router({ state, type: 'cellInput', e:
@@ -71,7 +71,7 @@ describe('click sum', () => {
             target: { id: 'sumButton'}
         }});
 
-        expect(summedCell.input.value).to.equal(cell1Val + cell2Val + cell3Val);
+        expect(summedCell.input.value).to.equal(+cell1Val + +cell2Val + +cell3Val);
         expect(state.funcCellOutput[summedCell.id]).to.exist();
         expect(state.funcCellOutput[summedCell.id].length).to.equal(3);
         expect(state.funcCellOutput[summedCell.id].includes(cell1.id)).to.equal(true);
@@ -87,7 +87,7 @@ describe('click sum', () => {
 
         // first column
         const cell1 = state.allCells['r1.c1'];
-        const cell1Val = 1;
+        const cell1Val = '1';
         Router({ state, type: 'cellMousedown', cell: cell1 });
         Router({ state, type: 'windowMouseup' });
         Router({ state, type: 'cellInput', e:
@@ -95,7 +95,7 @@ describe('click sum', () => {
         });
         
         const cell2 = state.allCells['r2.c1'];
-        const cell2Val = 5;
+        const cell2Val = '5';
         Router({ state, type: 'cellMousedown', cell: cell2 });
         Router({ state, type: 'windowMouseup' });
         Router({ state, type: 'cellInput', e:
@@ -104,7 +104,7 @@ describe('click sum', () => {
 
         // second column
         const cell3 = state.allCells['r1.c2'];
-        const cell3Val = 20;
+        const cell3Val = '9';
         Router({ state, type: 'cellMousedown', cell: cell3 });
         Router({ state, type: 'windowMouseup' });
         Router({ state, type: 'cellInput', e:
@@ -112,7 +112,7 @@ describe('click sum', () => {
         });
 
         const cell4 = state.allCells['r2.c2'];
-        const cell4Val = 99;
+        const cell4Val = '3';
         Router({ state, type: 'cellMousedown', cell: cell4 });
         Router({ state, type: 'windowMouseup' });
         Router({ state, type: 'cellInput', e:
@@ -138,8 +138,8 @@ describe('click sum', () => {
             target: { id: 'sumButton'}
         }});
 
-        expect(summedCell1.input.value).to.equal(cell1Val + cell2Val);
-        expect(summedCell2.input.value).to.equal(cell3Val + cell4Val);
+        expect(summedCell1.input.value).to.equal(+cell1Val + +cell2Val);
+        expect(summedCell2.input.value).to.equal(+cell3Val + +cell4Val);
 
         expect(state.funcCellOutput[summedCell1.id].includes(cell1.id)).to.equal(true);
         expect(state.funcCellOutput[summedCell1.id].includes(cell2.id)).to.equal(true);
@@ -147,7 +147,5 @@ describe('click sum', () => {
         expect(state.funcCellOutput[summedCell2.id].includes(cell4.id)).to.equal(true);
 
         done();
-
-
     });
 });

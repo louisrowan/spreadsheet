@@ -20,7 +20,7 @@ const beforeEach = lab.beforeEach;
 
 const internals = {}; // eslint-disable-line
 
-describe('cellDrag', () => {
+describe('Event - cellDrag', () => {
 
     beforeEach((next) => {
 

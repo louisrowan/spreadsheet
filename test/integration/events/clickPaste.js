@@ -85,13 +85,15 @@ describe('clickPaste', () => {
         expect(state.activeCells.length).to.equal(1);
         expect(state.activeCells[0]).to.equal('r3.c3');
         expect(newCell.input.value).to.equal('');
+        expect(state.cutCopyType).to.equal('cut');
 
         // click paste
         Router({ state, type: 'buttonClick', e: {
             target: { id: 'pasteButton' }
         }})
         expect(newCell.input.value).to.equal('z');
-        // expect(cell.input.value).to.equal('');
+        expect(cell.input.value).to.equal('');
+        expect(state.cutCopyType).to.equal('copy'); // once pasted once, functionality should mirror copy - never modifying 'old' cells
 
         done();
     });

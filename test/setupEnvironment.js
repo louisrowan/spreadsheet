@@ -62,6 +62,7 @@ internals.resetState = () => {
     _state.cutCopyType = '';
     _state.cutCopyCells = [];
     _state.commandActive = false;
+    _state.shiftActive = false;
     _state.columnHeaders = [];
     _state.rowHeaders = [];
     _state.funcCellOutput = {};

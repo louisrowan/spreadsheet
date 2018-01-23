@@ -19,18 +19,30 @@ exports.Setup = (col = 10, row = 10) => {
     main.appendChild(_spreadsheetContainer);
     _state.spreadsheetContainer = _spreadsheetContainer;
 
+    const _columnHeaderDiv = new CellElement.ColumnHeaderDiv();
+    _state.columnHeaderDiv = _columnHeaderDiv;
+    _state.spreadsheetContainer.appendChild(_columnHeaderDiv);
     for (let i = -1; i < col; ++i) {
 
         const _header = new CellElement.ColumnHeader(i);
-        _spreadsheetContainer.appendChild(_header.div);
+        _columnHeaderDiv.appendChild(_header.div);
         _state.columnHeaders.push(_header);
     }
+    _state.spreadsheetContainer.appendChild(new CellElement.ColumnHeaderDivBuffer());
+
+    const _rowHeaderDiv = new CellElement.RowHeaderDiv();
+    _state.rowHeaderDiv = _rowHeaderDiv;
+    _state.spreadsheetContainer.appendChild(_rowHeaderDiv);
+    _state.spreadsheetContainer.appendChild(new CellElement.RowHeaderDivBuffer());
 
     for (let i = 0; i < row; ++i) {
 
         const _row = new CellElement.RowHeader(i);
-        _spreadsheetContainer.appendChild(_row.div);
-        _state.rowHeaders.push(_row);
+        _rowHeaderDiv.appendChild(_row.div);
+         _state.rowHeaders.push(_row);
+    }
+
+    for (let i = 0; i < row; ++i) {
 
         for (let j = 0; j < col; ++j) {
 

@@ -1,0 +1,5 @@
+1. lock column headers
+- same strategy as toolbar. position fixed
+
+
+2. lock row headers

@@ -22,7 +22,7 @@ exports.Setup = (col = 10, row = 10) => {
     const _columnHeaderDiv = new CellElement.ColumnHeaderDiv();
     _state.columnHeaderDiv = _columnHeaderDiv;
     _state.spreadsheetContainer.appendChild(_columnHeaderDiv);
-    for (let i = -1; i < col; ++i) {
+    for (let i = 0; i < col; ++i) {
 
         const _header = new CellElement.ColumnHeader(i);
         _columnHeaderDiv.appendChild(_header.div);
@@ -77,6 +77,8 @@ internals.resetState = () => {
     _state.shiftActive = false;
     _state.columnHeaders = [];
     _state.rowHeaders = [];
+    _state.colHeaderDiv = {};
+    _state.rowHeaderDiv = {};
     _state.funcCellOutput = {};
     _state.funcCellInput = {};
     return;

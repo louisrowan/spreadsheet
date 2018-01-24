@@ -4,7 +4,7 @@ const Code = require('code');
 const Lab = require('lab');
 const Router = require('../../../lib/router').router;
 const { Setup } = require('../../setupEnvironment');
-const { CELL_WIDTH } = require('../../../lib/constants');
+const { CELL_WIDTH, ROW_HEADER_WIDTH } = require('../../../lib/constants');
 require('../../mockDom');
 
 
@@ -33,7 +33,7 @@ describe('Resize row column', () => {
 
         const state = this.state;
         const colId = 2;
-        const clientX = CELL_WIDTH * (+colId + 1); // 2 cells + row header cell
+        const clientX = ROW_HEADER_WIDTH + (CELL_WIDTH * +colId); // 2 cells + row header cell
         expect(state.colDrag).to.equal(false);
 
         Router({

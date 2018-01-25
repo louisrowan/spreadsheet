@@ -32,7 +32,9 @@ global.document = {
 };
 
 global.window = {
-    addEventListener: () => {}
+    addEventListener: () => {},
+    scrollX: 0,
+    scrollY: 0
 };
 
 global.main = new Element();

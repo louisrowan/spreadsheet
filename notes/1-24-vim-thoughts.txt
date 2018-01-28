@@ -1,0 +1,37 @@
+idea:
+
+create a 'command mode' similar to vim that allows for certain controls:
+
+1. active cell movement
+a. move active cell to top of current col
+b. move active cell to bottom of current col
+c. move active cell to left of current row
+d. move active cell to right of current row
+e. left 1 cell, up 1 cell, right 1 cell, down 1 cell
+
+2. page movement
+a. page down, page all the way down
+b. page up, page all the way up
+c. page right, page all the way right
+d. page left, page all the way left
+
+3. row/col modifications
+a. insert row
+b. delete row
+c. insert col
+d. delete col
+
+
+
+
+--- how to get into 'command mode'
+    1. hit escape key (i to go back to normal)
+
+
+--- what ex should be like
+    1. (':' at bottom - 'insert' for insert mode)
+
+--- need to somehow disable the keybinds for normal mode
+
+-- maybe always check for 'state.mode' first. and have totally different flow
+
